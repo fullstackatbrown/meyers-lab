@@ -1,6 +1,6 @@
 # meyers-lab
 
-In this lab...
+In this site...
 
 ## Pages
 1. Home Page
