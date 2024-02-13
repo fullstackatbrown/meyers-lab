@@ -1,6 +1,6 @@
 # meyers-lab
 
-In this site...
+In this site, we are planning to to build a research page and online index for...
 
 ## Pages
 1. Home Page
