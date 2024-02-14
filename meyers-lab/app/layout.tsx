@@ -1,4 +1,6 @@
 import NavHeader from './ui/nav-header'
+import '@/app/ui/global.css';
+
 
 export default function RootLayout({
   children,
