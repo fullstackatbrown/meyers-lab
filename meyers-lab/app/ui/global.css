@@ -16,14 +16,3 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
-.nav-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  transition: top 0.25s ease-in-out;
-}
-
-.nav-header-hidden {
-  top: -80px; 
-}
