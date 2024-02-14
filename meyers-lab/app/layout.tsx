@@ -1,3 +1,7 @@
+import NavHeader from './ui/nav-header'
+import '@/app/ui/global.css';
+
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +9,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`antialiased`}>
+        <NavHeader />
+        <div>
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
