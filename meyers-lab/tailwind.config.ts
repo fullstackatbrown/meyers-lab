@@ -13,7 +13,7 @@ const config: Config = {
           DEFAULT: '#4E3629',
           main: '#4E3629',
           red: "#C00305",
-          red_bright: "#ED1C24",
+          red_light: "#ED1C24",
           gold: "#FFC72C",
           gray: "#98A4AE"
         },
