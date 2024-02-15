@@ -34,7 +34,7 @@ export default function NavHeader() {
     const headerClass = visible ? 'nav-header' : 'nav-header nav-header-hidden';
 
     return (
-        <div className={`fixed flex flex-row justify-between bg-slate-400 items-center w-full h-20 gap-10 pl-7 pr-5 z-[100] ${headerClass}`} style={{ borderBottom: '3px solid rgb(255,255,255)'}}>
+        <div className={`fixed flex flex-row justify-between bg-slate-700 items-center w-full h-20 gap-10 pl-3 pr-7 z-[100] ${headerClass}`} style={{ borderBottom: '3px solid rgb(255,255,255)'}}>
             {/* <Link href="/">
                 <Image
                     src="/images/logo.png"
@@ -45,13 +45,13 @@ export default function NavHeader() {
                 />
             </Link> */}
             <Link href="http://localhost:3000/">
-                <div className="flex flex-row gap-5 px-5 text-5xl-responsive">
+                <div className="font-mp-display gap-5 px-5 text-4xl-responsive text-[rgb(250,250,250)]">
                     Coding Intensity Reportcard
                 </div>
             </Link>
-            <div className="flex flex-row gap-5 px-5">
-                <a href="http://localhost:3000/research-overview" className="text-[rgb(250,250,250)] hover:text-primary">Research Overview</a>
-                <a href="http://localhost:3000/tableau" className="text-[rgb(250,250,250)] hover:text-primary">Tableau</a>
+            <div className="flex flex-row gap-6 px-5">
+                <a href="http://localhost:3000/research-overview" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Research Overview</a>
+                <a href="http://localhost:3000/tableau" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Tableau</a>
             </div>
         </div>
     )

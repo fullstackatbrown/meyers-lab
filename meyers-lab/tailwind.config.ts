@@ -16,6 +16,17 @@ const config: Config = {
           //TODO
         },
       },
+      fontFamily: {
+        'mp-caption': ['"minion-pro-caption"', 'serif'],
+        'mp-condensed-subhead': ['"minion-pro-condensed-subhead"', 'serif'],
+        'mp-condensed-display': ['"minion-pro-condensed-display"', 'serif'],
+        'ms-black': ['"minion-std-black"', 'serif'],
+        'mp-subhead': ['"minion-pro-subhead"', 'serif'],
+        'mp-display': ['"minion-pro-display"', 'serif'],
+        'mp-condensed-caption': ['"minion-pro-condensed-caption"', 'serif'],
+        'mp-condensed': ['"minion-pro-condensed"', 'serif'],
+        'mp': ['"minion-pro"', 'serif'],
+      },
       fontSize: {
         '4xl-responsive': 'calc(1.1vw + 22px)',
         '4.5xl-responsive': 'calc(1.1vw + 27px)',
