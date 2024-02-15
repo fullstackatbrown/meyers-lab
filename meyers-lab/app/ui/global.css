@@ -29,6 +29,8 @@ input[type='number']::-webkit-outer-spin-button {
   top: -80px; 
 }
 
+/* Global fonts - do not touch */
+
 @font-face {
 font-family:"minion-pro-caption";
 src:url("https://use.typekit.net/af/a7f482/0000000000000000000151eb/27/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"),url("https://use.typekit.net/af/a7f482/0000000000000000000151eb/27/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"),url("https://use.typekit.net/af/a7f482/0000000000000000000151eb/27/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
@@ -236,3 +238,16 @@ font-display:auto;font-style:normal;font-weight:400;font-stretch:normal;
 .tk-minion-pro-condensed-caption { font-family: "minion-pro-condensed-caption",serif; }
 .tk-minion-pro-condensed { font-family: "minion-pro-condensed",serif; }
 .tk-minion-pro { font-family: "minion-pro",serif; }
+
+
+html, body {
+  font-family: 'minion-pro', serif;
+}
+
+@font-face {
+  font-family: 'circular-std';
+  src: url('/fonts/circular-std-medium-500.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+

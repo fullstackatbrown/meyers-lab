@@ -43,7 +43,7 @@ export default function NavHeader() {
                     Coding Intensity Report Card
                 </div>
             </Link>
-            <div className="flex flex-row gap-6 px-5">
+            <div className="font-circ-std flex flex-row gap-6 px-5">
                 <a href="http://localhost:3000/about" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">About</a>
                 <a href="http://localhost:3000/methods" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Methods</a>
                 <a href="http://localhost:3000/download" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Download</a>

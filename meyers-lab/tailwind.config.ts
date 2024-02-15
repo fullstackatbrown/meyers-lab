@@ -22,6 +22,7 @@ const config: Config = {
         'mp-subhead': ['"minion-pro-subhead"', 'serif'],
         'mp-display': ['"minion-pro-display"', 'serif'],
         'mp': ['"minion-pro"', 'serif'],
+        'circ-std': ['"circular-std"', 'sans-serif']
       },
       fontSize: {
         '4xl-responsive': 'calc(1.1vw + 22px)',
