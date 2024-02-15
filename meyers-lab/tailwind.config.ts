@@ -46,6 +46,7 @@ const config: Config = {
         md3: '850px',
         md4: '900px',
         md5: '950px',
+        md6: '1000px',
       },
       lineHeight: {
         'semi-tight': '1',

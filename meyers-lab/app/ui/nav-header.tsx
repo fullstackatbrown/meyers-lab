@@ -28,7 +28,7 @@ export default function NavHeader() {
     const headerClass = visible ? 'nav-header' : 'nav-header nav-header-hidden';
 
     return (
-        <div className={`fixed flex flex-row justify-between bg-primary items-center w-full h-20 gap-10 pl-3 pr-7 z-[100]  ${headerClass}`} style={{ borderBottom: '3px solid rgb(255,255,255)'}}>
+        <div className={`fixed flex flex-row justify-between bg-primary items-center w-full min-h-16 pl-3 pr-7 z-[100]  ${headerClass}`} style={{ borderBottom: '3px solid rgb(255,255,255)'}}>
             {/* <Link href="/">
                 <Image
                     src="/images/logo.png"
@@ -38,12 +38,12 @@ export default function NavHeader() {
                     style={{ cursor: 'pointer' }}
                 />
             </Link> */}
-            <Link className="fade-in-out-basic hover:text-primary-gray text-[rgb(250,250,250)]" href="http://localhost:3000/">
+            <Link className="fade-in-out-basic hover:text-primary-gold text-[rgb(250,250,250)] min-w-[185px]" href="http://localhost:3000/">
                 <div className="font-mp font-semibold gap-5 px-5 text-4xl-responsive pt-0.5">
                     Coding Intensity Report Card
                 </div>
             </Link>
-            <div className="font-circ-std flex flex-row items-center justify-center gap-6 px-5">
+            <div className="font-circ-std flex flex-col md6:flex-row flex-none items-center justify-center md6:gap-6 gap-2 my-4 px-0">
                 <a href="http://localhost:3000/about" className="text-[rgb(250,250,250)] hover:text-primary-gray flex-none text-lg fade-in-out-basic">About</a>
                 <a href="http://localhost:3000/methods" className="text-[rgb(250,250,250)] hover:text-primary-gray flex-none text-lg fade-in-out-basic">Methods</a>
                 <a href="http://localhost:3000/download" className="text-[rgb(250,250,250)] hover:text-primary-gray flex-none text-lg fade-in-out-basic">Download</a>
