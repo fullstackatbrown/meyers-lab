@@ -44,8 +44,8 @@ export default function NavHeader() {
                     style={{ cursor: 'pointer' }}
                 />
             </Link> */}
-            <Link href="http://localhost:3000/">
-                <div className="font-mp-display gap-5 px-5 text-4xl-responsive text-[rgb(250,250,250)]">
+            <Link className="hover:text-slate-400 text-[rgb(250,250,250)]" href="http://localhost:3000/">
+                <div className="font-mp-display gap-5 px-5 text-4xl-responsive">
                     Coding Intensity Reportcard
                 </div>
             </Link>
