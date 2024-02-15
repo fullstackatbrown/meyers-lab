@@ -7,12 +7,6 @@ import Link from 'next/link';
 
 
 export default function NavHeader() {
-    /**
-     * TODO: Add a logo, which will be a link to the home page.
-     * TODO: Add a login button, which will be a link to the login page.
-     * TODO: Add a chrome extension button, which will be an external link to the chrome store.
-     */
-
     const [position, setPosition] = useState(0);
     const [visible, setVisible] = useState(true);
 
