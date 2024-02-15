@@ -22,11 +22,11 @@ input[type='number']::-webkit-outer-spin-button {
   position: fixed;
   top: 0;
   width: 100%;
-  transition: top 0.25s ease-in-out;
+  transition: top 0.5s ease-in-out;
 }
 
 .nav-header-hidden {
-  top: -80px; 
+  top: -338px; 
 }
 
 .button-primary:hover {
