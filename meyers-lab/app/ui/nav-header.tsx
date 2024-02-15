@@ -45,13 +45,15 @@ export default function NavHeader() {
                 />
             </Link> */}
             <Link className="hover:text-slate-400 text-[rgb(250,250,250)]" href="http://localhost:3000/">
-                <div className="font-mp-display gap-5 px-5 text-4xl-responsive">
-                    Coding Intensity Reportcard
+                <div className="font-mp font-semibold gap-5 px-5 text-4xl-responsive">
+                    Coding Intensity Report Card
                 </div>
             </Link>
             <div className="flex flex-row gap-6 px-5">
-                <a href="http://localhost:3000/research-overview" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Research Overview</a>
-                <a href="http://localhost:3000/tableau" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Tableau</a>
+                <a href="http://localhost:3000/about" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">About</a>
+                <a href="http://localhost:3000/methods" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Methods</a>
+                <a href="http://localhost:3000/download" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">Download</a>
+                <a href="http://localhost:3000/data" className="text-[rgb(250,250,250)] hover:text-slate-400 flex-none text-xl">View Data & Findings</a>
             </div>
         </div>
     )
