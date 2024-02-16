@@ -11,7 +11,6 @@ export default function NavHeader() {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
-        // Set the initial position
         setPosition(window.scrollY);
 
         const handleScroll = () => {
