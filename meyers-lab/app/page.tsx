@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 
@@ -17,13 +17,14 @@ export default function Page() {
     window.addEventListener('resize', updateHeaderHeight);
 
     return () => window.removeEventListener('resize', updateHeaderHeight);
-  }, []); 
+  }, []);
   return (
-    <main className="flex min-h-screen flex-col px-6 pt-2 ml-3 w-full h-full">
+    <main className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
-      <div className='min-h-[10vh] my-[5vh]'>hello world!</div>
+      <div className="my-[5vh] min-h-[10vh]">
+        <h1>Hello World!</h1>
+      </div>
     </main>
   );
 }
-
