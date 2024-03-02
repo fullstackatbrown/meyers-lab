@@ -1,5 +1,7 @@
 # meyers-lab
 
+FOR DEVS- BECAUSE NEXT.JS NESTED THE PAGE INSIDE THE REPO, make sure to cd into meyers-lab when cloning or opening the repo
+
 In this site, we are planning to to build a research page and online index for the coding intensity report card website, which seeks to evaluate and highlight  patient diagnosis "scores" for private insurance companies under Medicare. Our website will contain the following pages:
 
 ## Pages
