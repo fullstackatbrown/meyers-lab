@@ -6,7 +6,6 @@ export default function About() {
   const [headerHeight, setHeaderHeight] = useState(0);
 
 
-
   useEffect(() => {
     const updateHeaderHeight = () => {
       const header = document.getElementById('header');
@@ -35,7 +34,6 @@ export default function About() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col px-32 pt-2 pb-32 ml-3 w-full h-full">
     <div className="flex min-h-screen flex-col px-32 pt-2 pb-32 ml-3 w-full h-full">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
