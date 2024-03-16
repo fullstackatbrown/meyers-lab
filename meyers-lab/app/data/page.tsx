@@ -1,7 +1,8 @@
 "use client";
 import "./page.css"
+import axios from "axios";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import {
   GoogleChartEditor,
   GoogleChartWrapper,
@@ -34,6 +35,8 @@ export default function Data() {
   const [chartEditor, setChartEditor] = useState<GoogleChartEditor>();
   const [chartWrapper, setChartWrapper] = useState<GoogleChartWrapper>();
   const [google, setGoogle] = useState<GoogleViz>();
+  const [csvData, setCsvData] = useState<string[][]>([])
+
 
   const onEditClick = () => {
     if (!chartWrapper || !google || !chartEditor) {
@@ -54,6 +57,40 @@ export default function Data() {
       console.log("Chart options changed to ", newChartOptions);
     });
   };
+
+    useEffect(() => {
+        fetchCSVData();    // Fetch the CSV data when the component mounts
+    }, []); // The empty array ensures that this effect runs only once, like componentDidMount
+
+    function parseCSV(csvText: string) {
+      const rows = csvText.split(/\r?\n/);        // Use a regular expression to split the CSV text into rows while handling '\r'
+      const headers = rows[0].split(',');        // Extract headers (assumes the first row is the header row)
+      const data = [];        // Initialize an array to store the parsed data
+      for (let i = 1; i < rows.length; i++) {
+          const rowData = rows[i].split(',');          // Use the regular expression to split the row while handling '\r'
+          const rowObject : string[] = [];
+          for (let j = 0; j < headers.length; j++) {
+              rowObject[j] = rowData[j];
+          }
+          data.push(rowObject);
+      }
+      return data;
+  }
+
+    const fetchCSVData = () => {
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTrgqWmHkhMoQWeisf_k31KSxqI28kDvF65cRawH4oyM5027jk1hdXdwjNvG0F81Q/pub?gid=761047681&single=true&output=csv"; // Replace with your Google Sheets CSV file URL
+
+        axios.get(csvUrl)    // Use Axios to fetch the CSV data
+            .then((response) => {
+                const parsedCsvData : string[][] = parseCSV(response.data);        // Parse the CSV data into an array of objects
+                setCsvData(parsedCsvData);        // Set the fetched data in the component's state
+                console.log(parsedCsvData);        // Now you can work with 'csvData' in your component's state.
+            })
+            .catch((error) => {
+                console.error('Error fetching CSV data:', error);
+            });
+    }
+
 
 
 
@@ -82,11 +119,11 @@ export default function Data() {
       <div className="graph-vis">
       <button onClick={onEditClick}>Edit Chart</button>
       <Chart
-        chartType="ScatterChart"
+        chartType="ColumnChart"
         width="80%"
         height="400px"
-        spreadSheetUrl="https://docs.google.com/spreadsheets/d/1QH-s6BDun9tdBg9YxJibOlLNU8JkHdRC/edit#gid=761047681"
-        data="D1:E515" 
+        spreadSheetUrl="https://docs.google.com/spreadsheets/d/e/2PACX-1vTrgqWmHkhMoQWeisf_k31KSxqI28kDvF65cRawH4oyM5027jk1hdXdwjNvG0F81Q/pub?gid=761047681&single=true&output=csv"
+        data={csvData}
         options={options}
         chartPackages={["corechart", "controls", "charteditor"]}
         getChartEditor={({ chartEditor, chartWrapper, google }) => {
