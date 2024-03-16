@@ -93,8 +93,6 @@ export default function Data() {
 
 
 
-
-
   useEffect(() => {
     const updateHeaderHeight = () => {
       const header = document.getElementById('header');
@@ -119,11 +117,9 @@ export default function Data() {
       <div className="graph-vis">
       <button onClick={onEditClick}>Edit Chart</button>
       <Chart
-        chartType="ColumnChart"
+        chartType="ScatterChart"
         width="80%"
         height="400px"
-        spreadSheetUrl="https://docs.google.com/spreadsheets/d/e/2PACX-1vTrgqWmHkhMoQWeisf_k31KSxqI28kDvF65cRawH4oyM5027jk1hdXdwjNvG0F81Q/pub?gid=761047681&single=true&output=csv"
-        data={csvData}
         options={options}
         chartPackages={["corechart", "controls", "charteditor"]}
         getChartEditor={({ chartEditor, chartWrapper, google }) => {
