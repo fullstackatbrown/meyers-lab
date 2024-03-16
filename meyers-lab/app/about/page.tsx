@@ -59,16 +59,4 @@ export default function About() {
       </div>
     </div>
   )
-
-  // return (
-  //   <div className="flex min-h-screen flex-col px-6 pt-2 ml-3 w-full h-full">
-  //     {/* Dynamic spacer based on header height */}
-  //     <div style={{ minHeight: `${headerHeight}px` }}></div>
-
-  //     <div className="min-h-[10vh] my-[5vh]">
-  //       <h1>About the Team</h1>
-  //       <p>Project Description</p>
-  //     </div>
-  //   </div>
-  // )
 }
