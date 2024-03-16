@@ -1,0 +1,9 @@
+h1 {
+    font-size: 2rem;
+    padding-left: 5rem;
+    font-weight: bold;
+}
+
+button {
+    border: 1px solid black;
+}
