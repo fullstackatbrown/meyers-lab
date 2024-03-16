@@ -52,7 +52,7 @@ export default function Download() {
                 Fill out the form to request a download link to be sent to you by email.
             </div>
             <div className="flex justify-center">
-            <form id="data-form" action="" method="POST" className="w-1/2 text-left">
+            <form id="data-form" action="/" method="POST" className="w-1/2 text-left">
                 <div className="flex text-center">   
                     <FormElt label="First Name: " name="first-name" type="text" />
                     <FormElt label="Last Name: " name="last-name" type="text" />
