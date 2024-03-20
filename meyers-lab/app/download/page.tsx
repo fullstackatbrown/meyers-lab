@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function TxtArea() {
     return (<textarea></textarea>)
@@ -22,6 +22,8 @@ function FormElt({ label, name, type }: { label: string, name: string, type: str
         </div>
     );
 }
+
+const scriptUrl = "https://script.google.com/a/macros/brown.edu/s/AKfycbwnbHdcVSuXfQg52Pzli-sRkJNjhor44PvRVtORGMpqD-bQ3-zHoxT-6ZXafwVIcPRG/exec"
 
 export default function Download() {
     const [headerHeight, setHeaderHeight] = useState(0);
@@ -52,7 +54,7 @@ export default function Download() {
                 Fill out the form to request a download link to be sent to you by email.
             </div>
             <div className="flex justify-center">
-            <form id="data-form" action="/" method="POST" className="w-1/2 text-left">
+            <form id="data-form" action={scriptUrl} target="/" method="POST" className="w-1/2 text-left">
                 <div className="flex text-center">   
                     <FormElt label="First Name: " name="first-name" type="text" />
                     <FormElt label="Last Name: " name="last-name" type="text" />
@@ -82,3 +84,4 @@ export default function Download() {
         </div>
     </div>);
 }
+
