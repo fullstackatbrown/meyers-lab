@@ -23,7 +23,41 @@ function FormElt({ label, name, type }: { label: string, name: string, type: str
     );
 }
 
-const scriptUrl = "https://script.google.com/a/macros/brown.edu/s/AKfycbwnbHdcVSuXfQg52Pzli-sRkJNjhor44PvRVtORGMpqD-bQ3-zHoxT-6ZXafwVIcPRG/exec"
+function Form() {
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbwidPhci5rH5D-_gm-0dB-OR6U_1dqDc0UTH99Pl3sxZL3pkK7_iwX50ltwXvTmHL75/exec"
+
+    const redirect = () => {
+        window.location.replace("putthedatahere");
+    }
+    return (
+        <form id="data-form" action={scriptUrl} target="dummyframe" method="POST" className="w-1/2 text-left" onSubmit={redirect}>
+            <div className="flex text-center">   
+                <FormElt label="First Name: " name="first-name" type="text" />
+                <FormElt label="Last Name: " name="last-name" type="text" />
+            </div>
+            
+            <FormElt label="Email: *" name="email" type="text" />
+            <FormElt label="Institution/Affiliation: *" name="org" type="text"/>
+            <FormElt label="Reason for Downloading: *" name="reason" type="text"/>
+
+            <FormElt label="Plan to Merge with Another Source?" name="merge" type="area"/>
+            <FormElt label="How did you hear about us?" name="hear" type="area"/>
+
+            <div className="flex px-2 items-start">
+                <input type="checkbox" name="mail" className="flex mr-5 mt-[5px] w-5 h-5" />
+                <span>Join Our Mailing List?</span>
+            </div>
+
+            <div className="flex px-2 items-start">
+                <input className="flex mr-5 mt-[5px] w-5 h-5" type="checkbox" name="tos" required/>
+                <span>By downloading our data you agree ...</span>
+            </div>
+
+            <input id="submit" type="submit" value="Submit" 
+            className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
+        </form>
+    )
+}
 
 export default function Download() {
     const [headerHeight, setHeaderHeight] = useState(0);
@@ -51,35 +85,11 @@ export default function Download() {
                 Data Download
             </div>
             <div id="explanation" className="mb-8 text-lg">
-                Fill out the form to request a download link to be sent to you by email.
+                Fill out the form to request a download link.
             </div>
             <div className="flex justify-center">
-            <form id="data-form" action={scriptUrl} target="/" method="POST" className="w-1/2 text-left">
-                <div className="flex text-center">   
-                    <FormElt label="First Name: " name="first-name" type="text" />
-                    <FormElt label="Last Name: " name="last-name" type="text" />
-                </div>
-                
-                <FormElt label="Email: *" name="email" type="text" />
-                <FormElt label="Institution/Affiliation: *" name="org" type="text"/>
-                <FormElt label="Reason for Downloading: *" name="reason" type="text"/>
-
-                <FormElt label="Plan to Merge with Another Source?" name="merge" type="area"/>
-                <FormElt label="How did you hear about us?" name="hear" type="area"/>
-
-                <div className="flex px-2 items-start">
-                    <input type="checkbox" name="mail" className="flex mr-5 mt-[5px] w-5 h-5" />
-                    <span>Join Our Mailing List?</span>
-                </div>
-
-                <div className="flex px-2 items-start">
-                    <input className="flex mr-5 mt-[5px] w-5 h-5" type="checkbox" name="tos" required/>
-                    <span>By downloading our data you agree ...</span>
-                </div>
-
-                <input id="submit" type="submit" value="Submit" 
-                className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
-            </form>
+            <iframe name="dummyframe" id="dummyframe" className="hidden"></iframe>
+            <Form/>
             </div>
         </div>
     </div>);
