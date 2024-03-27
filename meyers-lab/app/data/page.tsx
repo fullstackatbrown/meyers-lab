@@ -27,10 +27,11 @@ export default function Data() {
   >(undefined);
   const [google, setGoogle] = useState<GoogleViz | undefined>(undefined);
   const [data, setData] = useState<Map<string, string>[]>([]);
+  const [allYears, setAllYears] = useState<Set<string>>(new Set<string>());
   const [graphingData, setGraphingData] = useState<
     Array<Array<string | number>>
   >([]);
-  const [selectedYear, setSelectedYear] = useState<string>('All Year');
+  const [selectedYear, setSelectedYear] = useState<string>('All Years');
   const [selectedDataset, setSelectedDataset] =
     useState<string>('Select Dataset');
   const [showDataVis, setShowDataVis] = useState<boolean>(false);
@@ -54,7 +55,6 @@ export default function Data() {
       console.log('Chart options changed to ', newChartOptions);
     });
   };
-
 
   const handleSubmit = () => {
     if (selectedDataset === 'Select Dataset') {
@@ -153,6 +153,13 @@ export default function Data() {
 
         // Updating the state with the mapped data
         setData(mappedData);
+
+        // Set all possible years
+        const possibleYears = new Set<string>();
+        mappedData.forEach((row) => {
+          possibleYears.add(row.get('year') ?? ''); // Ensure we add a string value or empty string if undefined
+        });
+        setAllYears(possibleYears);
       } catch (error) {
         console.error('Error fetching data from Google Spreadsheet:', error);
       }
@@ -162,9 +169,17 @@ export default function Data() {
   }, []);
 
   const setGraph = () => {
+    let yearData = data; // Default to all years
+
+    // Check if a specific year is selected
+    if (selectedYear !== 'All Years') {
+      // Filter data for the selected year
+      yearData = data.filter((row) => row.get('year') === selectedYear);
+    }
+
     if (selectedDataset === 'Mean vs. Quintile') {
       // Extract "mean" and "quintile" columns for graphing
-      const meanQuintile = data.map((row) => {
+      const meanQuintile = yearData.map((row) => {
         const meanValue = row.get('mean');
         const mean = meanValue !== undefined ? parseFloat(meanValue) : 0;
         const quintileValue = row.get('Quintile, by measure');
@@ -173,7 +188,7 @@ export default function Data() {
         return [mean, quintile];
       });
 
-      setGraphingData([["mean","quintile"], ...meanQuintile]);
+      setGraphingData([['mean', 'quintile'], ...meanQuintile]);
     }
   };
 
@@ -192,7 +207,11 @@ export default function Data() {
           onChange={(e) => setSelectedYear(e.target.value)}
         >
           <option value="All Years">All Years</option>
-          <option value="2019">2019</option>
+          {Array.from(allYears).map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
           {/* Add more years as needed */}
         </select>
         <p className="mr-2 text-lg text-primary">Dataset:</p>
