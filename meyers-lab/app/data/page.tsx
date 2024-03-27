@@ -30,9 +30,9 @@ export default function Data() {
   const [graphingData, setGraphingData] = useState<
     Array<Array<string | number>>
   >([]);
-  const [selectedYear, setSelectedYear] = useState<string>('2019');
+  const [selectedYear, setSelectedYear] = useState<string>("All Year");
   const [selectedDataset, setSelectedDataset] =
-    useState<string>('Mean vs. Quintile');
+    useState<string>("Select Dataset");
   const [showDataVis, setShowDataVis] = useState<boolean>(false);
 
   const onEditClick = () => {
@@ -56,9 +56,14 @@ export default function Data() {
   };
 
   const handleSubmit = () => {
+    if (selectedDataset == "Select Dataset") {
+      alert("Please choose a dataset to display.")
+    }
+    else {
     // Handle submission logic here
     setGraph(parseInt(selectedYear), selectedDataset);
     setShowDataVis(true);
+    }
   };
 
   useEffect(() => {
@@ -176,6 +181,7 @@ export default function Data() {
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
         >
+          <option value="All Years">All Years</option>
           <option value="2019">2019</option>
           {/* Add more years as needed */}
         </select>
@@ -185,6 +191,7 @@ export default function Data() {
           value={selectedDataset}
           onChange={(e) => setSelectedDataset(e.target.value)}
         >
+          <option value="Select Dataset">Select Dataset</option>
           <option value="Mean vs. Quintile">Mean vs. Quintile</option>
           {/* Add more dataset options as needed */}
         </select>
