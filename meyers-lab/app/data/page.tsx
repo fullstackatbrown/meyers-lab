@@ -1,19 +1,16 @@
-// ./app/data/page.tsx
+'use client';
 
-// Ensure this component is rendered on the client side
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   GoogleChartEditor,
   GoogleChartWrapper,
   GoogleViz,
   Chart,
-} from "react-google-charts";
+} from 'react-google-charts';
 
 export const options = {
   chart: {
-    title: "Coding Intensity vs. mean",
+    title: 'Coding Intensity vs. mean',
     hAxis: { title: 'Coding Intensity', minValue: 0, maxValue: 15 },
     vAxis: { title: 'mean', minValue: 0, maxValue: 15 },
     legend: 'none',
@@ -22,11 +19,21 @@ export const options = {
 
 export default function Data() {
   const [headerHeight, setHeaderHeight] = useState(0);
-  const [chartEditor, setChartEditor] = useState<GoogleChartEditor | undefined>(undefined);
-  const [chartWrapper, setChartWrapper] = useState<GoogleChartWrapper | undefined>(undefined);
+  const [chartEditor, setChartEditor] = useState<GoogleChartEditor | undefined>(
+    undefined,
+  );
+  const [chartWrapper, setChartWrapper] = useState<
+    GoogleChartWrapper | undefined
+  >(undefined);
   const [google, setGoogle] = useState<GoogleViz | undefined>(undefined);
   const [data, setData] = useState<string[][]>([]);
-  const [graphingData, setGraphingData] = useState<Array<Array<string | number>>>([]);
+  const [graphingData, setGraphingData] = useState<
+    Array<Array<string | number>>
+  >([]);
+  const [selectedYear, setSelectedYear] = useState<string>('2019');
+  const [selectedDataset, setSelectedDataset] =
+    useState<string>('Mean vs. Quintile');
+  const [showDataVis, setShowDataVis] = useState<boolean>(false);
 
   const onEditClick = () => {
     if (!chartWrapper || !google || !chartEditor) {
@@ -35,7 +42,7 @@ export default function Data() {
 
     chartEditor.openDialog(chartWrapper);
 
-    google.visualization.events.addListener(chartEditor, "ok", () => {
+    google.visualization.events.addListener(chartEditor, 'ok', () => {
       const newChartWrapper = chartEditor.getChartWrapper();
 
       newChartWrapper.draw();
@@ -43,9 +50,15 @@ export default function Data() {
       const newChartOptions = newChartWrapper.getOptions();
       const newChartType = newChartWrapper.getChartType();
 
-      console.log("Chart type changed to ", newChartType);
-      console.log("Chart options changed to ", newChartOptions);
+      console.log('Chart type changed to ', newChartType);
+      console.log('Chart options changed to ', newChartOptions);
     });
+  };
+
+  const handleSubmit = () => {
+    // Handle submission logic here
+    setGraph(parseInt(selectedYear), selectedDataset);
+    setShowDataVis(true);
   };
 
   useEffect(() => {
@@ -60,91 +73,155 @@ export default function Data() {
     window.addEventListener('resize', updateHeaderHeight);
 
     return () => window.removeEventListener('resize', updateHeaderHeight);
-  }, []); 
+  }, []);
+
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      const header = document.getElementById('header');
+      if (header) {
+        setHeaderHeight(header.offsetHeight);
+      }
+    };
+
+    updateHeaderHeight();
+    window.addEventListener('resize', updateHeaderHeight);
+
+    return () => window.removeEventListener('resize', updateHeaderHeight);
+  }, []);
+
+  // Parse CSV handling
+
+  // Function to parse CSV data into an array
+  const parseCSV = (csvData: string) => {
+    const lines = csvData.split('\n');
+    const parsedData = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line) {
+        let values = [];
+        let inQuotedField = false;
+        let currentField = '';
+
+        for (let j = 0; j < line.length; j++) {
+          const char = line[j];
+
+          if (char === '"') {
+            inQuotedField = !inQuotedField;
+          } else if (char === ',' && !inQuotedField) {
+            // Split only if not in a quoted field
+            values.push(currentField.trim());
+            currentField = '';
+          } else {
+            currentField += char;
+          }
+        }
+
+        // Push the last field
+        values.push(currentField.trim());
+        parsedData.push(values);
+      }
+    }
+
+    return parsedData;
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTrgqWmHkhMoQWeisf_k31KSxqI28kDvF65cRawH4oyM5027jk1hdXdwjNvG0F81Q/pub?gid=761047681&single=true&output=csv");
+        const response = await fetch(
+          'https://docs.google.com/spreadsheets/d/e/2PACX-1vTrgqWmHkhMoQWeisf_k31KSxqI28kDvF65cRawH4oyM5027jk1hdXdwjNvG0F81Q/pub?gid=761047681&single=true&output=csv',
+        );
         const csvData = await response.text();
         const parsedData = parseCSV(csvData);
         setData(parsedData);
-  
-        // Extract "mean" and "quintile" columns for graphing
-        const meanQuintile = parsedData.slice(1).map(row => [parseFloat(row[row.length - 2]), parseFloat(row[row.length - 1])]);
-        
-        // Prepend column headers
-        const graphingDataWithHeaders = [["mean", "quintile"], ...meanQuintile];
-        setGraphingData(graphingDataWithHeaders);
-        console.log(graphingDataWithHeaders)
       } catch (error) {
-        console.error("Error fetching data from Google Spreadsheet:", error);
+        console.error('Error fetching data from Google Spreadsheet:', error);
       }
     };
-  
+
     fetchData();
   }, []);
-  
-  
-// Function to parse CSV data into an array
-const parseCSV = (csvData : string) => {
-  const lines = csvData.split('\n');
-  const parsedData = [];
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (line) {
-      let values = [];
-      let inQuotedField = false;
-      let currentField = '';
+  const setGraph = (year: number, dataset: string) => {
+    console.log(selectedDataset);
 
-      for (let j = 0; j < line.length; j++) {
-        const char = line[j];
-        
-        if (char === '"') {
-          inQuotedField = !inQuotedField;
-        } else if (char === ',' && !inQuotedField) {
-          // Split only if not in a quoted field
-          values.push(currentField.trim());
-          currentField = '';
-        } else {
-          currentField += char;
-        }
-      }
+    if (selectedDataset === 'Mean vs. Quintile') {
+      // Extract "mean" and "quintile" columns for graphing
+      const meanQuintile = data
+        .slice(1)
+        .map((row) => [
+          parseFloat(row[row.length - 2]),
+          parseFloat(row[row.length - 1]),
+        ]);
 
-      // Push the last field
-      values.push(currentField.trim());
-      parsedData.push(values);
+      // Prepend column headers
+      const graphingDataWithHeaders = [['mean', 'quintile'], ...meanQuintile];
+      setGraphingData(graphingDataWithHeaders);
+      console.log(graphingDataWithHeaders);
     }
-  }
-
-  return parsedData;
-};
-
+  };
 
   return (
-    <div className="flex min-h-screen flex-col px-6 pt-2 ml-3 w-full h-full">
+    <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2 font-circ-std">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
-      <div className="min-h-[10vh] my-[5vh]">
-        <h1>View Data Visualizations</h1>
+      <div className="my-[5vh] min-h-[10vh]">
+        <h1 className="text-4xl text-primary">View Data Visualizations</h1>
       </div>
-      <div className="graph-vis">
-        <button onClick={onEditClick}>Edit Chart</button>
-        <Chart
-          chartType="ScatterChart"
-          width="80%"
-          height="400px"
-          data={graphingData}
-          options={options}
-          chartPackages={["corechart", "controls", "charteditor"]}
-          getChartEditor={({ chartEditor, chartWrapper, google }) => {
-            setChartEditor(chartEditor);
-            setChartWrapper(chartWrapper);
-            setGoogle(google);
-          }}
-        />
+      <div className="menu flex items-center">
+        <p className="mr-2 text-lg text-primary">Year:</p>
+        <select
+          className="mr-2 rounded border-2 p-2"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(e.target.value)}
+        >
+          <option value="2019">2019</option>
+          {/* Add more years as needed */}
+        </select>
+        <p className="mr-2 text-lg text-primary">Dataset:</p>
+        <select
+          className="mr-2 rounded border-2 p-2"
+          value={selectedDataset}
+          onChange={(e) => setSelectedDataset(e.target.value)}
+        >
+          <option value="Mean vs. Quintile">Mean vs. Quintile</option>
+          {/* Add more dataset options as needed */}
+        </select>
+        <button
+          className="font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline-none"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
       </div>
+
+      {showDataVis && (
+        <div className="graph-vis mt-4 flex flex-row">
+          <div className="flex items-start justify-start">
+            <button
+              className="focus:shadow-outline font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline"
+              onClick={onEditClick}
+              style={{marginTop: "4.5rem"}}
+            >
+              Edit Chart
+            </button>
+          </div>
+          <Chart
+            chartType="ScatterChart"
+            width="80%"
+            height="400px"
+            data={graphingData}
+            options={options}
+            chartPackages={['corechart', 'controls', 'charteditor']}
+            getChartEditor={({ chartEditor, chartWrapper, google }) => {
+              setChartEditor(chartEditor);
+              setChartWrapper(chartWrapper);
+              setGoogle(google);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
