@@ -26,13 +26,13 @@ export default function Data() {
     GoogleChartWrapper | undefined
   >(undefined);
   const [google, setGoogle] = useState<GoogleViz | undefined>(undefined);
-  const [data, setData] = useState<string[][]>([]);
+  const [data, setData] = useState<Map<string, string>[]>([]);
   const [graphingData, setGraphingData] = useState<
     Array<Array<string | number>>
   >([]);
-  const [selectedYear, setSelectedYear] = useState<string>("All Year");
+  const [selectedYear, setSelectedYear] = useState<string>('All Year');
   const [selectedDataset, setSelectedDataset] =
-    useState<string>("Select Dataset");
+    useState<string>('Select Dataset');
   const [showDataVis, setShowDataVis] = useState<boolean>(false);
 
   const onEditClick = () => {
@@ -55,14 +55,13 @@ export default function Data() {
     });
   };
 
+
   const handleSubmit = () => {
-    if (selectedDataset == "Select Dataset") {
-      alert("Please choose a dataset to display.")
-    }
-    else {
-    // Handle submission logic here
-    setGraph(parseInt(selectedYear), selectedDataset);
-    setShowDataVis(true);
+    if (selectedDataset === 'Select Dataset') {
+      alert('Please choose a dataset to display.');
+    } else {
+      setGraph(); // Update graphingData
+      setShowDataVis(true); // Show the Chart component
     }
   };
 
@@ -139,7 +138,21 @@ export default function Data() {
         );
         const csvData = await response.text();
         const parsedData = parseCSV(csvData);
-        setData(parsedData);
+
+        // Extracting column headers from the first row
+        const columnHeaders = parsedData[0];
+
+        // Mapping each row to a map where the column headers map to the corresponding values
+        const mappedData = parsedData.slice(1).map((row) => {
+          const map = new Map<string, string>();
+          columnHeaders.forEach((header, index) => {
+            map.set(header, row[index]);
+          });
+          return map;
+        });
+
+        // Updating the state with the mapped data
+        setData(mappedData);
       } catch (error) {
         console.error('Error fetching data from Google Spreadsheet:', error);
       }
@@ -148,22 +161,19 @@ export default function Data() {
     fetchData();
   }, []);
 
-  const setGraph = (year: number, dataset: string) => {
-    console.log(selectedDataset);
-
+  const setGraph = () => {
     if (selectedDataset === 'Mean vs. Quintile') {
       // Extract "mean" and "quintile" columns for graphing
-      const meanQuintile = data
-        .slice(1)
-        .map((row) => [
-          parseFloat(row[row.length - 2]),
-          parseFloat(row[row.length - 1]),
-        ]);
+      const meanQuintile = data.map((row) => {
+        const meanValue = row.get('mean');
+        const mean = meanValue !== undefined ? parseFloat(meanValue) : 0;
+        const quintileValue = row.get('Quintile, by measure');
+        const quintile =
+          quintileValue !== undefined ? parseFloat(quintileValue) : 0;
+        return [mean, quintile];
+      });
 
-      // Prepend column headers
-      const graphingDataWithHeaders = [['mean', 'quintile'], ...meanQuintile];
-      setGraphingData(graphingDataWithHeaders);
-      console.log(graphingDataWithHeaders);
+      setGraphingData([["mean","quintile"], ...meanQuintile]);
     }
   };
 
@@ -209,7 +219,7 @@ export default function Data() {
             <button
               className="focus:shadow-outline font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline"
               onClick={onEditClick}
-              style={{marginTop: "4.5rem"}}
+              style={{ marginTop: '4.5rem' }}
             >
               Edit Chart
             </button>
