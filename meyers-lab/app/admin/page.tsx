@@ -31,13 +31,13 @@ import AuthEmail from './AuthEmail';
 export default function Page() {
   //from App class
   const firebaseConfig = {
-    apiKey: 'AIzaSyAnwyqSptqqUos34NJztFiGTolGW9cHlvw',
+    apiKey: '',
     authDomain: 'meyers-lab.firebaseapp.com',
     projectId: 'meyers-lab',
     storageBucket: 'meyers-lab.appspot.com',
-    messagingSenderId: '689766815747',
-    appId: '1:689766815747:web:6bb8bd81c44a3aa9649636',
-    measurementId: 'G-2R8JVH7SQM',
+    messagingSenderId: '',
+    appId: '',
+    measurementId: '',
   };
   var app = firebase.initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
