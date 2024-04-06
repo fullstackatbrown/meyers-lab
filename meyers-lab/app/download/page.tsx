@@ -1,6 +1,11 @@
 'use client';
 
+import ReCAPTCHA from "react-google-recaptcha"
+import { verifyCaptcha } from "./ServerActions"
+
 import React, { useState, useEffect, useRef } from 'react';
+
+process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 
 function TxtArea() {
     return (<textarea></textarea>)
@@ -24,6 +29,17 @@ function FormElt({ label, name, type }: { label: string, name: string, type: str
 }
 
 function Form() {
+
+    const recaptchaRef = useRef<ReCAPTCHA>(null)
+    const [isVerified, setIsverified] = useState<boolean>(false)
+
+    async function handleCaptchaSubmission(token: string | null) {
+        // Server function to verify captcha
+        await verifyCaptcha(token)
+        .then(() => setIsverified(true))
+        .catch(() => setIsverified(false))
+    }
+
     const scriptUrl = "https://script.google.com/macros/s/AKfycbwidPhci5rH5D-_gm-0dB-OR6U_1dqDc0UTH99Pl3sxZL3pkK7_iwX50ltwXvTmHL75/exec"
     const [formdone, setFormdone] = useState(false);
 
@@ -31,7 +47,9 @@ function Form() {
         setFormdone(true);
     }
 
-    const link = <a href="" className="rounded-3xl text-white border-black p-2 bg-rose-500">Link to Download</a>
+    const submitBtn = isVerified ? <input id="submit" type="submit" value="Submit"
+    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/> : <input id="submit" type="button" value="Submit"
+    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
 
     return formdone ? 
     <div>
@@ -61,9 +79,13 @@ function Form() {
                 <input className="flex mr-5 mt-[5px] w-5 h-5" type="checkbox" name="tos" required/>
                 <span>By downloading our data you agree ...</span>
             </div>
-
-            <input id="submit" type="submit" value="Submit" 
-            className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
+            <div className="mb-5"></div>
+            <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                ref={recaptchaRef}
+                onChange={handleCaptchaSubmission}
+            />
+            {submitBtn}
         </form>
     )
 }
