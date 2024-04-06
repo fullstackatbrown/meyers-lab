@@ -13,66 +13,48 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
-
-/**
- * Auth object that is shared between firestore authentication and database.
- */
-interface authProps {
-  auth: firebase.auth.Auth;
-}
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  setDoc,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
+import AuthEmail from './AuthEmail';
 
 /**
  * Defines settings and display for Google authentication.
  * @param props authProps
  * @returns firebase auth ui component
  */
-export default function AuthEmail(props: authProps) {
-
-
-  var uiConfig = {
-    signInSuccessUrl: '/adminDashboard',
-    signInFlow: 'popup',
-    signInOptions: [
-      {
-        provider: GoogleAuthProvider.PROVIDER_ID,
-        clientId: `${process.env.NEXT_PUBLIC_CLIENT_ID}`,
-        requireDisplayName: false,
-      },
-      {
-        provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        requireDisplayName: false,
-      },
-    ],
-    credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
-    tosUrl: 'your terms of service url',
-    // Privacy policy url/callback.
-    privacyPolicyUrl: function () {
-      window.location.assign('<your-privacy-policy-url>');
-    },
-    callbacks: {
-      signInSuccessWithAuthResult: (
-        authObject: firebase.auth.UserCredential,
-        redirectURL?: string,
-      ) => {
-        window.setTimeout(() => {
-          window.location.assign('/adminDashboard');
-        }, 2000);
-
-        return false;
-      },
-    },
+export default function Page() {
+  //from App class
+  const firebaseConfig = {
+    apiKey: 'AIzaSyAnwyqSptqqUos34NJztFiGTolGW9cHlvw',
+    authDomain: 'meyers-lab.firebaseapp.com',
+    projectId: 'meyers-lab',
+    storageBucket: 'meyers-lab.appspot.com',
+    messagingSenderId: '689766815747',
+    appId: '1:689766815747:web:6bb8bd81c44a3aa9649636',
+    measurementId: 'G-2R8JVH7SQM',
   };
+  var app = firebase.initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  const auth = firebase.auth();
 
-  useEffect(() => {
-    const ui =
-      firebaseui.auth.AuthUI.getInstance() ||
-      new firebaseui.auth.AuthUI(props.auth);
-    ui.start('.firebase-auth-container', uiConfig);
-  }, [props.auth]);
+  const Auth = () => {
+    return <AuthEmail auth={auth}></AuthEmail>;
+  };
 
   return (
     <div>
-      <div className="firebase-auth-container"></div>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <div className="firebase-auth-container">{Auth()}</div>
     </div>
   );
 }
