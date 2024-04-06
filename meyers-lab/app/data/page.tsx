@@ -234,18 +234,10 @@ export default function Data() {
 
       {showDataVis && (
         <div className="graph-vis mt-4 flex flex-row">
-          <div className="flex items-start justify-start">
-            <button
-              className="focus:shadow-outline font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline"
-              onClick={onEditClick}
-              style={{ marginTop: '4.5rem' }}
-            >
-              Edit Chart
-            </button>
-          </div>
+          <div className="left flex items-start justify-start">
           <Chart
             chartType="ScatterChart"
-            width="80%"
+            width="800px"
             height="400px"
             data={graphingData}
             options={options}
@@ -256,6 +248,16 @@ export default function Data() {
               setGoogle(google);
             }}
           />
+          </div>
+          <div className="right flex items-start justify-start">
+          <button
+            className="focus:shadow-outline font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline"
+            onClick={onEditClick}
+            style={{ marginTop: '4.5rem', marginLeft: '3rem' }}
+          >
+            Edit Chart
+          </button>
+          </div>
         </div>
       )}
     </div>
