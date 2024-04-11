@@ -8,15 +8,6 @@ import {
   Chart,
 } from 'react-google-charts';
 
-export const options = {
-  chart: {
-    title: 'Coding Intensity vs. mean',
-    hAxis: { title: 'Coding Intensity', minValue: 0, maxValue: 15 },
-    vAxis: { title: 'mean', minValue: 0, maxValue: 15 },
-    legend: 'none',
-  },
-};
-
 export default function Data() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [chartEditor, setChartEditor] = useState<GoogleChartEditor | undefined>(
@@ -31,6 +22,7 @@ export default function Data() {
   const [graphingData, setGraphingData] = useState<
     Array<Array<string | number>>
   >([]);
+  const [options, setOptions] = useState({})
   const [selectedYear, setSelectedYear] = useState<string>('All Years');
   const [selectedDataset, setSelectedDataset] =
     useState<string>('Select Dataset');
@@ -188,7 +180,19 @@ export default function Data() {
         return [meanHR, quintileHR];
       });
 
-      setGraphingData([['mean percent due to HRA', 'quintile percent due to HRA'], ...meanQuintileHR]);
+      setGraphingData([['', 'mean, quintile'], ...meanQuintileHR]);
+
+      // Set chart titles with options
+      const chartOptionsHR = {
+        title: 'Coding Intensity Mean vs. Quintile Due to HRA',
+        textAlign: 'center',
+        hAxis: { title: 'Mean'},
+        vAxis: { title: 'Quintile'},
+        legend: 'quintile, mean',
+        width: 800,
+        height: 380,
+      }
+      setOptions(chartOptionsHR)
     }
 
     if (selectedDataset === 'Mean vs. Quintile Due to HRA and CR') {
@@ -202,7 +206,21 @@ export default function Data() {
         return [meanHRA_CR, quintileHRA_CR];
       });
 
-      setGraphingData([['mean percent due to HRA and CR', 'quintile percent due to HRA and CR'], ...meanQuintileHRA_CR]);
+      setGraphingData([['', 'mean, quintile'], ...meanQuintileHRA_CR]);
+
+            // Set chart titles with options
+            const chartOptionsHR_CR = {
+              title: 'Coding Intensity Mean vs. Quintile Due to HRA and CR',
+              titleTextStyle: {
+                textAlign: 'center'
+              },
+              hAxis: { title: 'Mean'},
+              vAxis: { title: 'Quintile'},
+              legend: 'quintile, mean',
+              width: 800,
+              height: 380,
+            }
+            setOptions(chartOptionsHR_CR)
     }
   };
 
@@ -254,8 +272,6 @@ export default function Data() {
           <div className="left flex items-start justify-start">
           <Chart
             chartType="ScatterChart"
-            width="800px"
-            height="400px"
             data={graphingData}
             options={options}
             chartPackages={['corechart', 'controls', 'charteditor']}
