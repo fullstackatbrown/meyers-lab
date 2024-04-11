@@ -134,7 +134,7 @@ export default function Data() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://docs.google.com/spreadsheets/d/e/2PACX-1vTrgqWmHkhMoQWeisf_k31KSxqI28kDvF65cRawH4oyM5027jk1hdXdwjNvG0F81Q/pub?gid=761047681&single=true&output=csv',
+          'https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pub?gid=93139773&single=true&output=csv',
         );
         const csvData = await response.text();
         const parsedData = parseCSV(csvData);
@@ -177,18 +177,32 @@ export default function Data() {
       yearData = data.filter((row) => row.get('year') === selectedYear);
     }
 
-    if (selectedDataset === 'Mean vs. Quintile') {
+    if (selectedDataset === 'Mean vs. Quintile Due to HRA') {
       // Extract "mean" and "quintile" columns for graphing
-      const meanQuintile = yearData.map((row) => {
-        const meanValue = row.get('mean');
-        const mean = meanValue !== undefined ? parseFloat(meanValue) : 0;
-        const quintileValue = row.get('Quintile, by measure');
-        const quintile =
-          quintileValue !== undefined ? parseFloat(quintileValue) : 0;
-        return [mean, quintile];
+      const meanQuintileHR = yearData.map((row) => {
+        const meanValueHR = row.get('mean_pct due to HRA');
+        const meanHR = meanValueHR !== undefined ? parseFloat(meanValueHR) : 0;
+        const quintileValueHR = row.get('Quintile_pct due to HRA');
+        const quintileHR =
+          quintileValueHR !== undefined ? parseFloat(quintileValueHR) : 0;
+        return [meanHR, quintileHR];
       });
 
-      setGraphingData([['mean', 'quintile'], ...meanQuintile]);
+      setGraphingData([['mean percent due to HRA', 'quintile percent due to HRA'], ...meanQuintileHR]);
+    }
+
+    if (selectedDataset === 'Mean vs. Quintile Due to HRA and CR') {
+      // Extract "mean" and "quintile" columns for graphing
+      const meanQuintileHRA_CR = yearData.map((row) => {
+        const meanValueHRA_CR = row.get('mean_pct due to HRA_CR');
+        const meanHRA_CR = meanValueHRA_CR !== undefined ? parseFloat(meanValueHRA_CR) : 0;
+        const quintileValueHRA_CR = row.get('Quintile_pct due to HRA_CR');
+        const quintileHRA_CR =
+          quintileValueHRA_CR !== undefined ? parseFloat(quintileValueHRA_CR) : 0;
+        return [meanHRA_CR, quintileHRA_CR];
+      });
+
+      setGraphingData([['mean percent due to HRA and CR', 'quintile percent due to HRA and CR'], ...meanQuintileHRA_CR]);
     }
   };
 
@@ -196,8 +210,10 @@ export default function Data() {
     <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2 font-circ-std">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
-      <div className="my-[5vh] min-h-[10vh]">
+      <div className="mt-[5vh] mb-[3vh] min-h-[10vh]">
         <h1 className="text-4xl text-primary">View Data Visualizations</h1>
+        <p className="text-lg pt-5 text-primary">Graphs display coding intensity of different parent organization contracts based on HRA and CR. </p>
+        <hr className="border border-primary border-3 mt-3 opacity-75"/>
       </div>
       <div className="menu flex items-center">
         <p className="mr-2 text-lg text-primary">Year:</p>
@@ -221,7 +237,8 @@ export default function Data() {
           onChange={(e) => setSelectedDataset(e.target.value)}
         >
           <option value="Select Dataset">Select Dataset</option>
-          <option value="Mean vs. Quintile">Mean vs. Quintile</option>
+          <option value="Mean vs. Quintile Due to HRA">Mean vs. Quintile Due to HRA</option>
+          <option value="Mean vs. Quintile Due to HRA and CR">Mean vs. Quintile Due to HRA and CR</option>
           {/* Add more dataset options as needed */}
         </select>
         <button
@@ -233,7 +250,7 @@ export default function Data() {
       </div>
 
       {showDataVis && (
-        <div className="graph-vis mt-4 flex flex-row">
+        <div className="graph-vis flex flex-row">
           <div className="left flex items-start justify-start">
           <Chart
             chartType="ScatterChart"
