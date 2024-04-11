@@ -188,7 +188,7 @@ export default function Data() {
         textAlign: 'center',
         hAxis: { title: 'Mean'},
         vAxis: { title: 'Quintile'},
-        legend: 'quintile, mean',
+        legend: 'mean, quintile',
         width: 800,
         height: 380,
       }
@@ -216,7 +216,7 @@ export default function Data() {
               },
               hAxis: { title: 'Mean'},
               vAxis: { title: 'Quintile'},
-              legend: 'quintile, mean',
+              legend: 'mean, quintile',
               width: 800,
               height: 380,
             }
