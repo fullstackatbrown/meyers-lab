@@ -36,24 +36,25 @@ function Form() {
         .catch(() => setIsverified(false))
     }
 
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbwidPhci5rH5D-_gm-0dB-OR6U_1dqDc0UTH99Pl3sxZL3pkK7_iwX50ltwXvTmHL75/exec"
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbwmMrQboatUtxGeF5Sn1stJEBuMds_dOZ4ih5_ija7m-oyb8VJFpmNYDfDvGBVg9PB1/exec"
     const [formdone, setFormdone] = useState(false);
 
     const redirect = () => {
-        setFormdone(true);
+        //setFormdone(true);
     }
 
-    const submitBtn = isVerified ? <input id="submit" type="submit" value="Submit"
-    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/> : <input id="submit" type="button" value="Submit"
+    const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit" onClick={redirect}
+    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
     className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
 
     return formdone ? 
     <div>
-        <div className="text-3xl">Your download has started...</div>
-        <div className="mt-3"><a className="text-blue underline p-1" href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQeRBpaGQcuxhPaCIi_T4aUe5bigaiSq4z0RkOkIJmEFLjYPp85U_MCvqNAWx-EPCbJetNvTPOvYNiJ/pub?output=xlsx">Click here to download manually</a></div>
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQeRBpaGQcuxhPaCIi_T4aUe5bigaiSq4z0RkOkIJmEFLjYPp85U_MCvqNAWx-EPCbJetNvTPOvYNiJ/pub?output=xlsx"></iframe>
+        <div className="text-3xl"></div>
     </div> : (
-        <form id="data-form" action={scriptUrl} target="dummyframe" method="POST" className="w-1/2 text-left" onSubmit={redirect}>
+        <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
+            <div id="explanation" className="mb-8 text-lg">
+                Fill out the form to request a download link.
+            </div>
             <div className="flex text-center">   
                 <FormElt label="First Name: " name="first-name" type="text" />
                 <FormElt label="Last Name: " name="last-name" type="text" />
@@ -111,11 +112,7 @@ export default function Download() {
             <div id="title-text" className="mt-10 mb-4 text-4xl font-bold">
                 Data Download
             </div>
-            <div id="explanation" className="mb-8 text-lg">
-                Fill out the form to request a download link.
-            </div>
             <div className="flex justify-center">
-            <iframe name="dummyframe" id="dummyframe" className="hidden"></iframe>
             <Form/>
             </div>
         </div>
