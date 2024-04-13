@@ -7,10 +7,6 @@ import React, { useState, useEffect, useRef } from 'react';
 
 process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 
-function TxtArea() {
-    return (<textarea></textarea>)
-}
-
 function FormElt({ label, name, type }: { label: string, name: string, type: string }) {
     let inputElt;
     if(type == "area") {
