@@ -60,7 +60,7 @@ export default function About() {
           <h1 className="text-5xl-responsive text-red mb-8">About Us</h1>
         </div>
         <div className ="paragraphs">
-          <p className="paragraph mb-8 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-circ-std opacity-80">
+          <p className="paragraph mb-8 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-mp opacity-80">
           This website is a product of the  Coding Variation and Spillovers in Medicare Advantage Project 
           being conducted at the Brown University Center for Gerontology and Healthcare Research and supported 
           by Arnold Ventures LLC.
@@ -70,7 +70,7 @@ export default function About() {
           engaging in the most intense coding.
           </p>
     
-          <p className="paragraph mb-12 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-circ-std opacity-80">The Medicare Advantage (MA) program is rapidly growing, 
+          <p className="paragraph mb-12 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-mp opacity-80">The Medicare Advantage (MA) program is rapidly growing, 
           enrolls over 45% of all Medicare beneficiaries, and accounts for over $240 billion in federal 
           spending. In MA, private insurance plans receive risk-adjusted capitation payments which greatly 
           change their incentives from the fee-for-service Traditional Medicare (TM) program. Namely, under 
