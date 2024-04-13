@@ -19,10 +19,8 @@ export default function Data() {
   const [google, setGoogle] = useState<GoogleViz | undefined>(undefined);
   const [data, setData] = useState<Map<string, string>[]>([]);
   const [allYears, setAllYears] = useState<Set<string>>(new Set<string>());
-  const [graphingData, setGraphingData] = useState<
-    Array<Array<string | number>>
-  >([]);
-  const [options, setOptions] = useState({})
+  const [graphingData, setGraphingData] = useState<Array<Array<any>>>([]);
+  const [options, setOptions] = useState({});
   const [selectedYear, setSelectedYear] = useState<string>('All Years');
   const [selectedDataset, setSelectedDataset] =
     useState<string>('Select Dataset');
@@ -177,50 +175,92 @@ export default function Data() {
         const quintileValueHR = row.get('Quintile_pct due to HRA');
         const quintileHR =
           quintileValueHR !== undefined ? parseFloat(quintileValueHR) : 0;
-        return [meanHR, quintileHR];
+
+        const parentOrg = row.get('Parent organization'); // Assuming you have these columns
+        const contractId = row.get('Contract ID');
+        const nationalEnrollmentValue = row.get('National enrollment');
+        const nationalEnrollment =
+          nationalEnrollmentValue !== undefined
+            ? parseFloat(nationalEnrollmentValue)
+            : 0;
+
+        // Construct tooltip string
+        const tooltip = `${parentOrg}, ${contractId}, ${nationalEnrollment}, ${meanHR}, ${quintileHR}`;
+
+        return [meanHR, quintileHR, tooltip];
       });
 
-      setGraphingData([['', 'mean, quintile'], ...meanQuintileHR]);
+      setGraphingData([
+        [
+          '',
+          'Parent organization, Contract ID, National enrollment, Mean due to HRA, Quintile due to HRA',
+          { type: 'string', role: 'tooltip' },
+        ],
+        ...meanQuintileHR,
+      ]);
 
       // Set chart titles with options
       const chartOptionsHR = {
         title: 'Coding Intensity Mean vs. Quintile Due to HRA',
         textAlign: 'center',
-        hAxis: { title: 'Mean'},
-        vAxis: { title: 'Quintile'},
+        tooltip: { isHtml: true },
+        hAxis: { title: 'Mean' },
+        vAxis: { title: 'Quintile' },
         legend: 'mean, quintile',
         width: 800,
         height: 380,
-      }
-      setOptions(chartOptionsHR)
+      };
+      setOptions(chartOptionsHR);
     }
 
     if (selectedDataset === 'Mean vs. Quintile Due to HRA and CR') {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHRA_CR = yearData.map((row) => {
         const meanValueHRA_CR = row.get('mean_pct due to HRA_CR');
-        const meanHRA_CR = meanValueHRA_CR !== undefined ? parseFloat(meanValueHRA_CR) : 0;
+        const meanHRA_CR =
+          meanValueHRA_CR !== undefined ? parseFloat(meanValueHRA_CR) : 0;
         const quintileValueHRA_CR = row.get('Quintile_pct due to HRA_CR');
         const quintileHRA_CR =
-          quintileValueHRA_CR !== undefined ? parseFloat(quintileValueHRA_CR) : 0;
-        return [meanHRA_CR, quintileHRA_CR];
-      });
+          quintileValueHRA_CR !== undefined
+            ? parseFloat(quintileValueHRA_CR)
+            : 0;
 
-      setGraphingData([['', 'mean, quintile'], ...meanQuintileHRA_CR]);
+            const parentOrg = row.get('Parent organization'); // Assuming you have these columns
+            const contractId = row.get('Contract ID');
+            const nationalEnrollmentValue = row.get('National enrollment');
+            const nationalEnrollment =
+              nationalEnrollmentValue !== undefined
+                ? parseFloat(nationalEnrollmentValue)
+                : 0;
+    
+            // Construct tooltip string
+            const tooltip = `${parentOrg}, ${contractId}, ${nationalEnrollment}, ${meanHRA_CR}, ${quintileHRA_CR}`;
+    
+            return [meanHRA_CR, quintileHRA_CR, tooltip];
+          });
+    
+          setGraphingData([
+            [
+              '',
+              'Parent organization, Contract ID, National enrollment, Mean due to HRA and CR, Quintile due to HRA and CR',
+              { type: 'string', role: 'tooltip' },
+            ],
+            ...meanQuintileHRA_CR,
+          ]);
 
-            // Set chart titles with options
-            const chartOptionsHR_CR = {
-              title: 'Coding Intensity Mean vs. Quintile Due to HRA and CR',
-              titleTextStyle: {
-                textAlign: 'center'
-              },
-              hAxis: { title: 'Mean'},
-              vAxis: { title: 'Quintile'},
-              legend: 'mean, quintile',
-              width: 800,
-              height: 380,
-            }
-            setOptions(chartOptionsHR_CR)
+      // Set chart titles with options
+      const chartOptionsHR_CR = {
+        title: 'Coding Intensity Mean vs. Quintile Due to HRA and CR',
+        titleTextStyle: {
+          textAlign: 'center',
+        },
+        hAxis: { title: 'Mean' },
+        vAxis: { title: 'Quintile' },
+        legend: 'mean, quintile',
+        width: 800,
+        height: 380,
+      };
+      setOptions(chartOptionsHR_CR);
     }
   };
 
@@ -228,10 +268,13 @@ export default function Data() {
     <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2 font-circ-std">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
-      <div className="mt-[5vh] mb-[3vh] min-h-[10vh]">
+      <div className="mb-[3vh] mt-[5vh] min-h-[10vh]">
         <h1 className="text-4xl text-primary">View Data Visualizations</h1>
-        <p className="text-lg pt-5 text-primary">Graphs display coding intensity of different parent organization contracts based on HRA and CR. </p>
-        <hr className="border border-primary border-3 mt-3 opacity-75"/>
+        <p className="pt-5 text-lg text-primary">
+          Graphs display coding intensity of different parent organization
+          contracts based on HRA and CR.{' '}
+        </p>
+        <hr className="border-3 mt-3 border border-primary opacity-75" />
       </div>
       <div className="menu flex items-center">
         <p className="mr-2 text-lg text-primary">Year:</p>
@@ -255,8 +298,12 @@ export default function Data() {
           onChange={(e) => setSelectedDataset(e.target.value)}
         >
           <option value="Select Dataset">Select Dataset</option>
-          <option value="Mean vs. Quintile Due to HRA">Mean vs. Quintile Due to HRA</option>
-          <option value="Mean vs. Quintile Due to HRA and CR">Mean vs. Quintile Due to HRA and CR</option>
+          <option value="Mean vs. Quintile Due to HRA">
+            Mean vs. Quintile Due to HRA
+          </option>
+          <option value="Mean vs. Quintile Due to HRA and CR">
+            Mean vs. Quintile Due to HRA and CR
+          </option>
           {/* Add more dataset options as needed */}
         </select>
         <button
@@ -270,26 +317,26 @@ export default function Data() {
       {showDataVis && (
         <div className="graph-vis flex flex-row">
           <div className="left flex items-start justify-start">
-          <Chart
-            chartType="ScatterChart"
-            data={graphingData}
-            options={options}
-            chartPackages={['corechart', 'controls', 'charteditor']}
-            getChartEditor={({ chartEditor, chartWrapper, google }) => {
-              setChartEditor(chartEditor);
-              setChartWrapper(chartWrapper);
-              setGoogle(google);
-            }}
-          />
+            <Chart
+              chartType="ScatterChart"
+              data={graphingData}
+              options={options}
+              chartPackages={['corechart', 'controls', 'charteditor']}
+              getChartEditor={({ chartEditor, chartWrapper, google }) => {
+                setChartEditor(chartEditor);
+                setChartWrapper(chartWrapper);
+                setGoogle(google);
+              }}
+            />
           </div>
           <div className="right flex items-start justify-start">
-          <button
-            className="focus:shadow-outline font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline"
-            onClick={onEditClick}
-            style={{ marginTop: '4.5rem', marginLeft: '3rem' }}
-          >
-            Edit Chart
-          </button>
+            <button
+              className="focus:shadow-outline font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline"
+              onClick={onEditClick}
+              style={{ marginTop: '4.5rem', marginLeft: '3rem' }}
+            >
+              Edit Chart
+            </button>
           </div>
         </div>
       )}
