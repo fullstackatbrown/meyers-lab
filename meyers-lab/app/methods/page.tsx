@@ -62,12 +62,12 @@ export default function Methods() {
   };
 
   return (
-    <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2 font-circ-std">
+    <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="my-[5vh] min-h-[10vh]">
-        <h1 className="pl-48 text-4xl text-primary">Methods</h1>
-        <p className="pl-48 text-lg text-primary">Methods page blurb...</p>
+        <h1 className="pl-48 text-4xl text-primary font-bold font-circ-std">Methods</h1>
+        <p className="pl-48 text-lg text-black font-mp">Methods page blurb...</p>
       </div>
 
       {/* PDF Carousel */}

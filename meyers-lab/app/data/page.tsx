@@ -449,7 +449,7 @@ export default function Data() {
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="mb-[3vh] mt-[5vh] min-h-[10vh]">
-        <h1 className="text-4xl text-primary">View Data Visualizations</h1>
+        <h1 className="text-4xl text-primary font-bold">View Data Visualizations</h1>
         <p className="pt-5 text-lg text-primary">
           Graphs display coding intensity of different parent organization
           contracts based on health risk assessments (HRAs) and chart reviews (CRs).{' '}

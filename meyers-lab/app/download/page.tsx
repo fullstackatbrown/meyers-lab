@@ -108,7 +108,7 @@ export default function Download() {
 
         {/* Site content */}
         <div id="content" className="text-center p-5">
-            <div id="title-text" className="mt-10 mb-4 text-4xl font-bold">
+            <div id="title-text" className="mt-10 mb-4 text-4xl font-bold font-circ-std text-primary">
                 Data Download
             </div>
             <div id="explanation" className="mb-8 text-lg">
