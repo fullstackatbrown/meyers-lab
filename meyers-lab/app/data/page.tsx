@@ -158,38 +158,37 @@ export default function Data() {
     fetchData();
   }, []);
 
+  const extractMeanQuintileData = (row : Map<string, string>, meanKey: string, quintileKey : string) => {
+    const meanValue = row.get(meanKey);
+    const mean = meanValue !== undefined ? parseFloat(meanValue) : 0;
+    const quintileValue = row.get(quintileKey);
+    const quintile = quintileValue !== undefined ? parseFloat(quintileValue) : 0;
+    const parentOrg = row.get('Parent organization') ?? ''; // Assuming you have these columns
+    const contractId = row.get('Contract ID') ?? '';
+    const nationalEnrollmentValue = row.get('National enrollment');
+    const nationalEnrollment = nationalEnrollmentValue !== undefined ? parseFloat(nationalEnrollmentValue) : 0;
+  
+    // Construct tooltip string
+    const tooltip = `${parentOrg}, ${contractId}, ${nationalEnrollment}, ${mean}, ${quintile}`;
+    
+    return [mean, quintile, tooltip];
+  };
+  
   const setGraph = () => {
     let yearData = data; // Default to all years
-
+  
     // Check if a specific year is selected
     if (selectedYear !== 'All Years') {
       // Filter data for the selected year
       yearData = data.filter((row) => row.get('year') === selectedYear);
     }
-
+  
     if (selectedDataset === 'Mean vs. Quintile Due to HRA') {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHR = yearData.map((row) => {
-        const meanValueHR = row.get('mean_pct due to HRA');
-        const meanHR = meanValueHR !== undefined ? parseFloat(meanValueHR) : 0;
-        const quintileValueHR = row.get('Quintile_pct due to HRA');
-        const quintileHR =
-          quintileValueHR !== undefined ? parseFloat(quintileValueHR) : 0;
-
-        const parentOrg = row.get('Parent organization'); // Assuming you have these columns
-        const contractId = row.get('Contract ID');
-        const nationalEnrollmentValue = row.get('National enrollment');
-        const nationalEnrollment =
-          nationalEnrollmentValue !== undefined
-            ? parseFloat(nationalEnrollmentValue)
-            : 0;
-
-        // Construct tooltip string
-        const tooltip = `${parentOrg}, ${contractId}, ${nationalEnrollment}, ${meanHR}, ${quintileHR}`;
-
-        return [meanHR, quintileHR, tooltip];
+        return extractMeanQuintileData(row, 'mean_pct due to HRA', 'Quintile_pct due to HRA');
       });
-
+  
       setGraphingData([
         [
           '',
@@ -198,7 +197,7 @@ export default function Data() {
         ],
         ...meanQuintileHR,
       ]);
-
+  
       // Set chart titles with options
       const chartOptionsHR = {
         title: 'Coding Intensity Mean vs. Quintile Due to HRA',
@@ -212,42 +211,22 @@ export default function Data() {
       };
       setOptions(chartOptionsHR);
     }
-
+  
     if (selectedDataset === 'Mean vs. Quintile Due to HRA and CR') {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHRA_CR = yearData.map((row) => {
-        const meanValueHRA_CR = row.get('mean_pct due to HRA_CR');
-        const meanHRA_CR =
-          meanValueHRA_CR !== undefined ? parseFloat(meanValueHRA_CR) : 0;
-        const quintileValueHRA_CR = row.get('Quintile_pct due to HRA_CR');
-        const quintileHRA_CR =
-          quintileValueHRA_CR !== undefined
-            ? parseFloat(quintileValueHRA_CR)
-            : 0;
-
-            const parentOrg = row.get('Parent organization'); // Assuming you have these columns
-            const contractId = row.get('Contract ID');
-            const nationalEnrollmentValue = row.get('National enrollment');
-            const nationalEnrollment =
-              nationalEnrollmentValue !== undefined
-                ? parseFloat(nationalEnrollmentValue)
-                : 0;
-    
-            // Construct tooltip string
-            const tooltip = `${parentOrg}, ${contractId}, ${nationalEnrollment}, ${meanHRA_CR}, ${quintileHRA_CR}`;
-    
-            return [meanHRA_CR, quintileHRA_CR, tooltip];
-          });
-    
-          setGraphingData([
-            [
-              '',
-              'Parent organization, Contract ID, National enrollment, Mean due to HRA and CR, Quintile due to HRA and CR',
-              { type: 'string', role: 'tooltip' },
-            ],
-            ...meanQuintileHRA_CR,
-          ]);
-
+        return extractMeanQuintileData(row, 'mean_pct due to HRA_CR', 'Quintile_pct due to HRA_CR');
+      });
+  
+      setGraphingData([
+        [
+          '',
+          'Parent organization, Contract ID, National enrollment, Mean due to HRA and CR, Quintile due to HRA and CR',
+          { type: 'string', role: 'tooltip' },
+        ],
+        ...meanQuintileHRA_CR,
+      ]);
+  
       // Set chart titles with options
       const chartOptionsHR_CR = {
         title: 'Coding Intensity Mean vs. Quintile Due to HRA and CR',
@@ -263,6 +242,7 @@ export default function Data() {
       setOptions(chartOptionsHR_CR);
     }
   };
+  
 
   return (
     <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2 font-circ-std">
