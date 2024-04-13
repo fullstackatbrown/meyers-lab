@@ -242,7 +242,7 @@ export default function Data() {
       yearData = data.filter((row) => row.get('year') === selectedYear);
     }
 
-    if (selectedDataset === 'Mean vs. Quintile Due to HRA') {
+    if (selectedDataset === 'Quintile vs. Mean Due to HRA') {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHR = yearData.map((row) => {
         return extractMeanQuintileData(
@@ -263,19 +263,19 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR = {
-        title: 'Coding Intensity Mean vs. Quintile Due to HRA',
+        title: 'Coding Intensity Quintile vs. Mean Due to HRA',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'Mean' },
         vAxis: { title: 'Quintile' },
-        legend: 'mean, quintile',
+        legend: true,
         width: 800,
         height: 400,
       };
       setOptions(chartOptionsHR);
     }
 
-    if (selectedDataset === 'Mean vs. Quintile Due to HRA and CR') {
+    if (selectedDataset === 'Quintile vs. Mean Due to HRA and CR') {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHRA_CR = yearData.map((row) => {
         return extractMeanQuintileData(
@@ -296,20 +296,20 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR_CR = {
-        title: 'Coding Intensity Mean vs. Quintile Due to HRA and CR',
+        title: 'Coding Intensity Quintile vs. Mean Due to HRA and CR',
         titleTextStyle: {
           textAlign: 'center',
         },
         hAxis: { title: 'Mean' },
         vAxis: { title: 'Quintile' },
-        legend: 'mean, quintile',
+        legend: true,
         width: 800,
         height: 380,
       };
       setOptions(chartOptionsHR_CR);
     }
 
-    if (selectedDataset === 'National Enrollment vs Mean Due to HRA') {
+    if (selectedDataset === 'Mean vs. National Enrollment Due to HRA') {
       // Extract "national enrollment" and "mean" columns for graphing
       const nationalEnrollmentMeanHR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
@@ -330,19 +330,19 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR = {
-        title: 'National Enrollment vs Mean Due to HRA',
+        title: 'Coding Intensity Mean vs. National Enrollment Due to HRA',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
         vAxis: { title: 'Mean' },
-        legend: 'mean, quintile',
+        legend: true,
         width: 1000,
         height: 500,
       };
       setOptions(chartOptionsHR);
     }
 
-    if (selectedDataset === 'National Enrollment vs Quintile Due to HRA') {
+    if (selectedDataset === 'Quintile vs. National Enrollment Due to HRA') {
       // Extract "national enrollment" and "quintile" columns for graphing
       const nationalEnrollmentQuintileHR = yearData.map((row) => {
         return extractNationalEnrollmentQuintileData(
@@ -363,19 +363,19 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR = {
-        title: 'National Enrollment vs Quintile Due to HRA',
+        title: 'Coding Intensity Quintile vs. National Enrollment Due to HRA',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
         vAxis: { title: 'Quintile' },
-        legend: 'mean, quintile',
+        legend: true,
         width: 800,
         height: 380,
       };
       setOptions(chartOptionsHR);
     }
 
-    if (selectedDataset === 'National Enrollment vs Mean Due to HRA and CR') {
+    if (selectedDataset === 'Mean vs. National Enrollment Due to HRA and CR') {
       // Extract "national enrollment" and "mean" columns for graphing
       const nationalEnrollmentMeanHRA_CR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
@@ -396,12 +396,12 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHRA_CR = {
-        title: 'National Enrollment vs Mean Due to HRA and CR',
+        title: 'Coding Intensity Mean vs. National Enrollment Due to HRA and CR',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
         vAxis: { title: 'Mean' },
-        legend: 'mean, quintile',
+        legend: true,
         width: 800,
         height: 380,
       };
@@ -409,7 +409,7 @@ export default function Data() {
     }
 
     if (
-      selectedDataset === 'National Enrollment vs Quintile Due to HRA and CR'
+      selectedDataset === 'Quintile vs. National Enrollment Due to HRA and CR'
     ) {
       // Extract "national enrollment" and "quintile" columns for graphing
       const nationalEnrollmentQuintileHRA_CR = yearData.map((row) => {
@@ -431,12 +431,12 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHRA_CR = {
-        title: 'National Enrollment vs Quintile Due to HRA and CR',
+        title: 'Coding Intensity Quintile vs. National Enrollment Due to HRA and CR',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
         vAxis: { title: 'Quintile' },
-        legend: 'mean, quintile',
+        legend: true,
         width: 800,
         height: 380,
       };
@@ -478,23 +478,23 @@ export default function Data() {
           onChange={(e) => setSelectedDataset(e.target.value)}
         >
           <option value="Select Dataset">Select Dataset</option>
-          <option value="Mean vs. Quintile Due to HRA">
-            Mean vs. Quintile Due to HRA
+          <option value="Quintile vs. Mean Due to HRA">
+          Quintile vs. Mean Due to HRA
           </option>
-          <option value="Mean vs. Quintile Due to HRA and CR">
-            Mean vs. Quintile Due to HRA and CR
+          <option value="Quintile vs. Mean Due to HRA and CR">
+          Quintile vs. Mean Due to HRA and CR
           </option>
-          <option value="National Enrollment vs Mean Due to HRA">
-            National Enrollment vs Mean Due to HRA
+          <option value="Mean vs. National Enrollment Due to HRA">
+          Mean vs. National Enrollment Due to HRA
           </option>
-          <option value="National Enrollment vs Quintile Due to HRA">
-            National Enrollment vs Quintile Due to HRA
+          <option value="Quintile vs. National Enrollment Due to HRA">
+          Quintile vs. National Enrollment Due to HRA
           </option>
-          <option value="National Enrollment vs Mean Due to HRA and CR">
-            National Enrollment vs Mean Due to HRA and CR
+          <option value="Mean vs. National Enrollment Due to HRA and CR">
+          Mean vs. National Enrollment Due to HRA and CR
           </option>
-          <option value="National Enrollment vs Quintile Due to HRA and CR">
-            National Enrollment vs Quintile Due to HRA and CR
+          <option value="Quintile vs. National Enrollment Due to HRA and CR">
+          Quintile vs. National Enrollment Due to HRA and CR
           </option>
           {/* Add more dataset options as needed */}
         </select>
