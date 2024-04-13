@@ -52,40 +52,44 @@ export default function About() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col px-32 pt-2 pb-32 ml-3 w-full h-full">
+    <div className="flex min-h-screen flex-col px-10 md:pl-[20vw] md:pr-[20vw] pt-2 pb-32 ml-3 w-full h-full">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="my-5">
-        <div className="bg-red-600 shadow-md p-2 rounded-lg mb-12 font-mp">
-          <h1 className="text-4xl-responsive font-bold text-white mb-2">About Us</h1>
-        </div>    
-        <p className="mb-8 px-32 font-circ-std">
-        This website is a product of the  Coding Variation and Spillovers in Medicare Advantage Project 
-        being conducted at the Brown University Center for Gerontology and Healthcare Research and supported 
-        by Arnold Ventures LLC.
-        The overall objective of this project is to better understand how the Medicare Advantage
-        program impacts spending through increasing coding intensity. We used five metrics to chart 
-        variations in coding intensity across different MA plans to produce a report on which plans are 
-        engaging in the most intense coding.</p>
-        <p className="mb-16 px-32 font-circ-std">The Medicare Advantage (MA) program is rapidly growing, 
-        enrolls over 45% of all Medicare beneficiaries, and accounts for over $240 billion in federal 
-        spending. In MA, private insurance plans receive risk-adjusted capitation payments which greatly 
-        change their incentives from the fee-for-service Traditional Medicare (TM) program. Namely, under 
-        full capitation a plan can potentially benefit by reducing spending on unnecessary and/or expensive 
-        services, or by increasing the amount of risk-adjusted payments received from the Centers for Medicare 
-        and Medicaid Services (CMS). Controlling costs related to the expansion of the MA program is vital, 
-        given that within the next two years, the majority of Medicare beneficiaries will likely be enrolled 
-        in an MA plan. We explored the potential opportunities and challenges of 
-        controlling costs through the MA program by comprehensively measuring variation in coding intensity 
-        across MA plans. This will allow us to measure how much excess spending in the MA program may be due 
-        to coding differences. </p>
+        <div className="text-center font-circ-std opacity-80">
+          <h1 className="text-5xl-responsive text-red mb-8">About Us</h1>
+        </div>
+        <div className ="paragraphs">
+          <p className="paragraph mb-8 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-circ-std opacity-80">
+          This website is a product of the  Coding Variation and Spillovers in Medicare Advantage Project 
+          being conducted at the Brown University Center for Gerontology and Healthcare Research and supported 
+          by Arnold Ventures LLC.
+          The overall objective of this project is to better understand how the Medicare Advantage
+          program impacts spending through increasing coding intensity. We used five metrics to chart 
+          variations in coding intensity across different MA plans to produce a report on which plans are 
+          engaging in the most intense coding.
+          </p>
+    
+          <p className="paragraph mb-12 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-circ-std opacity-80">The Medicare Advantage (MA) program is rapidly growing, 
+          enrolls over 45% of all Medicare beneficiaries, and accounts for over $240 billion in federal 
+          spending. In MA, private insurance plans receive risk-adjusted capitation payments which greatly 
+          change their incentives from the fee-for-service Traditional Medicare (TM) program. Namely, under 
+          full capitation a plan can potentially benefit by reducing spending on unnecessary and/or expensive 
+          services, or by increasing the amount of risk-adjusted payments received from the Centers for Medicare 
+          and Medicaid Services (CMS). Controlling costs related to the expansion of the MA program is vital, 
+          given that within the next two years, the majority of Medicare beneficiaries will likely be enrolled 
+          in an MA plan. We explored the potential opportunities and challenges of 
+          controlling costs through the MA program by comprehensively measuring variation in coding intensity 
+          across MA plans. This will allow us to measure how much excess spending in the MA program may be due 
+          to coding differences. </p>
+        </div>
     
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {teamMembers.map((member) => (
             <div key={member.id} className="flex flex-col items-start">
               <img src={member.img_url} alt='' className="w-32 h-32 object-cover rounded-full mb-4" />
               <div className="mt-2">
-                <h3 className="text-xl font-semibold font-circ-std mb-4">{member.name}</h3>
+                <h3 className="text-xl font-semibold font-circ-std mb-4 opacity-75">{member.name}</h3>
                 <p className="text-sm">{member.bio}</p>
               </div>
             </div>
