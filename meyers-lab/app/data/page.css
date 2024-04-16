@@ -4,12 +4,10 @@
     justify-content: center;
   }
 
-.chart {
-    margin-left: -2rem;
-}
 
 .relative-container {
     position: relative;
+    margin-left: -4rem;
   }
   
   .button-overlay {
