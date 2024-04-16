@@ -7,6 +7,7 @@ import {
   GoogleViz,
   Chart,
 } from 'react-google-charts';
+import './page.css';
 
 export default function Data() {
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -231,9 +232,11 @@ export default function Data() {
   };
 
   const setGraph = () => {
-    const legendHRA = 'Parent organization, Contract ID, National enrollment, Mean due to HRAs, Quintile due to HRAs';
-    const legendHRA_CR = 'Parent organization, Contract ID, National enrollment, Mean due to HRAs and CRs, Quintile due to HRAs and CRs';
- 
+    const legendHRA =
+      'Parent organization, Contract ID, National enrollment, Mean due to HRAs, Quintile due to HRAs';
+    const legendHRA_CR =
+      'Parent organization, Contract ID, National enrollment, Mean due to HRAs and CRs, Quintile due to HRAs and CRs';
+
     let yearData = data; // Default to all years
 
     // Check if a specific year is selected
@@ -253,11 +256,7 @@ export default function Data() {
       });
 
       setGraphingData([
-        [
-          '',
-          legendHRA,
-          { type: 'string', role: 'tooltip' },
-        ],
+        ['', legendHRA, { type: 'string', role: 'tooltip' }],
         ...meanQuintileHR,
       ]);
 
@@ -286,11 +285,7 @@ export default function Data() {
       });
 
       setGraphingData([
-        [
-          '',
-          legendHRA_CR,
-          { type: 'string', role: 'tooltip' },
-        ],
+        ['', legendHRA_CR, { type: 'string', role: 'tooltip' }],
         ...meanQuintileHRA_CR,
       ]);
 
@@ -320,11 +315,7 @@ export default function Data() {
       });
 
       setGraphingData([
-        [
-          '',
-          legendHRA,
-          { type: 'string', role: 'tooltip' },
-        ],
+        ['', legendHRA, { type: 'string', role: 'tooltip' }],
         ...nationalEnrollmentMeanHR,
       ]);
 
@@ -353,11 +344,7 @@ export default function Data() {
       });
 
       setGraphingData([
-        [
-          '',
-          legendHRA,
-          { type: 'string', role: 'tooltip' },
-        ],
+        ['', legendHRA, { type: 'string', role: 'tooltip' }],
         ...nationalEnrollmentQuintileHR,
       ]);
 
@@ -375,7 +362,9 @@ export default function Data() {
       setOptions(chartOptionsHR);
     }
 
-    if (selectedDataset === 'Mean vs. National Enrollment Due to HRAs and CRs') {
+    if (
+      selectedDataset === 'Mean vs. National Enrollment Due to HRAs and CRs'
+    ) {
       // Extract "national enrollment" and "mean" columns for graphing
       const nationalEnrollmentMeanHRA_CR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
@@ -386,17 +375,14 @@ export default function Data() {
       });
 
       setGraphingData([
-        [
-          '',
-          legendHRA_CR,
-          { type: 'string', role: 'tooltip' },
-        ],
+        ['', legendHRA_CR, { type: 'string', role: 'tooltip' }],
         ...nationalEnrollmentMeanHRA_CR,
       ]);
 
       // Set chart titles with options
       const chartOptionsHRA_CR = {
-        title: 'Coding Intensity Mean vs. National Enrollment Due to HRAs and CRs',
+        title:
+          'Coding Intensity Mean vs. National Enrollment Due to HRAs and CRs',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
@@ -421,17 +407,14 @@ export default function Data() {
       });
 
       setGraphingData([
-        [
-          '',
-          legendHRA_CR,
-          { type: 'string', role: 'tooltip' },
-        ],
+        ['', legendHRA_CR, { type: 'string', role: 'tooltip' }],
         ...nationalEnrollmentQuintileHRA_CR,
       ]);
 
       // Set chart titles with options
       const chartOptionsHRA_CR = {
-        title: 'Coding Intensity Quintile vs. National Enrollment Due to HRAs and CRs',
+        title:
+          'Coding Intensity Quintile vs. National Enrollment Due to HRAs and CRs',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
@@ -452,11 +435,12 @@ export default function Data() {
         <h1 className="text-4xl text-primary">View Data Visualizations</h1>
         <p className="pt-5 text-lg text-primary">
           Graphs display coding intensity of different parent organization
-          contracts based on health risk assessments (HRAs) and chart reviews (CRs).{' '}
+          contracts based on health risk assessments (HRAs) and chart reviews
+          (CRs).{' '}
         </p>
         <hr className="border-3 mt-3 border border-primary opacity-75" />
       </div>
-      <div className="menu flex items-center">
+      <div className="menu flex flex-wrap items-center">
         <p className="mr-2 text-lg text-primary">Year:</p>
         <select
           className="mr-2 rounded border-2 p-2"
@@ -479,56 +463,57 @@ export default function Data() {
         >
           <option value="Select Dataset">Select Dataset</option>
           <option value="Quintile vs. Mean Due to HRAs">
-          Quintile vs. Mean Due to HRAs
+            Quintile vs. Mean Due to HRAs
           </option>
           <option value="Quintile vs. Mean Due to HRAs and CRs">
-          Quintile vs. Mean Due to HRAs and CRs
+            Quintile vs. Mean Due to HRAs and CRs
           </option>
           <option value="Mean vs. National Enrollment Due to HRAs">
-          Mean vs. National Enrollment Due to HRAs
+            Mean vs. National Enrollment Due to HRAs
           </option>
           <option value="Quintile vs. National Enrollment Due to HRAs">
-          Quintile vs. National Enrollment Due to HRAs
+            Quintile vs. National Enrollment Due to HRAs
           </option>
           <option value="Mean vs. National Enrollment Due to HRAs and CRs">
-          Mean vs. National Enrollment Due to HRAs and CRs
+            Mean vs. National Enrollment Due to HRAs and CRs
           </option>
           <option value="Quintile vs. National Enrollment Due to HRAs and CRs">
-          Quintile vs. National Enrollment Due to HRAs and CRs
+            Quintile vs. National Enrollment Due to HRAs and CRs
           </option>
           {/* Add more dataset options as needed */}
         </select>
-        <button
-          className="font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline-none"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
+        <div className="submit-button">
+          <button
+            className="font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline-none"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
       </div>
 
       {showDataVis && (
-        <div className="graph-vis flex flex-row">
-          <div className="left flex items-start justify-start">
-            <Chart
-              chartType="ScatterChart"
-              data={graphingData}
-              options={options}
-              chartPackages={['corechart', 'controls', 'charteditor']}
-              getChartEditor={({ chartEditor, chartWrapper, google }) => {
-                setChartEditor(chartEditor);
-                setChartWrapper(chartWrapper);
-                setGoogle(google);
-              }}
-            />
-          </div>
-          <div className="right flex items-start justify-start">
-            <button
-              className="focus:shadow-outline font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline"
-              onClick={onEditClick}
-              style={{ marginTop: '4.5rem', marginLeft: '3rem' }}
-            >
-              Edit Chart
-            </button>
+        <div className="graph-vis flex flex-row items-center justify-start">
+          <div className="flex items-start justify-start">
+            <div className="relative-container">
+              <Chart
+                chartType="ScatterChart"
+                data={graphingData}
+                options={options}
+                chartPackages={['corechart', 'controls', 'charteditor']}
+                getChartEditor={({ chartEditor, chartWrapper, google }) => {
+                  setChartEditor(chartEditor);
+                  setChartWrapper(chartWrapper);
+                  setGoogle(google);
+                }}
+              />
+              <button
+                className="button-overlay focus:shadow-outline font-regular rounded border border-gray-400 bg-gray-200 px-4 py-2 text-gray-800 hover:border-gray-500 hover:bg-gray-100 focus:outline-none"
+                onClick={onEditClick}
+              >
+                Edit
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -1,9 +1,21 @@
-h1 {
-    font-family: circular-std, 'sans-serif';
-    font-size: 2rem;
-    padding-left: 5rem;
+
+.graph-vis {
+    display: flex;
+    justify-content: center;
+  }
+
+.chart {
+    margin-left: -2rem;
 }
 
-button {
-    border: 1px solid black;
-}
+.relative-container {
+    position: relative;
+  }
+  
+  .button-overlay {
+    position: absolute;
+    top: 30px; /* Adjust the top position as needed */
+    right: 135px; /* Adjust the right position as needed */
+    width: 1rem;
+    height: 2rem;
+  }
