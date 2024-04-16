@@ -12,8 +12,13 @@
   
   .button-overlay {
     position: absolute;
-    top: 30px; /* Adjust the top position as needed */
+    top: 35px; /* Adjust the top position as needed */
     right: 135px; /* Adjust the right position as needed */
-    width: 1rem;
-    height: 2rem;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.25rem;
+  }
+
+  .button-overlay img{
+    height: 1.4rem;
   }
