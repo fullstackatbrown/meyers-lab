@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
+  Chart,
   GoogleChartEditor,
   GoogleChartWrapper,
   GoogleViz,
-  Chart,
 } from 'react-google-charts';
 import './page.css';
 
@@ -37,6 +37,10 @@ export default function Data() {
     google.visualization.events.addListener(chartEditor, 'ok', () => {
       const newChartWrapper = chartEditor.getChartWrapper();
 
+      // Set the width and height of the chart wrapper
+      newChartWrapper.setOption('width', 800);
+      newChartWrapper.setOption('height', 400);
+
       newChartWrapper.draw();
 
       const newChartOptions = newChartWrapper.getOptions();
@@ -44,8 +48,10 @@ export default function Data() {
 
       console.log('Chart type changed to ', newChartType);
       console.log('Chart options changed to ', newChartOptions);
+
     });
   };
+
 
   const handleSubmit = () => {
     if (selectedDataset === 'Select Dataset') {
