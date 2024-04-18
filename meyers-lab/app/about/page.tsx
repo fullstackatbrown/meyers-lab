@@ -83,13 +83,13 @@ export default function About() {
           across MA plans. This will allow us to measure how much excess spending in the MA program may be due 
           to coding differences. </p>
         </div>
-    
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="w-1/2 h-1 bg-primary mx-auto"></div>
+        <div className="mt-[50px] grid grid-cols-1 md:grid-cols-3 gap-12">
           {teamMembers.map((member) => (
             <div key={member.id} className="flex flex-col items-start">
               <img src={member.img_url} alt='' className="w-32 h-32 object-cover rounded-full mb-2 bg-[#F0F0F0]" />
               <div className="mt-2">
-                <h3 className="text-xl font-semibold font-circ-std mb-4">{member.name}</h3>
+                <h3 className="text-xl text-primary font-semibold font-circ-std mb-4">{member.name}</h3>
                 <p className="text-md">{member.bio}</p>
               </div>
             </div>
