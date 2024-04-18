@@ -39,7 +39,7 @@ export default function Page() {
       {/* Purpose section */}
       <div className="mx-24 my-[5vh] min-h-[10vh] p-4 text-2xl font-bold">
         <h1> Our purpose </h1>
-        <div className="my-[5vh] min-h-[10vh] w-1/2 text-xl font-normal">
+        <div className="mt-[5vh] min-h-[10vh] w-1/2 text-xl font-normal">
           <h1>
             The overall objective of this project is to better understand how
             the Medicare Advantage (MA) program impacts spending through
@@ -89,9 +89,9 @@ export default function Page() {
       </div>
 
       {/* Methodology section */}
-      <div className=" my-[5vh] flex min-h-[10vh] w-screen justify-end bg-gray-200 p-4">
+      <div className=" mt-[5vh] flex min-h-[10vh] w-screen justify-end bg-gray-200 p-4">
         <div className="mx-24 my-[5vh] w-1/2 text-right text-2xl font-bold">
-          <h1> Methodology? </h1>
+          <h1> Methodology</h1>
           <div className="my-[5vh] min-h-[10vh] text-xl font-normal">
             <h1>
               We will use five different methods to compare plan level coding
