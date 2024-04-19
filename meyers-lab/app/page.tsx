@@ -1,5 +1,5 @@
 'use client';
-
+import { RecoilRoot } from 'recoil';
 import React, { useState, useEffect } from 'react';
 
 export default function Page() {

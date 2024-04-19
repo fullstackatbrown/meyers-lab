@@ -21,6 +21,14 @@ import {
   doc,
   getDoc,
 } from 'firebase/firestore';
+import {
+  atom,
+  RecoilRoot,
+  useSetRecoilState,
+  useRecoilValue,
+  useRecoilState,
+} from 'recoil';
+import { admin } from '../Atom';
 
 /**
  * Auth object that is shared between firestore authentication and database.
@@ -35,9 +43,25 @@ interface authProps {
  * @returns firebase auth ui component
  */
 export default function AuthEmail(props: authProps) {
+  const [isAdmin, setAdmin] = useRecoilState(admin);
+
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_LOGIN_API_KEY,
+    authDomain: 'meyers-lab.firebaseapp.com',
+    projectId: 'meyers-lab',
+    storageBucket: 'meyers-lab.appspot.com',
+    messagingSenderId: process.env.REACT_APP_MSG,
+    appId: process.env.REACT_APP_APP,
+    measurementId: process.env.REACT_APP_MSR,
+  };
+
+  var app = firebase.initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  const auth = firebase.auth();
 
   var uiConfig = {
-    signInSuccessUrl: '/adminDashboard',
+    // signInSuccessUrl: '/adminDash',
+    //popup
     signInFlow: 'popup',
     signInOptions: [
       {
@@ -45,10 +69,10 @@ export default function AuthEmail(props: authProps) {
         clientId: `${process.env.NEXT_PUBLIC_CLIENT_ID}`,
         requireDisplayName: false,
       },
-      {
-        provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        requireDisplayName: false,
-      },
+      // {
+      //   provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      //   requireDisplayName: false,
+      // },
     ],
     credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO,
     tosUrl: 'your terms of service url',
@@ -56,18 +80,33 @@ export default function AuthEmail(props: authProps) {
     privacyPolicyUrl: function () {
       window.location.assign('<your-privacy-policy-url>');
     },
-    // callbacks: {
-    //   signInSuccessWithAuthResult: (
-    //     authObject: firebase.auth.UserCredential,
-    //     redirectURL?: string,
-    //   ) => {
-    //     window.setTimeout(() => {
-    //       window.location.assign('/adminDashboard');
-    //     }, 2000);
+    callbacks: {
+      signInSuccessWithAuthResult: (
+        authResult: firebase.auth.UserCredential,
+        redirectURL?: string,
+      ) => {
+        // You can add your own logic here if needed after a successful sign-in
 
-    //     return false;
-    //   },
-    // },
+        if (authResult.user) {
+          const userId = authResult.user.uid;
+          const email = authResult.user.email;
+          if (email) {
+            const document = doc(firestore, 'users', email);
+            getDoc(document).then((gotDoc) => {
+              if (gotDoc.exists()) {
+                setAdmin(true);
+                return true;
+              }
+            });
+          }
+        }
+        // console.log('User signed in:', authResult.user);
+
+        // Return false to prevent a redirect
+        window.location.assign('/admin');
+        return false;
+      },
+    },
   };
 
   useEffect(() => {

@@ -1,5 +1,9 @@
-import NavHeader from './ui/nav-header'
+'use client';
+import NavHeader from './ui/nav-header';
 import '@/app/ui/global.css';
+import { RecoilRoot } from 'recoil';
+import { GlobalStateProvider } from './createContext';
+import { recoilPersist } from 'recoil-persist';
 
 
 export default function RootLayout({
@@ -8,13 +12,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`antialiased`}>
-        <NavHeader />
-        <div>
-          {children}
-        </div>
-      </body>
-    </html>
+    <RecoilRoot>
+      
+
+          
+      <html lang="en">
+        <body className={`antialiased`}>
+          <NavHeader />
+          <div>
+            {/* <RecoilRoot> */}
+            {children}
+            {/* </RecoilRoot> */}
+          </div>
+        </body>
+      </html>
+        
+    </RecoilRoot>
+    
   );
 }
