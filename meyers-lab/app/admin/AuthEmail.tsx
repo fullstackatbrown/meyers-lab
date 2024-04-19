@@ -55,6 +55,7 @@ export default function AuthEmail(props: authProps) {
     measurementId: process.env.REACT_APP_MSR,
   };
 
+
   var app = firebase.initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
   const auth = firebase.auth();

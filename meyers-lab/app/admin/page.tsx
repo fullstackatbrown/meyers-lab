@@ -29,7 +29,7 @@ import {
   useRecoilValue,
   useRecoilState,
 } from 'recoil';
-import { admin } from '../Atom';
+import { admin, current } from '../Atom';
 // import Router from 'next/navigation';
 import { useGlobalState } from '../createContext';
 import { recoilPersist } from 'recoil-persist';
@@ -47,7 +47,7 @@ export default function Page() {
   // var isAdmin = useRecoilValue(admin);
   // var setAdmin = useSetRecoilState(admin);
   const [isAdmin, setAdmin] = useRecoilState(admin);
-
+  const [currentUser, setCurrentUser] = useRecoilState(current);
   const [name, setName] = useState<string>('');
 
   const firebaseConfig = {
@@ -59,6 +59,7 @@ export default function Page() {
     appId: process.env.REACT_APP_APP,
     measurementId: process.env.REACT_APP_MSR,
   };
+
 
   var app = firebase.initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
@@ -83,6 +84,7 @@ export default function Page() {
           getDoc(document).then((gotDoc) => {
             if (gotDoc.exists()) {
               setAdmin(gotDoc.data().admin);
+              setCurrentUser(email);
             }
           });
           // const data = {
