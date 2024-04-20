@@ -31,26 +31,39 @@ export default function Data() {
     if (!chartWrapper || !google || !chartEditor) {
       return;
     }
+    console.log('Chart options are ', chartWrapper.getOptions());
 
     chartEditor.openDialog(chartWrapper);
 
     google.visualization.events.addListener(chartEditor, 'ok', () => {
       const newChartWrapper = chartEditor.getChartWrapper();
-
+    
       // Set the width and height of the chart wrapper
       newChartWrapper.setOption('width', 800);
       newChartWrapper.setOption('height', 400);
+    
+      // Get the DataTable associated with the chart
+      const dataTable = newChartWrapper.getDataTable();
+      
+      if (dataTable) {
+        const numberOfColumns = dataTable.getNumberOfColumns();
+        if (numberOfColumns > 1) { // Check if the annotations column is present
+          dataTable.removeColumn(numberOfColumns-1)
+        }
+      }
 
       newChartWrapper.draw();
-
+    
       const newChartOptions = newChartWrapper.getOptions();
       const newChartType = newChartWrapper.getChartType();
-
+    
       console.log('Chart type changed to ', newChartType);
       console.log('Chart options changed to ', newChartOptions);
-
+    
     });
+
   };
+
 
 
   const handleSubmit = () => {
@@ -61,6 +74,7 @@ export default function Data() {
       setShowDataVis(true); // Show the Chart component
     }
   };
+
 
   useEffect(() => {
     const updateHeaderHeight = () => {

@@ -22,3 +22,7 @@
   .button-overlay img{
     height: 1.4rem;
   }
+
+#google-visualization-errors-all-1 {
+  display: none !important;
+}
