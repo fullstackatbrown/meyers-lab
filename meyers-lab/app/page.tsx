@@ -20,7 +20,7 @@ export default function Page() {
     return () => window.removeEventListener('resize', updateHeaderHeight);
   }, []);
   return (
-    <main className="flex h-full min-h-screen w-full flex-col">
+    <main className="flex h-full min-h-screen w-full flex-col relative">
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       {/* Image section and text overlay */}
       <div className="relative min-h-[55vh] w-full">
@@ -33,10 +33,12 @@ export default function Page() {
           style={{ height: '55vh', width: '100%', objectFit: 'cover' }}
         ></img>
         <div
-          className=" m-[-15vh] p-4 text-center text-4xl font-bold text-white"
+          className=" m-[-15vh] p-4 text-center text-4xl font-bold"
           style={{}}
         >
-          Welcome to the landing page of the coding intensity report card!
+        <span
+          className='relative text-white text-center bg-black bg-opacity-80 p-4 block'
+        >Welcome to the landing page of the coding intensity report card!</span>
         </div>
       </div>
 
