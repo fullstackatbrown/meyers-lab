@@ -103,7 +103,7 @@ export default function Download() {
     }, []);
 
     return (
-    <div className="h-full min-h-screen w-full px-6">
+    <div className="h-full min-h-screen w-full">
         {/* Dynamic spacer based on header height */}
         <div style={{ minHeight: `${headerHeight}px` }}></div>
 
