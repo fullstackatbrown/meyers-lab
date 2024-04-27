@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import ReCAPTCHA from "react-google-recaptcha"
+import { verifyCaptcha } from "./ServerActions"
 
-function TxtArea() {
-    return (<textarea></textarea>)
-}
+import React, { useState, useEffect, useRef } from 'react';
+
+process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 
 function FormElt({ label, name, type }: { label: string, name: string, type: string }) {
     let inputElt;
@@ -23,6 +24,69 @@ function FormElt({ label, name, type }: { label: string, name: string, type: str
     );
 }
 
+function Form() {
+
+    const recaptchaRef = useRef<ReCAPTCHA>(null)
+    const [isVerified, setIsverified] = useState<boolean>(false)
+
+    async function handleCaptchaSubmission(token: string | null) {
+        // Server function to verify captcha
+        await verifyCaptcha(token)
+        .then(() => setIsverified(true))
+        .catch(() => setIsverified(false))
+    }
+
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzCxfzdO0JkMVIjt3-ynby9SHyQfyALYgLFgo2rXA2AHA_Y3Cck99nJUgrFrgUBqguA/exec"
+    const [formdone, setFormdone] = useState(false);
+
+    const redirect = () => {
+        //setFormdone(true);
+    }
+
+    const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit" onClick={redirect}
+    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
+    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
+
+    return formdone ? 
+    <div>
+        <div className="text-3xl"></div>
+    </div> : (
+        <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
+            <div id="explanation" className="mb-8 text-lg">
+                Fill out the form to request a download link.
+            </div>
+            <div className="flex text-center">   
+                <FormElt label="First Name: " name="first-name" type="text" />
+                <FormElt label="Last Name: " name="last-name" type="text" />
+            </div>
+            
+            <FormElt label="Email: *" name="email" type="text" />
+            <FormElt label="Institution/Affiliation: *" name="org" type="text"/>
+            <FormElt label="Reason for Downloading: *" name="reason" type="text"/>
+
+            <FormElt label="Plan to Merge with Another Source?" name="merge" type="area"/>
+            <FormElt label="How did you hear about us?" name="hear" type="area"/>
+
+            <div className="flex px-2 items-start">
+                <input type="checkbox" name="mail" className="flex mr-5 mt-[5px] w-5 h-5" />
+                <span>Join Our Mailing List?</span>
+            </div>
+
+            <div className="flex px-2 items-start">
+                <input className="flex mr-5 mt-[5px] w-5 h-5" type="checkbox" name="tos" required/>
+                <span>By downloading our data you agree ...</span>
+            </div>
+            <div className="mb-5"></div>
+            <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                ref={recaptchaRef}
+                onChange={handleCaptchaSubmission}
+            />
+            {submitBtn}
+        </form>
+    )
+}
+
 export default function Download() {
     const [headerHeight, setHeaderHeight] = useState(0);
 
@@ -39,7 +103,7 @@ export default function Download() {
     }, []);
 
     return (
-    <div className="h-full min-h-screen w-full px-6">
+    <div className="h-full min-h-screen w-full">
         {/* Dynamic spacer based on header height */}
         <div style={{ minHeight: `${headerHeight}px` }}></div>
 
@@ -48,37 +112,10 @@ export default function Download() {
             <div id="title-text" className="mt-10 mb-4 text-4xl font-bold">
                 Data Download
             </div>
-            <div id="explanation" className="mb-8 text-lg">
-                Fill out the form to request a download link to be sent to you by email.
-            </div>
             <div className="flex justify-center">
-            <form id="data-form" action="/" method="POST" className="w-1/2 text-left">
-                <div className="flex text-center">   
-                    <FormElt label="First Name: " name="first-name" type="text" />
-                    <FormElt label="Last Name: " name="last-name" type="text" />
-                </div>
-                
-                <FormElt label="Email: *" name="email" type="text" />
-                <FormElt label="Institution/Affiliation: *" name="org" type="text"/>
-                <FormElt label="Reason for Downloading: *" name="reason" type="text"/>
-
-                <FormElt label="Plan to Merge with Another Source?" name="merge" type="area"/>
-                <FormElt label="How did you hear about us?" name="hear" type="area"/>
-
-                <div className="flex px-2 items-start">
-                    <input type="checkbox" name="mail" className="flex mr-5 mt-[5px] w-5 h-5" />
-                    <span>Join Our Mailing List?</span>
-                </div>
-
-                <div className="flex px-2 items-start">
-                    <input className="flex mr-5 mt-[5px] w-5 h-5" type="checkbox" name="tos" required/>
-                    <span>By downloading our data you agree ...</span>
-                </div>
-
-                <input id="submit" type="submit" value="Submit" 
-                className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
-            </form>
+            <Form/>
             </div>
         </div>
     </div>);
 }
+
