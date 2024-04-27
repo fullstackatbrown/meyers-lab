@@ -45,9 +45,6 @@ function Form() {
 
     return (
         <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
-            <div id="explanation" className="mb-8 text-lg">
-                Fill out the form to request a download link.
-            </div>
             <div className="flex text-center">   
                 <FormElt label="First Name: " name="first-name" type="text" />
                 <FormElt label="Last Name: " name="last-name" type="text" />
@@ -104,7 +101,11 @@ export default function Download() {
         <div id="content" className="text-center p-5">
             <div id="title-text" className="mt-1 mb-4 text-4.5xl-responsive font-bold text-primary">
                 Data Download
+                <div id="explanation" className="mb-8 text-lg">
+                    Fill out the form to request a download link.
+                </div>
             </div>
+            
             <div className="flex justify-center">
             <Form/>
             </div>
