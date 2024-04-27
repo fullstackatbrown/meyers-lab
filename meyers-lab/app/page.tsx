@@ -29,7 +29,7 @@ export default function Page() {
             alt="Brown University"
             style={{ height: '55vh', width: '100%', objectFit: 'cover' }}
           />
-          <div className="mt-[-15vh] p-4 text-center text-4xl font-bold text-white">
+          <div className="mt-[-16vh] p-4 text-center text-4xl font-bold text-white">
             Welcome to the landing page of the coding intensity report card!
           </div>
         </div>
