@@ -99,9 +99,9 @@ export default function Download() {
 
         {/* Site content */}
         <div id="content" className="text-center p-5">
-            <div id="title-text" className="mt-1 mb-4 text-4.5xl-responsive font-bold text-primary font-circ-std">
+            <div id="title-text" className="mt-5 mb-4 text-4.5xl-responsive font-bold text-primary font-circ-std">
                 Data Download
-                <div id="explanation" className="mb-8 text-lg font-mp">
+                <div id="explanation" className="mb-8 text-lg font-mp font-normal text-black">
                     Fill out the form to request a download link.
                 </div>
             </div>
