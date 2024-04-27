@@ -36,7 +36,7 @@ function Form() {
         .catch(() => setIsverified(false))
     }
 
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbwmMrQboatUtxGeF5Sn1stJEBuMds_dOZ4ih5_ija7m-oyb8VJFpmNYDfDvGBVg9PB1/exec"
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzCxfzdO0JkMVIjt3-ynby9SHyQfyALYgLFgo2rXA2AHA_Y3Cck99nJUgrFrgUBqguA/exec"
     const [formdone, setFormdone] = useState(false);
 
     const redirect = () => {
