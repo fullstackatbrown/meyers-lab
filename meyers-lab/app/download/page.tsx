@@ -106,7 +106,6 @@ export default function Download() {
                 Data Download
             </div>
             <div className="flex justify-center">
-            <iframe name="dummyframe" id="dummyframe" className="hidden"></iframe>
             <Form/>
             </div>
         </div>
