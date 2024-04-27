@@ -123,7 +123,7 @@ export default function Methods() {
         />
         <button
           className="focus:shadow-outline rounded bg-primary-red px-4 py-2 font-bold text-white hover:bg-primary-red_light 
-          focus:outline-none"
+          focus:outline-none font-circ-std"
           onClick={triggerFileInput}
         >
           Upload PDF

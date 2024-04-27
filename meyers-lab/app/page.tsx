@@ -24,19 +24,15 @@ export default function Page() {
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       {/* Image section and text overlay */}
       <div className="relative min-h-[55vh] w-full">
-        <img
-          //placeholder image(s)
-          // src="http://bonner.pbworks.com/f/1494266349/Brown%20University%20Campus%20Photo.jpg"
-          // src="https://media.licdn.com/dms/image/C4E1BAQEOUCzmh7KK1Q/company-background_10000/0/1584426172670/brown_ucs_cover?e=1713610800&v=beta&t=yxlO96NxXO6Bj7-suabUSxpFQ3tCw3WDyqwS3AlgYl4"
-          src="https://www.brown.edu/university-communications/sites/university-communications/files/238707_COVD_Zoom_summer_4.jpg"
-          alt="Brown University"
-          style={{ height: '55vh', width: '100%', objectFit: 'cover' }}
-        ></img>
-        <div
-          className=" m-[-15vh] p-4 text-center text-4xl font-bold text-white"
-          style={{}}
-        >
-          Welcome to the landing page of the coding intensity report card!
+        <div className="relative">
+          <img
+            src="https://www.brown.edu/university-communications/sites/university-communications/files/238707_COVD_Zoom_summer_4.jpg"
+            alt="Brown University"
+            style={{ height: '55vh', width: '100%', objectFit: 'cover' }}
+          />
+          <div className="mt-[-20vh] p-4 text-center text-4xl font-bold text-white">
+            Welcome to the landing page of the coding intensity report card!
+          </div>
         </div>
       </div>
 
@@ -85,10 +81,10 @@ export default function Page() {
       </div>
 
       {/* Instructions section */}
-      <div className="mx-24 my-[5vh] min-h-[10vh] p-4 text-2xl font-bold">
+      <div className="mx-24 my-[5vh] min-h-[10vh] p-4  w-1/2 text-2xl font-bold">
         <h1> Instructions </h1>
         <div className="my-[5vh] min-h-[10vh] text-xl font-normal">
-          <h1></h1>
+          <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h1>
         </div>
       </div>
 
