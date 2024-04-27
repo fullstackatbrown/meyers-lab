@@ -1,0 +1,24 @@
+
+.graph-vis {
+    display: flex;
+    justify-content: center;
+  }
+
+
+.relative-container {
+    position: relative;
+    margin-left: -4rem;
+  }
+  
+  .button-overlay {
+    position: absolute;
+    top: 35px; /* Adjust the top position as needed */
+    right: 135px; /* Adjust the right position as needed */
+    width: fit-content;
+    height: fit-content;
+    padding: 0.25rem;
+  }
+
+  .button-overlay img{
+    height: 1.4rem;
+  }

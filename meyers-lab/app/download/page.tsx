@@ -18,7 +18,7 @@ function FormElt({ label, name, type }: { label: string, name: string, type: str
     }
     return (
         <div className="p-2 w-full">
-            <div className="text-left text-xl">{label}</div>
+            <div className="text-left text-lg">{label}</div>
             {inputElt}
         </div>
     );
@@ -39,18 +39,11 @@ function Form() {
     const scriptUrl = "https://script.google.com/macros/s/AKfycbzCxfzdO0JkMVIjt3-ynby9SHyQfyALYgLFgo2rXA2AHA_Y3Cck99nJUgrFrgUBqguA/exec"
     const [formdone, setFormdone] = useState(false);
 
-    const redirect = () => {
-        //setFormdone(true);
-    }
-
-    const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit" onClick={redirect}
+    const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit"
     className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
     className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
 
-    return formdone ? 
-    <div>
-        <div className="text-3xl"></div>
-    </div> : (
+    return (
         <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
             <div id="explanation" className="mb-8 text-lg">
                 Fill out the form to request a download link.
@@ -109,13 +102,14 @@ export default function Download() {
 
         {/* Site content */}
         <div id="content" className="text-center p-5">
-            <div id="title-text" className="mt-10 mb-4 text-4xl font-bold">
+            <div id="title-text" className="mt-1 mb-4 text-4.5xl-responsive font-bold text-primary">
                 Data Download
             </div>
             <div className="flex justify-center">
             <Form/>
             </div>
         </div>
+        <div className="mb-[5vh]"></div>
     </div>);
 }
 
