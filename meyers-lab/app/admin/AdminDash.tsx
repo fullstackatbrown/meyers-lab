@@ -12,6 +12,7 @@ import {
   Auth,
   GoogleAuthProvider,
   signInWithPopup,
+  signOut,
 } from 'firebase/auth';
 import {
   getFirestore,
@@ -20,7 +21,8 @@ import {
   setDoc,
   doc,
   getDoc,
-  getDocs, deleteDoc
+  getDocs,
+  deleteDoc,
 } from 'firebase/firestore';
 import {
   atom,
@@ -32,26 +34,29 @@ import {
 import { admin, current } from '../Atom';
 
 export default function AdminDash() {
-    
-    const firebaseConfig = {
-      apiKey: process.env.REACT_APP_LOGIN_API_KEY,
-      authDomain: 'meyers-lab.firebaseapp.com',
-      projectId: 'meyers-lab',
-      storageBucket: 'meyers-lab.appspot.com',
-      messagingSenderId: process.env.REACT_APP_MSG,
-      appId: process.env.REACT_APP_APP,
-      measurementId: process.env.REACT_APP_MSR,
-    };
+
+  const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
+    authDomain: 'meyers-lab.firebaseapp.com',
+    projectId: 'meyers-lab',
+    storageBucket: 'meyers-lab.appspot.com',
+    messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
+    appId: process.env.NEXT_PUBLIC_APP_APP,
+    measurementId: process.env.NEXT_PUBLIC_APP_MSR,
+  };
+
+
 
   var app = firebase.initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
-  const auth = firebase.auth();
+  const auth = getAuth();
 
   const [addEmail, setAddEmail] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [emails, setEmails] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useRecoilState(current);
+  const [isAdmin, setAdmin] = useRecoilState(admin);
 
   const handleAddEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddEmail(event.target.value);
@@ -74,13 +79,21 @@ export default function AdminDash() {
     }
   };
 
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        setAdmin(false);
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   const handleRemove = (id: string) => {
     console.log(`Removing item with ID: ${id}`);
 
     const document = doc(firestore, 'users', id);
-    deleteDoc(document).then(() => {
-
-    });
+    deleteDoc(document).then(() => {});
 
     setEmails((prevEmails) => prevEmails.filter((email) => email !== id));
   };
@@ -118,69 +131,81 @@ export default function AdminDash() {
     getAllEmails();
   }, [emails]);
 
-    useEffect(() => {
-      console.log(currentUser);
-    }, []);
+  useEffect(() => {
+    console.log(currentUser);
+  }, []);
 
   return (
-    <div className="flex h-screen justify-center">
-      <div className="font-circ-std">
-        <div className="mb-6 mt-10">
-          You have signed in successfully. Add additional admin users below.
-        </div>
+    <div className="font-circ-std">
+      <div>
+        <button
+          className="ml-8 flex-shrink-0 rounded border-2 border-primary-red bg-primary-red px-2 py-1 text-xs text-white hover:border-red-600 hover:bg-red-600"
+          type="button"
+          onClick={logOut}
+        >
+          Log Out
+        </button>
+      </div>
 
-        {/* <button className="button-overlay focus:shadow-outline font-regular rounded border border-gray-400 bg-gray-200 px-4 py-2 text-gray-800 hover:border-gray-500 hover:bg-gray-100 focus:outline-none">
+      <div className="flex h-screen justify-center">
+        <div className="font-circ-std">
+          <div className="mb-6 mt-10">
+            You have signed in successfully. Add additional admin users below.
+          </div>
+
+          {/* <button className="button-overlay focus:shadow-outline font-regular rounded border border-gray-400 bg-gray-200 px-4 py-2 text-gray-800 hover:border-gray-500 hover:bg-gray-100 focus:outline-none">
         Add Admin
       </button> */}
-        <form className="mb-10 w-full max-w-lg">
-          <div className="flex items-center border-b border-primary-red py-2">
-            <input
-              className="mr-3 w-full appearance-none border-none bg-transparent px-2 py-1 leading-tight focus:outline-none"
-              type="text"
-              placeholder="Enter email here"
-              aria-label="Email"
-              value={addEmail}
-              onChange={handleAddEmail}
-              onKeyDown={handleKeyDown}
-            />
-            <button
-              className="flex-shrink-0 rounded border-4 border-primary-red bg-primary-red px-2 py-1 text-sm text-white hover:border-red-600 hover:bg-red-600"
-              type="button"
-              onClick={submitAdmin}
-            >
-              Add admin member
-            </button>
-          </div>
-          {successMessage && (
-            <div className="mt-2 text-green-600">{successMessage}</div>
-          )}
-          {errorMessage && (
-            <div className="mt-2 text-red-600">{errorMessage}</div>
-          )}
-        </form>
-
-        <div className="mb-4 text-lg text-primary-red">
-          Current admin members:
-        </div>
-
-        <div>
-          <div>
-            {emails.length > 0 ? (
-              emails.map((id) => (
-                <div className="mb-4" key={id}>
-                  {id}
-                  <button
-                    className="ml-8 flex-shrink-0 rounded border-2 border-primary-red bg-primary-red px-2 py-1 text-xs text-white hover:border-red-600 hover:bg-red-600"
-                    type="button"
-                    onClick={() => handleRemove(id)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))
-            ) : (
-              <div>No document IDs found.</div>
+          <form className="mb-10 w-full max-w-lg">
+            <div className="flex items-center border-b border-primary-red py-2">
+              <input
+                className="mr-3 w-full appearance-none border-none bg-transparent px-2 py-1 leading-tight focus:outline-none"
+                type="text"
+                placeholder="Enter email here"
+                aria-label="Email"
+                value={addEmail}
+                onChange={handleAddEmail}
+                onKeyDown={handleKeyDown}
+              />
+              <button
+                className="flex-shrink-0 rounded border-4 border-primary-red bg-primary-red px-2 py-1 text-sm text-white hover:border-red-600 hover:bg-red-600"
+                type="button"
+                onClick={submitAdmin}
+              >
+                Add admin member
+              </button>
+            </div>
+            {successMessage && (
+              <div className="mt-2 text-green-600">{successMessage}</div>
             )}
+            {errorMessage && (
+              <div className="mt-2 text-red-600">{errorMessage}</div>
+            )}
+          </form>
+
+          <div className="mb-4 text-lg text-primary-red">
+            Current admin members:
+          </div>
+
+          <div>
+            <div>
+              {emails.length > 0 ? (
+                emails.map((id) => (
+                  <div className="mb-4" key={id}>
+                    {id}
+                    <button
+                      className="ml-8 flex-shrink-0 rounded border-2 border-primary-red bg-primary-red px-2 py-1 text-xs text-white hover:border-red-600 hover:bg-red-600"
+                      type="button"
+                      onClick={() => handleRemove(id)}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div>No document IDs found.</div>
+              )}
+            </div>
           </div>
         </div>
       </div>

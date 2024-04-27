@@ -51,13 +51,13 @@ export default function Page() {
   const [name, setName] = useState<string>('');
 
   const firebaseConfig = {
-    apiKey: process.env.REACT_APP_LOGIN_API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
     authDomain: 'meyers-lab.firebaseapp.com',
     projectId: 'meyers-lab',
     storageBucket: 'meyers-lab.appspot.com',
-    messagingSenderId: process.env.REACT_APP_MSG,
-    appId: process.env.REACT_APP_APP,
-    measurementId: process.env.REACT_APP_MSR,
+    messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
+    appId: process.env.NEXT_PUBLIC_APP_APP,
+    measurementId: process.env.NEXT_PUBLIC_APP_MSR,
   };
 
 
@@ -122,7 +122,7 @@ export default function Page() {
     <div>
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       {isAdmin ? (
-        <AdminDash/>
+        <AdminDash />
       ) : (
         // Render this block if isAdmin is false
         <div>
