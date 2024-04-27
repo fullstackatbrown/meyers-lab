@@ -27,16 +27,16 @@ export default function Page() {
           <img
             src="./brown-campus.png"
             alt="Brown University"
-            style={{ height: '57vh', width: '100%', objectFit: 'cover' }}
+            style={{ height: '62vh', width: '100%', objectFit: 'cover' }}
           />
-          <div className="mt-[-15vh] p-4 text-center text-4xl font-bold text-white">
+          <div className="mt-[-16vh] p-4 text-center text-4xl font-bold text-white">
             Welcome to the landing page of the coding intensity report card!
           </div>
         </div>
       </div>
 
       {/* Purpose section */}
-      <div className="mx-24 my-[5vh] min-h-[10vh] p-4 text-2xl font-bold">
+      <div className="mx-24 my-[10vh] min-h-[10vh] p-4 text-2xl font-bold">
         <h1> Our purpose </h1>
         <div className="mt-[5vh] min-h-[10vh] w-1/2 text-xl font-normal">
           <h1>
