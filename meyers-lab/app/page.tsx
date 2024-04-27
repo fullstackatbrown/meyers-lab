@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Footer from './ui/footer';
 
 export default function Page() {
   const [headerHeight, setHeaderHeight] = useState(0);
@@ -26,11 +25,11 @@ export default function Page() {
       <div className="relative min-h-[55vh] w-full">
         <div className="relative">
           <img
-            src="https://www.brown.edu/university-communications/sites/university-communications/files/238707_COVD_Zoom_summer_4.jpg"
+            src="./brown-campus.png"
             alt="Brown University"
             style={{ height: '55vh', width: '100%', objectFit: 'cover' }}
           />
-          <div className="mt-[-20vh] p-4 text-center text-4xl font-bold text-white">
+          <div className="mt-[-15vh] p-4 text-center text-4xl font-bold text-white">
             Welcome to the landing page of the coding intensity report card!
           </div>
         </div>
