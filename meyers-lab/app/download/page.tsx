@@ -18,7 +18,7 @@ function FormElt({ label, name, type }: { label: string, name: string, type: str
     }
     return (
         <div className="p-2 w-full">
-            <div className="text-left">{label}</div>
+            <div className="text-left text-xl">{label}</div>
             {inputElt}
         </div>
     );
