@@ -66,8 +66,8 @@ export default function Methods() {
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="my-[5vh] min-h-[10vh]">
-        <h1 className="pl-48 text-4xl text-primary font-bold font-circ-std">Methods</h1>
-        <p className="pl-48 text-lg text-black font-mp">Methods page blurb...</p>
+        <h1 className="text-4.5xl-responsive text-primary font-bold font-circ-std text-center mb-3">Methods</h1>
+        <p className="text-lg text-black font-mp px-[20vw]">Methods page blurb, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
       </div>
 
       {/* PDF Carousel */}
