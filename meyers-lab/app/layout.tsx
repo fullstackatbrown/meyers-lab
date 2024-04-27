@@ -1,4 +1,5 @@
 import NavHeader from './ui/nav-header'
+import Footer from './ui/footer'
 import '@/app/ui/global.css';
 
 
@@ -14,6 +15,7 @@ export default function RootLayout({
         <div>
           {children}
         </div>
+        <Footer />
       </body>
     </html>
   );
