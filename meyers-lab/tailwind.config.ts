@@ -57,3 +57,48 @@ const config: Config = {
   plugins: [],
 };
 export default config;
+
+/* Original CSS code */
+
+/* Define your original styles here */
+
+/* tailwind.css.ts */
+
+// @ts-ignore: Ignore TypeScript errors in this file as it's not TypeScript code
+/* tailwind.css.ts */
+
+// Check if we're in the browser environment
+// if (typeof document !== 'undefined') {
+//   // @ts-ignore: Ignore TypeScript errors in this file as it's not TypeScript code
+//   const css = `
+//     /* Define your original styles here */
+
+//     @media only screen and (max-width: 768px) {
+//       /* Adjust grid layout for small screens (1 item per row) */
+//       .grid-cols-1 {
+//         grid-template-columns: 1fr;
+//       }
+//     }
+
+//     @media only screen and (min-width: 769px) and (max-width: 1023px) {
+//       /* Adjust grid layout for medium screens (2 items per row) */
+//       .grid-cols-1 {
+//         grid-template-columns: 1fr 1fr;
+//       }
+//     }
+
+//     @media only screen and (min-width: 1024px) {
+//       /* Adjust grid layout for large screens (3 items per row) */
+//       .grid-cols-1 {
+//         grid-template-columns: 1fr 1fr 1fr;
+//       }
+//     }`;
+
+//   // Inject the CSS into the document
+//   const style = document.createElement('style');
+//   style.textContent = css;
+//   document.head.appendChild(style);
+// }
+
+
+
