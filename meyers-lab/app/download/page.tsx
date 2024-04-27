@@ -44,8 +44,8 @@ function Form() {
     }
 
     const submitBtn = isVerified ? <input id="submit" type="submit" value="Submit"
-    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/> : <input id="submit" type="button" value="Submit"
-    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
+    className="w-32 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg font-circ-std "/> : <input id="submit" type="button" value="Submit"
+    className="w-32 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg font-circ-std "/>
 
     return formdone ? 
     <div>
@@ -108,7 +108,7 @@ export default function Download() {
 
         {/* Site content */}
         <div id="content" className="text-center p-5">
-            <div id="title-text" className="mt-10 mb-4 text-4xl font-bold font-circ-std text-primary">
+            <div id="title-text" className="mt-10 mb-4 text-4.5xl-responsive font-bold font-circ-std text-primary">
                 Data Download
             </div>
             <div id="explanation" className="mb-8 text-lg">
@@ -119,6 +119,7 @@ export default function Download() {
             <Form/>
             </div>
         </div>
+        <div className="mb-[5vh]"></div>
     </div>);
 }
 

@@ -57,7 +57,7 @@ export default function About() {
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="my-5">
         <div className="text-center font-circ-std">
-          <h1 className="text-5xl-responsive mb-8 text-primary font-bold">About Us</h1>
+          <h1 className="text-4.5xl-responsive mb-8 mt-7 text-primary font-bold">About Us</h1>
         </div>
         <div className ="paragraphs text-lg">
           <p className="paragraph mb-8 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-mp">
