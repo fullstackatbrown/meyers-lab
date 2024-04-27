@@ -25,6 +25,7 @@ export default function RootLayout({
             {children}
             {/* </RecoilRoot> */}
           </div>
+          <Footer/>
         </body>
       </html>
         
