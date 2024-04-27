@@ -1,9 +1,11 @@
-# meyers-lab
+# [https://meyers-lab.vercel.app/](https://meyers-lab.vercel.app/)
+
+FOR DEVS - BECAUSE NEXT.JS NESTED THE PAGE INSIDE THE REPO, make sure to cd into meyers-lab when cloning or opening the repo
 
 In this site, we are planning to to build a research page and online index for the coding intensity report card website, which seeks to evaluate and highlight  patient diagnosis "scores" for private insurance companies under Medicare. Our website will contain the following pages:
 
 ## Pages
-1. Home page - Tk
+1. Home page - Basic information about the lab and their mission
 2. Methods page – Lists different methods and processes to arrive at conclusions/scores for insurance companies and their practices--> requires the ability to be updated with new pdf forms
 3. Data visualization page — Tableau / Google sheets
 4. Download data page — make the data downloadable after filling form & captcha

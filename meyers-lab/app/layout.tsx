@@ -1,5 +1,6 @@
 'use client';
-import NavHeader from './ui/nav-header';
+import NavHeader from './ui/nav-header'
+import Footer from './ui/footer'
 import '@/app/ui/global.css';
 import { RecoilRoot } from 'recoil';
 import { GlobalStateProvider } from './createContext';
@@ -28,6 +29,5 @@ export default function RootLayout({
       </html>
         
     </RecoilRoot>
-    
   );
 }
