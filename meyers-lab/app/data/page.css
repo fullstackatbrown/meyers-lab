@@ -18,11 +18,3 @@
     height: fit-content;
     padding: 0.25rem;
   }
-
-  .button-overlay img{
-    height: 1.4rem;
-  }
-
-#google-visualization-errors-all-1 {
-  display: none !important;
-}
