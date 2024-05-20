@@ -27,8 +27,6 @@ export default function Data() {
     useState<string>('Select Dataset');
   const [showDataVis, setShowDataVis] = useState<boolean>(false);
 
-  
-
   const handleSubmit = () => {
     if (selectedDataset === 'Select Dataset') {
       alert('Please choose a dataset to display.');
@@ -189,8 +187,6 @@ export default function Data() {
     return [mean, nationalEnrollment, tooltip];
   };
 
-
-
   const setGraph = () => {
     const legendHRA =
       'Parent organization, Contract ID, National enrollment, Mean due to HRAs, Quintile due to HRAs';
@@ -205,7 +201,10 @@ export default function Data() {
       yearData = data.filter((row) => row.get('year') === selectedYear);
     }
 
-    if (selectedDataset === 'Mean Increase in HCCs due to HRAs by Quintile of Increase') {
+    if (
+      selectedDataset ===
+      'Mean Increase in HCCs due to HRAs by Quintile of Increase'
+    ) {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHR = yearData.map((row) => {
         return extractMeanQuintileData(
@@ -228,13 +227,16 @@ export default function Data() {
         hAxis: { title: 'Mean' },
         vAxis: { title: 'Quintile' },
         legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHR);
     }
 
-    if (selectedDataset === 'Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase') {
+    if (
+      selectedDataset ===
+      'Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase'
+    ) {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHRA_CR = yearData.map((row) => {
         return extractMeanQuintileData(
@@ -251,20 +253,23 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR_CR = {
-        title: 'Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase',
+        title:
+          'Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase',
         titleTextStyle: {
           textAlign: 'center',
         },
         hAxis: { title: 'Mean' },
         vAxis: { title: 'Quintile' },
         legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHR_CR);
     }
 
-    if (selectedDataset === 'Mean Increase due to HRAs by National Enrollment') {
+    if (
+      selectedDataset === 'Mean Increase due to HRAs by National Enrollment'
+    ) {
       // Extract "national enrollment" and "mean" columns for graphing
       const nationalEnrollmentMeanHR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
@@ -287,14 +292,15 @@ export default function Data() {
         hAxis: { title: 'National Enrollment' },
         vAxis: { title: 'Mean' },
         legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHR);
     }
 
     if (
-      selectedDataset === 'Mean Increase due to HRAs and CRs by National Enrollment'
+      selectedDataset ===
+      'Mean Increase due to HRAs and CRs by National Enrollment'
     ) {
       // Extract "national enrollment" and "mean" columns for graphing
       const nationalEnrollmentMeanHRA_CR = yearData.map((row) => {
@@ -312,14 +318,13 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHRA_CR = {
-        title:
-          'Mean Increase due to HRAs and CRs by National Enrollment',
+        title: 'Mean Increase due to HRAs and CRs by National Enrollment',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
         vAxis: { title: 'Mean' },
         legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHRA_CR);
@@ -327,11 +332,11 @@ export default function Data() {
   };
 
   return (
-    <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2 font-circ-std">
+    <div className="ml-3 flex h-full min-h-screen w-[98vw] flex-col px-6 pt-2 font-circ-std">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="mb-[3vh] mt-[5vh] min-h-[10vh]">
-        <h1 className="text-4xl text-primary">View Data Visualizations</h1>
+        <h1 className="text-4.5xl-responsive text-primary font-bold">Data Visualizations</h1>
         <p className="pt-5 text-lg text-primary">
           The chart maker below displays our metrics of coding intensity by
           several different parameters.
@@ -361,16 +366,16 @@ export default function Data() {
         >
           <option value="Select Dataset">Select Dataset</option>
           <option value="Mean Increase in HCCs due to HRAs by Quintile of Increase">
-          Mean Increase in HCCs due to HRAs by Quintile of Increase
+            Mean Increase in HCCs due to HRAs by Quintile of Increase
           </option>
           <option value="Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase">
-          Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase
+            Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase
           </option>
           <option value="Mean Increase due to HRAs by National Enrollment">
-          Mean Increase due to HRAs by National Enrollment
+            Mean Increase due to HRAs by National Enrollment
           </option>
           <option value="Mean Increase due to HRAs and CRs by National Enrollment">
-          Mean Increase due to HRAs and CRs by National Enrollment
+            Mean Increase due to HRAs and CRs by National Enrollment
           </option>
           {/* Add more dataset options as needed */}
         </select>
@@ -386,7 +391,7 @@ export default function Data() {
 
       {showDataVis && (
         <div className="graph-vis flex flex-row items-center justify-start">
-          <div className="flex items-start justify-start">
+          <div className="left flex items-start justify-start">
             <div className="relative-container">
               <Chart
                 chartType="ScatterChart"
@@ -399,6 +404,15 @@ export default function Data() {
                   setGoogle(google);
                 }}
               />
+            </div>
+          </div>
+          <div className="right flex items-start justify-start">
+            <div className="relative-container">
+              <iframe
+                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&amp;widget=false&amp;headers=true&amp;chrome=false"
+                width="600"
+                height="325"
+              ></iframe>
             </div>
           </div>
         </div>
