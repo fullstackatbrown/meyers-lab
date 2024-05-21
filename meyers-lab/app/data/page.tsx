@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import {
   Chart,
+  GoogleChartControl,
   GoogleChartEditor,
   GoogleChartWrapper,
   GoogleViz,
@@ -331,12 +332,44 @@ export default function Data() {
     }
   };
 
+
+  // Function to handle point click on the chart
+  useEffect(() => {
+    if (chartWrapper && google) {
+      const chart = chartWrapper;
+      if (chart) {
+        google.visualization.events.addListener(chart, 'select', () => {
+          const selection = chart.getSelection();
+          console.log(selection)
+          if (selection.length > 0) {
+            const row = selection[0].row;
+            const rowData = graphingData[row + 1]; // +1 to skip the header row
+            const tooltip = rowData[2];
+  
+            // Extract identifier from the tooltip
+            const identifier = tooltip.split(',')[1].trim(); // Assuming Contract ID is second in the tooltip
+            console.log(identifier)
+  
+            // Update iframe URL to scroll to the identified row
+            const iframe = document.getElementById('spreadsheet-frame');
+            if (iframe && iframe instanceof HTMLIFrameElement) {
+              iframe.src = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&single=true&widget=false&headers=true&chrome=false#${identifier}`;
+            }
+          }
+        });
+      }
+    }
+  }, [chartWrapper, google]);
+  
+
   return (
     <div className="ml-3 flex h-full min-h-screen w-[98vw] flex-col px-6 pt-2 font-circ-std">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="mb-[3vh] mt-[5vh] min-h-[10vh]">
-        <h1 className="text-4.5xl-responsive text-primary font-bold">Data Visualizations</h1>
+        <h1 className="text-4.5xl-responsive font-bold text-primary">
+          Data Visualizations
+        </h1>
         <p className="pt-5 text-lg text-primary">
           The chart maker below displays our metrics of coding intensity by
           several different parameters.
@@ -403,12 +436,29 @@ export default function Data() {
                   setChartWrapper(chartWrapper);
                   setGoogle(google);
                 }}
+                chartEvents={[
+                  {
+                    eventName: 'select',
+                    callback: ({ chartWrapper, google }) => {
+                      const chart = chartWrapper.getChart();
+                      const selection = chart.getSelection();
+                      if (selection.length > 0) {
+                        const selectedRow = selection[0].row;
+                        const selectedColumn = selection[0].column;
+                        console.log("Data point clicked:", selectedRow, selectedColumn);
+                        
+                        // Perform actions based on the selected data point
+                        // For example, display additional information or update other elements
+                      }
+                    }}
+                ]}
               />
             </div>
           </div>
           <div className="right flex items-start justify-start">
             <div className="relative-container">
               <iframe
+                id="spreadsheet-frame"
                 src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&amp;widget=false&amp;headers=true&amp;chrome=false"
                 width="600"
                 height="325"
