@@ -332,34 +332,6 @@ export default function Data() {
     }
   };
 
-  // Function to handle point click on the chart
-  useEffect(() => {
-    if (chartWrapper && google) {
-      const chart = chartWrapper;
-      if (chart) {
-        google.visualization.events.addListener(chart, 'select', () => {
-          const selection = chart.getSelection();
-          console.log(selection);
-          if (selection.length > 0) {
-            const row = selection[0].row;
-            const rowData = graphingData[row + 1]; // +1 to skip the header row
-            const tooltip = rowData[2];
-
-            // Extract identifier from the tooltip
-            const identifier = tooltip.split(',')[1].trim(); // Assuming Contract ID is second in the tooltip
-            console.log(identifier);
-
-            // Update iframe URL to scroll to the identified row
-            const iframe = document.getElementById('spreadsheet-frame');
-            if (iframe && iframe instanceof HTMLIFrameElement) {
-              iframe.src = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&single=true&widget=false&headers=true&chrome=false#${identifier}`;
-            }
-          }
-        });
-      }
-    }
-  }, [chartWrapper, google]);
-
   return (
     <div className="ml-3 flex h-full min-h-screen w-[98vw] flex-col px-6 pt-2 font-circ-std">
       {/* Dynamic spacer based on header height */}
@@ -448,7 +420,7 @@ export default function Data() {
                         // Extract identifier from the tooltip
                         const tooltipItems = tooltip.split(',');
                         let identifier = tooltipItems[1].trim(); // Assuming Contract ID is second in the tooltip
-                        
+
                         // Check if the identifier matches the format (Letter followed by any number 0-9)
                         const regex = /^[A-Z]\d+$/;
                         if (
@@ -463,7 +435,8 @@ export default function Data() {
                         const iframe =
                           document.getElementById('spreadsheet-frame');
                         if (iframe && iframe instanceof HTMLIFrameElement) {
-                          iframe.src = `https://script.google.com/a/brown.edu/macros/s/AKfycbzkyXCewwzfAzOB-Yb1sJz05diTOcRUrN5oU9a39E0xsz3iYs1HNvZwSDPv6vR5tqaP/exec?id=${identifier}`;
+                          const range = `${row + 2}:${row + 2}`; // Construct range based on selected row
+                          iframe.src = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&widget=false&headers=true&chrome=false&range=${range}`;
                         }
                       }
                     },
@@ -476,7 +449,7 @@ export default function Data() {
             <div className="relative-container">
               <iframe
                 id="spreadsheet-frame"
-                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&amp;widget=false&amp;headers=true&amp;chrome=false"
+                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&widget=false&headers=true&chrome=false"
                 width="600"
                 height="325"
               ></iframe>
