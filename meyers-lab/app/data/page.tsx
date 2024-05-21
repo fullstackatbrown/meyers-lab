@@ -463,7 +463,7 @@ export default function Data() {
                         const iframe =
                           document.getElementById('spreadsheet-frame');
                         if (iframe && iframe instanceof HTMLIFrameElement) {
-                          iframe.src = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&single=true&widget=false&headers=true&chrome=false#${identifier}`;
+                          iframe.src = `https://script.google.com/a/brown.edu/macros/s/AKfycbzkyXCewwzfAzOB-Yb1sJz05diTOcRUrN5oU9a39E0xsz3iYs1HNvZwSDPv6vR5tqaP/exec?id=${identifier}`;
                         }
                       }
                     },
