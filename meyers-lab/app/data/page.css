@@ -40,18 +40,13 @@ iframe {
   }
 
   .right {
-    margin-left: 5rem;
+    margin-left: 3.5rem;
     margin-bottom: 2rem;
   }
 
   iframe {
     width: 800;
     height: 375;
-  }
-
-  /* Highlight row 11 */
-  tr:nth-child(11) {
-    background-color: yellow; /* You can change this to any color you prefer */
   }
 
 }
