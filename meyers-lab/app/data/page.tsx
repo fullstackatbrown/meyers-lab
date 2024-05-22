@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Chart,
   GoogleChartControl,
@@ -27,6 +27,9 @@ export default function Data() {
   const [selectedDataset, setSelectedDataset] =
     useState<string>('Select Dataset');
   const [showDataVis, setShowDataVis] = useState<boolean>(false);
+  const [singleRow, setSingleRow] = useState<boolean>(false);
+
+  const chartRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = () => {
     if (selectedDataset === 'Select Dataset') {
@@ -34,6 +37,15 @@ export default function Data() {
     } else {
       setGraph(); // Update graphingData
       setShowDataVis(true); // Show the Chart component
+    }
+  };
+
+  const handleReset = () => {
+    const iframe = document.getElementById('spreadsheet-frame');
+    if (iframe && iframe instanceof HTMLIFrameElement) {
+      iframe.src =
+        'https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&widget=false&headers=true&chrome=false'; // Reset the iframe by reassigning its source
+      setSingleRow(false);
     }
   };
 
@@ -199,7 +211,7 @@ export default function Data() {
     // Check if a specific year is selected
     if (selectedYear !== 'All Years') {
       // Filter data for the selected year
-      yearData = data.filter((row) => row.get('year') === selectedYear);
+      yearData = data.filter((row) => row.get('Year') === selectedYear);
     }
 
     if (
@@ -210,7 +222,7 @@ export default function Data() {
       const meanQuintileHR = yearData.map((row) => {
         return extractMeanQuintileData(
           row,
-          'mean_pct due to HRA',
+          'Mean_pct due to HRA',
           'Quintile_pct due to HRA',
         );
       });
@@ -242,7 +254,7 @@ export default function Data() {
       const meanQuintileHRA_CR = yearData.map((row) => {
         return extractMeanQuintileData(
           row,
-          'mean_pct due to HRA_CR',
+          'Mean_pct due to HRA_CR',
           'Quintile_pct due to HRA_CR',
         );
       });
@@ -275,7 +287,7 @@ export default function Data() {
       const nationalEnrollmentMeanHR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
           row,
-          'mean_pct due to HRA',
+          'Mean_pct due to HRA',
           'Quintile_pct due to HRA',
         );
       });
@@ -307,7 +319,7 @@ export default function Data() {
       const nationalEnrollmentMeanHRA_CR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
           row,
-          'mean_pct due to HRA_CR',
+          'Mean_pct due to HRA_CR',
           'Quintile_pct due to HRA_CR',
         );
       });
@@ -331,6 +343,7 @@ export default function Data() {
       setOptions(chartOptionsHRA_CR);
     }
   };
+
 
   return (
     <div className="ml-3 flex h-full min-h-screen w-[98vw] flex-col px-6 pt-2 font-circ-std">
@@ -384,18 +397,28 @@ export default function Data() {
         </select>
         <div className="submit-button">
           <button
-            className="font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline-none"
+            className="font-regular rounded bg-primary-red px-4 py-2 mr-2 text-white hover:bg-primary-red_light focus:outline-none"
             onClick={handleSubmit}
           >
             Submit
           </button>
         </div>
+        {singleRow && (
+          <div className='reset-button'>
+            <button
+              className="font-regular bg-primary hover:bg-primary_light rounded px-4 py-2 text-white focus:outline-none"
+              onClick={handleReset}
+            >
+              Reset
+            </button>
+          </div>
+          )}
       </div>
 
       {showDataVis && (
         <div className="graph-vis flex flex-row items-center justify-start">
           <div className="left flex items-start justify-start">
-            <div className="relative-container">
+            <div className="relative-container" ref={chartRef}>
               <Chart
                 chartType="ScatterChart"
                 data={graphingData}
@@ -429,7 +452,6 @@ export default function Data() {
                         ) {
                           identifier = tooltipItems[2].trim(); // Use the next item in the tooltip list
                         }
-                        console.log(identifier);
 
                         // Update iframe URL to scroll to the identified row
                         const iframe =
@@ -437,6 +459,7 @@ export default function Data() {
                         if (iframe && iframe instanceof HTMLIFrameElement) {
                           const range = `${row + 2}:${row + 2}`; // Construct range based on selected row
                           iframe.src = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&widget=false&headers=true&chrome=false&range=${range}`;
+                          setSingleRow(true);
                         }
                       }
                     },

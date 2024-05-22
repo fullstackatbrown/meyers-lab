@@ -13,6 +13,10 @@
     padding: 0.25rem;
 }
 
+.hover\:bg-primary_light:hover {
+  background-color: #745731; /* Light brown color */
+}
+
 .relative-container {
   margin-right: 3rem;
 }
