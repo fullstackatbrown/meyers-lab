@@ -350,9 +350,7 @@ export default function Data() {
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="mb-[3vh] mt-[5vh] min-h-[10vh]">
-        <h1 className="text-4.5xl-responsive font-bold text-primary">
-          Data Visualizations
-        </h1>
+        <h1 className="text-4.5xl-responsive text-primary font-bold">Data Visualizations</h1>
         <p className="pt-5 text-lg text-primary">
           The chart maker below displays our metrics of coding intensity by
           several different parameters.
