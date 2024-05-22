@@ -141,7 +141,7 @@ export default function Data() {
         // Set all possible years
         const possibleYears = new Set<string>();
         mappedData.forEach((row) => {
-          possibleYears.add(row.get('year') ?? ''); // Ensure we add a string value or empty string if undefined
+          possibleYears.add(row.get('Year') ?? ''); // Ensure we add a string value or empty string if undefined
         });
         setAllYears(possibleYears);
       } catch (error) {
