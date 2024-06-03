@@ -66,8 +66,8 @@ export default function Methods() {
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="my-[5vh] min-h-[10vh]">
-        <h1 className="text-4.5xl-responsive text-primary font-bold font-circ-std text-center mb-3">Methods</h1>
-        <p className="text-lg text-black font-mp px-[20vw]">Methods page blurb, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h1 className="text-4.5xl-responsive text-primary font-bold font-circ-std text-center mb-3 mr-[3vw]">Methods</h1>
+        <p className="text-lg text-primary font-circ-std px-[20vw]">The PDF below includes detailed methods specifications for how our measures are calculated. We will update this document with additional versions as we release more data.</p>
       </div>
 
       {/* PDF Carousel */}
@@ -123,7 +123,7 @@ export default function Methods() {
         />
         <button
           className="focus:shadow-outline rounded bg-primary-red px-4 py-2 font-bold text-white hover:bg-primary-red_light 
-          focus:outline-none font-circ-std"
+          focus:outline-none font-circ-std mr-[3vw]"
           onClick={triggerFileInput}
         >
           Upload PDF
