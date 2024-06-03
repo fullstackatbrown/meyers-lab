@@ -40,8 +40,8 @@ function Form() {
     const [formdone, setFormdone] = useState(false);
 
     const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit"
-    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
-    className="w-32 border-black bg-rose-500 rounded-3xl text-white h-10 mt-5 text-lg"/>
+    className="w-28 border-black bg-[#EF4444] rounded-xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
+    className="w-28 border-black bg-[#EF4444] rounded-xl text-white h-10 mt-5 text-lg"/>
 
     return (
         <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
@@ -57,14 +57,13 @@ function Form() {
             <FormElt label="Plan to Merge with Another Source?" name="merge" type="area"/>
             <FormElt label="How did you hear about us?" name="hear" type="area"/>
 
-            <div className="flex px-2 items-start">
-                <input type="checkbox" name="mail" className="flex mr-5 mt-[5px] w-5 h-5" />
-                <span>Join Our Mailing List?</span>
+            <div className="text-lg flex px-2 items-start">
+                <input type="checkbox" name="mail" className="basis-1 mr-5 mt-[5px] w-5 h-5" />
+                <span>Join our mailing list?</span>
             </div>
-
-            <div className="flex px-2 items-start">
-                <input className="flex mr-5 mt-[5px] w-5 h-5" type="checkbox" name="tos" required/>
-                <span>By downloading our data you agree ...</span>
+            <div className="text-lg flex px-2 items-start">
+                <input className="mr-5 mt-[5px] w-5 h-5 basis-1" type="checkbox" name="tos" required/>
+                <span>By downloading our data you agree to cite this work with the text <i>“The MediCOIN report was developed by the Brown University Center for Advancing Health Policy Through Research through support from Arnold Ventures."</i></span>
             </div>
             <div className="mb-5"></div>
             <ReCAPTCHA
@@ -99,9 +98,9 @@ export default function Download() {
 
         {/* Site content */}
         <div id="content" className="text-center p-5">
-            <div id="title-text" className="mt-1 mb-4 text-4.5xl-responsive font-bold text-primary">
+            <div id="title-text" className="mt-[5vh] mb-4 text-4.5xl-responsive font-bold text-primary font-circ-std">
                 Data Download
-                <div id="explanation" className="mb-8 text-lg">
+                <div id="explanation" className="mb-8 text-lg font-[100]">
                     Fill out the form to request a download link.
                 </div>
             </div>
