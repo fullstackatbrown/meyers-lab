@@ -14,9 +14,6 @@ export default function RootLayout({
 }) {
   return (
     <RecoilRoot>
-      
-
-          
       <html lang="en">
         <body className={`antialiased`}>
           <NavHeader />
