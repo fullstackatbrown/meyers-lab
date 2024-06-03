@@ -52,50 +52,51 @@ export default function About() {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col px-10 md:px-[14vw] pt-2 pb-32 ml-3 w-full h-full">
-      {/* Dynamic spacer based on header height */}
-      <div style={{ minHeight: `${headerHeight}px` }}></div>
-      <div className="my-5">
-        <div className="text-center font-circ-std">
-          <h1 className="text-4.5xl-responsive mb-8 mt-7 text-primary font-bold">About Us</h1>
-        </div>
-        <div className ="paragraphs text-lg">
-          <p className="paragraph mb-8 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-mp">
-          This website is a product of the  Coding Variation and Spillovers in Medicare Advantage Project 
-          being conducted at the Brown University Center for Gerontology and Healthcare Research and supported 
-          by Arnold Ventures LLC.
-          The overall objective of this project is to better understand how the Medicare Advantage
-          program impacts spending through increasing coding intensity. We used five metrics to chart 
-          variations in coding intensity across different MA plans to produce a report on which plans are 
-          engaging in the most intense coding.
-          </p>
-    
-          <p className="paragraph mb-12 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-mp">The Medicare Advantage (MA) program is rapidly growing, 
-          enrolls over 45% of all Medicare beneficiaries, and accounts for over $240 billion in federal 
-          spending. In MA, private insurance plans receive risk-adjusted capitation payments which greatly 
-          change their incentives from the fee-for-service Traditional Medicare (TM) program. Namely, under 
-          full capitation a plan can potentially benefit by reducing spending on unnecessary and/or expensive 
-          services, or by increasing the amount of risk-adjusted payments received from the Centers for Medicare 
-          and Medicaid Services (CMS). Controlling costs related to the expansion of the MA program is vital, 
-          given that within the next two years, the majority of Medicare beneficiaries will likely be enrolled 
-          in an MA plan. We explored the potential opportunities and challenges of 
-          controlling costs through the MA program by comprehensively measuring variation in coding intensity 
-          across MA plans. This will allow us to measure how much excess spending in the MA program may be due 
-          to coding differences. </p>
-        </div>
-        <div className="w-1/2 h-1 bg-primary mx-auto"></div>
-        <div className="mt-[50px] grid grid-cols-1 md:grid-cols-3 gap-12">
-          {teamMembers.map((member) => (
-            <div key={member.id} className="flex flex-col items-start">
-              <img src={member.img_url} alt='' className="w-32 h-32 object-cover rounded-full mb-2 bg-[#F0F0F0]" />
-              <div className="mt-2">
-                <h3 className="text-xl text-primary font-semibold font-circ-std mb-4">{member.name}</h3>
-                <p className="text-md">{member.bio}</p>
+    <div>
+      {/* <div className="flex min-h-screen flex-col px-10 md:px-[14vw] pt-2 pb-32 ml-3 w-full h-full">
+        <div style={{ minHeight: `${headerHeight}px` }}></div>
+        <div className="my-5">
+          <div className="text-center font-circ-std">
+            <h1 className="text-4.5xl-responsive mb-8 mt-6 text-primary font-bold">About Us</h1>
+          </div>
+          <div className ="paragraphs text-lg">
+            <p className="paragraph mb-8 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-mp">
+            This website is a product of the  Coding Variation and Spillovers in Medicare Advantage Project
+            being conducted at the Brown University Center for Gerontology and Healthcare Research and supported
+            by Arnold Ventures LLC.
+            The overall objective of this project is to better understand how the Medicare Advantage
+            program impacts spending through increasing coding intensity. We used five metrics to chart
+            variations in coding intensity across different MA plans to produce a report on which plans are
+            engaging in the most intense coding.
+            </p>
+      
+            <p className="paragraph mb-12 md:pl-[5vw] md:pr-[5vw] lg:px-10 font-mp">The Medicare Advantage (MA) program is rapidly growing,
+            enrolls over 45% of all Medicare beneficiaries, and accounts for over $240 billion in federal
+            spending. In MA, private insurance plans receive risk-adjusted capitation payments which greatly
+            change their incentives from the fee-for-service Traditional Medicare (TM) program. Namely, under
+            full capitation a plan can potentially benefit by reducing spending on unnecessary and/or expensive
+            services, or by increasing the amount of risk-adjusted payments received from the Centers for Medicare
+            and Medicaid Services (CMS). Controlling costs related to the expansion of the MA program is vital,
+            given that within the next two years, the majority of Medicare beneficiaries will likely be enrolled
+            in an MA plan. We explored the potential opportunities and challenges of
+            controlling costs through the MA program by comprehensively measuring variation in coding intensity
+            across MA plans. This will allow us to measure how much excess spending in the MA program may be due
+            to coding differences. </p>
+          </div>
+          <div className="w-1/2 h-1 bg-primary mx-auto"></div>
+          <div className="mt-[50px] grid grid-cols-1 md:grid-cols-3 gap-12">
+            {teamMembers.map((member) => (
+              <div key={member.id} className="flex flex-col items-start">
+                <img src={member.img_url} alt='' className="w-32 h-32 object-cover rounded-full mb-2 bg-[#F0F0F0]" />
+                <div className="mt-2">
+                  <h3 className="text-xl text-primary font-semibold font-circ-std mb-4">{member.name}</h3>
+                  <p className="text-md">{member.bio}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
