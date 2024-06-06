@@ -83,6 +83,7 @@ export default function AdminDash() {
     signOut(auth)
       .then(() => {
         setAdmin(false);
+        setCurrentUser("")
       })
       .catch((error) => {
         // An error happened.

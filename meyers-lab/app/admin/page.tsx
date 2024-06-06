@@ -84,6 +84,7 @@ export default function Page() {
           getDoc(document).then((gotDoc) => {
             if (gotDoc.exists()) {
               setAdmin(gotDoc.data().admin);
+              setAdmin(true)
               setCurrentUser(email);
             }
           });
