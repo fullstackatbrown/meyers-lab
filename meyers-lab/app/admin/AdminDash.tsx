@@ -31,7 +31,7 @@ import {
   useRecoilValue,
   useRecoilState,
 } from 'recoil';
-import { admin, current } from '../Atom';
+import { adminState, current } from '../Atom';
 
 export default function AdminDash() {
 
@@ -56,7 +56,7 @@ export default function AdminDash() {
   const [errorMessage, setErrorMessage] = useState('');
   const [emails, setEmails] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useRecoilState(current);
-  const [isAdmin, setAdmin] = useRecoilState(admin);
+  const [isAdmin, setAdmin] = useRecoilState(adminState);
 
   const handleAddEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAddEmail(event.target.value);

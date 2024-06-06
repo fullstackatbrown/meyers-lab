@@ -1,12 +1,16 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { openDB } from 'idb';
+import { useRecoilState } from 'recoil';
+import {adminState} from '../Atom'
+
 
 export default function Methods() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [pdfFiles, setPdfFiles] = useState<string[]>([]);
   const [currentPdfIndex, setCurrentPdfIndex] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [admin, setAdmin] = useRecoilState(adminState);
 
   useEffect(() => {
     const updateHeaderHeight = () => {

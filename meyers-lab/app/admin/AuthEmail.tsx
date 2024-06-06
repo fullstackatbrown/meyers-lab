@@ -28,7 +28,7 @@ import {
   useRecoilValue,
   useRecoilState,
 } from 'recoil';
-import { admin } from '../Atom';
+import { adminState } from '../Atom';
 
 /**
  * Auth object that is shared between firestore authentication and database.
@@ -43,7 +43,7 @@ interface authProps {
  * @returns firebase auth ui component
  */
 export default function AuthEmail(props: authProps) {
-  const [isAdmin, setAdmin] = useRecoilState(admin);
+  const [isAdmin, setAdmin] = useRecoilState(adminState);
 
 
   const firebaseConfig = {

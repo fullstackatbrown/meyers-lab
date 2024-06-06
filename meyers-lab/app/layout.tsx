@@ -14,18 +14,17 @@ export default function RootLayout({
 }) {
   return (
     <RecoilRoot>
-      <html lang="en">
-        <body className={`antialiased`}>
-          <NavHeader />
-          <div>
-            {/* <RecoilRoot> */}
-            {children}
-            {/* </RecoilRoot> */}
-          </div>
-          <Footer/>
-        </body>
-      </html>
-        
+        <html lang="en">
+          <body className={`antialiased`}>
+            <NavHeader />
+            <div>
+              {/* <RecoilRoot> */}
+              {children}
+              {/* </RecoilRoot> */}
+            </div>
+            <Footer />
+          </body>
+        </html>
     </RecoilRoot>
   );
 }

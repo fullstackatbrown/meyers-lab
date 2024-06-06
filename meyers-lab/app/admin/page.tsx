@@ -29,7 +29,7 @@ import {
   useRecoilValue,
   useRecoilState,
 } from 'recoil';
-import { admin, current } from '../Atom';
+import { adminState, current } from '../Atom';
 // import Router from 'next/navigation';
 import { useGlobalState } from '../createContext';
 import { recoilPersist } from 'recoil-persist';
@@ -46,7 +46,7 @@ export default function Page() {
 
   // var isAdmin = useRecoilValue(admin);
   // var setAdmin = useSetRecoilState(admin);
-  const [isAdmin, setAdmin] = useRecoilState(admin);
+  const [isAdmin, setAdmin] = useRecoilState(adminState);
   const [currentUser, setCurrentUser] = useRecoilState(current);
   const [name, setName] = useState<string>('');
 
