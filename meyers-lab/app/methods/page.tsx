@@ -1,12 +1,69 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { openDB } from 'idb';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { adminState, current } from '../Atom';
+import { initializeApp } from 'firebase/app';
+import {
+  getAuth,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth';
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
+
+
 
 export default function Methods() {
   const [headerHeight, setHeaderHeight] = useState(0);
   const [pdfFiles, setPdfFiles] = useState<string[]>([]);
   const [currentPdfIndex, setCurrentPdfIndex] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isAdmin, setAdmin] = useRecoilState(adminState);
+  const [currentUser, setCurrentUser] = useRecoilState(current)
+  const username = useRecoilValue(current)
+
+  const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
+    authDomain: 'meyers-lab.firebaseapp.com',
+    projectId: 'meyers-lab',
+    storageBucket: 'meyers-lab.appspot.com',
+    messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
+    appId: process.env.NEXT_PUBLIC_APP_APP,
+    measurementId: process.env.NEXT_PUBLIC_APP_MSR,
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  const auth = getAuth(app);
+  
+  useEffect(() => {
+    console.log('isAdmin in Methods:', isAdmin);
+    console.log('Email:', username);
+  }, [isAdmin, username]);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        //User is signed in
+        const userId = user.uid;
+        const email = user.email;
+        const name = user.displayName;
+        if (email) {
+          const document = doc(firestore, 'users', email);
+          getDoc(document).then((gotDoc) => {
+            if (gotDoc.exists()) {
+              setAdmin(gotDoc.data().admin);
+              setCurrentUser(email);
+            }
+          });
+        }
+      } else {
+        console.log('Authentication error:', user);
+      }
+    });
+  }, [auth]);
+
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -66,8 +123,14 @@ export default function Methods() {
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="my-[5vh] min-h-[10vh]">
-        <h1 className="text-4.5xl-responsive text-primary font-bold font-circ-std text-center mb-3">Methods</h1>
-        <p className="text-lg text-black font-mp px-[20vw]">Methods page blurb, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <h1 className="mb-3 mr-[3vw] text-center font-circ-std text-4.5xl-responsive font-bold text-primary">
+          Methods
+        </h1>
+        <p className="px-[20vw] font-circ-std text-lg text-primary">
+          The PDF below includes detailed methods specifications for how our
+          measures are calculated. We will update this document with additional
+          versions as we release more data.
+        </p>
       </div>
 
       {/* PDF Carousel */}
@@ -86,49 +149,64 @@ export default function Methods() {
             style={{ width: '60%', height: '100%', border: 'none' }}
             frameBorder="0"
           ></iframe>
-<div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '10px' }}>
-    <button 
-        onClick={goToPreviousPdf} 
-        style={{
-            background: 'none',
-            border: 'none',
-            fontSize: '24px',
-            cursor: 'pointer',
-        }}>
-        &#8592;
-    </button>
-    <button 
-        onClick={goToNextPdf} 
-        style={{
-            background: 'none',
-            border: 'none',
-            fontSize: '24px',
-            cursor: 'pointer',
-        }}>
-        &#8594;
-    </button>
-</div>
-
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '20px',
+              marginTop: '10px',
+            }}
+          >
+            <button
+              onClick={goToPreviousPdf}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+              }}
+            >
+              &#8592;
+            </button>
+            <button
+              onClick={goToNextPdf}
+              style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+              }}
+            >
+              &#8594;
+            </button>
+          </div>
         </div>
       )}
 
       {/* Upload button with extra padding below */}
-      <div className="mt-4 flex items-center justify-center" style={{ paddingBottom: '20px' }}>
-        <input
-          type="file"
-          accept=".pdf"
-          className="hidden"
-          ref={fileInputRef}
-          onChange={handleFileUpload}
-        />
-        <button
-          className="focus:shadow-outline rounded bg-primary-red px-4 py-2 font-bold text-white hover:bg-primary-red_light 
-          focus:outline-none font-circ-std"
-          onClick={triggerFileInput}
+      {isAdmin ? (
+        <div
+          className="mt-4 flex items-center justify-center"
+          style={{ paddingBottom: '20px' }}
         >
-          Upload PDF
-        </button>
-      </div>
+          <input
+            type="file"
+            accept=".pdf"
+            className="hidden"
+            ref={fileInputRef}
+            onChange={handleFileUpload}
+          />
+          <button
+            className="focus:shadow-outline mr-[3vw] rounded bg-primary-red px-4 py-2 font-circ-std font-bold 
+          text-white hover:bg-primary-red_light focus:outline-none"
+            onClick={triggerFileInput}
+          >
+            Upload PDF
+          </button>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }
