@@ -63,7 +63,7 @@ function Form() {
             </div>
             <div className="text-lg flex px-2 items-start">
                 <input className="mr-5 mt-[5px] w-5 h-5 basis-1" type="checkbox" name="tos" required/>
-                <span>By downloading our data you agree to cite this work with the text <i>“The MediCOIN report was developed by the Brown University Center for Advancing Health Policy Through Research through support from Arnold Ventures."</i></span>
+                <span>By downloading our data you agree to cite this work with the text <i>"The MediCOIN report was developed by the Brown University Center for Advancing Health Policy Through Research through support from Arnold Ventures."</i></span>
             </div>
             <div className="mb-5"></div>
             <ReCAPTCHA
