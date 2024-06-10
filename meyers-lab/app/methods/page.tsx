@@ -1,8 +1,17 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { openDB } from 'idb';
-import { useRecoilValue } from 'recoil';
-import {adminState} from '../Atom'
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { adminState, current } from '../Atom';
+import { initializeApp } from 'firebase/app';
+import {
+  getAuth,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth';
+import { getFirestore, getDoc, doc } from 'firebase/firestore';
+
 
 
 export default function Methods() {
@@ -10,11 +19,51 @@ export default function Methods() {
   const [pdfFiles, setPdfFiles] = useState<string[]>([]);
   const [currentPdfIndex, setCurrentPdfIndex] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const isAdmin = useRecoilValue(adminState);
+  const [isAdmin, setAdmin] = useRecoilState(adminState);
+  const [currentUser, setCurrentUser] = useRecoilState(current)
+  const username = useRecoilValue(current)
 
+  const firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
+    authDomain: 'meyers-lab.firebaseapp.com',
+    projectId: 'meyers-lab',
+    storageBucket: 'meyers-lab.appspot.com',
+    messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
+    appId: process.env.NEXT_PUBLIC_APP_APP,
+    measurementId: process.env.NEXT_PUBLIC_APP_MSR,
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  const auth = getAuth(app);
+  
   useEffect(() => {
     console.log('isAdmin in Methods:', isAdmin);
-  }, [isAdmin]);
+    console.log('Email:', username);
+  }, [isAdmin, username]);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        //User is signed in
+        const userId = user.uid;
+        const email = user.email;
+        const name = user.displayName;
+        if (email) {
+          const document = doc(firestore, 'users', email);
+          getDoc(document).then((gotDoc) => {
+            if (gotDoc.exists()) {
+              setAdmin(gotDoc.data().admin);
+              setCurrentUser(email);
+            }
+          });
+        }
+      } else {
+        console.log('Authentication error:', user);
+      }
+    });
+  }, [auth]);
+
 
   useEffect(() => {
     const updateHeaderHeight = () => {

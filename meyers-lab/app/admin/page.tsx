@@ -60,6 +60,10 @@ export default function Page() {
     measurementId: process.env.NEXT_PUBLIC_APP_MSR,
   };
 
+    useEffect(() => {
+      console.log('isAdmin in Admin:', isAdmin);
+    }, [isAdmin]);
+
 
   var app = firebase.initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
@@ -84,7 +88,6 @@ export default function Page() {
           getDoc(document).then((gotDoc) => {
             if (gotDoc.exists()) {
               setAdmin(gotDoc.data().admin);
-              setAdmin(true)
               setCurrentUser(email);
             }
           });
