@@ -200,7 +200,7 @@ export default function Methods() {
   // };
 
   return (
-    <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2">
+    <div className="flex h-auto min-h-screen w-full flex-col px-6 pt-2">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="my-[5vh] min-h-[10vh]">
@@ -270,14 +270,13 @@ export default function Methods() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            height: '67vh',
+            height: '80vh',
             overflow: 'hidden',
           }}
         >
           <iframe
             src={currentPdfUrl}
-            style={{ width: '60%', height: '100%', border: 'none' }}
-            frameBorder="0"
+            style={{ width: '60%', height: '100%', border: '5px solid rgb(78, 54, 41)' }}
           ></iframe>
         </div>
       )}
@@ -306,6 +305,9 @@ export default function Methods() {
       ) : (
         <div></div>
       )}
+      <div style={{
+        minHeight: `${headerHeight}px`
+      }}></div>
     </div>
   );
 }
