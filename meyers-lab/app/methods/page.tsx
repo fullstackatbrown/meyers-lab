@@ -68,10 +68,6 @@ export default function Methods() {
   }, [auth]);
 
   useEffect(() => {
-
-  })
-
-  useEffect(() => {
     const updateHeaderHeight = () => {
       const header = document.getElementById('header');
       if (header) {
@@ -121,13 +117,30 @@ export default function Methods() {
         const previousDocRef = doc(firestore, 'methods', 'currentPdf');
         const previousDocSnap = await getDoc(previousDocRef);
         if (previousDocSnap.exists()) {
+          console.log('exists')
           const previousPdfUrl = previousDocSnap.data().url;
-          const previousPdfRef = ref(
-            storage,
-            `methods/${previousPdfUrl.split('/').pop()}`,
-          );
-          await deleteObject(previousPdfRef);
-          await deleteDoc(previousDocRef);
+          console.log("url2: ", previousPdfUrl)
+          const fileName = previousPdfUrl.split('/').pop().split('?')[0]; // Extracts fileName from the URL
+          console.log('File Name:', fileName);
+
+          const previousPdfRef = ref(storage, previousPdfUrl);
+          console.log("prev pdf ref: ", previousPdfRef)
+
+          await deleteObject(previousPdfRef)
+            .then(() => {
+              console.log('Previous PDF deleted successfully');
+            })
+            .catch((error) => {
+              console.error('Error deleting previous PDF:', error);
+            });
+
+          await deleteDoc(previousDocRef)
+            .then(() => {
+              console.log('Previous document deleted successfully');
+            })
+            .catch((error) => {
+              console.error('Error deleting previous document:', error);
+            });
         }
 
         const document = doc(firestore, 'methods', 'currentPdf');

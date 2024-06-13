@@ -35,6 +35,7 @@ import { useGlobalState } from '../createContext';
 import { recoilPersist } from 'recoil-persist';
 import { useRouter } from 'next/router';
 import AdminDash from './AdminDash';
+import {firestore} from '../firebaseConfig'
 
 /**
  * Defines settings and display for Google authentication.

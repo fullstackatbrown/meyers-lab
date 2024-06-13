@@ -32,24 +32,19 @@ import {
   useRecoilState,
 } from 'recoil';
 import { adminState, current } from '../Atom';
+import {firestore, auth} from '../firebaseConfig'
 
 export default function AdminDash() {
 
-  const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
-    authDomain: 'meyers-lab.firebaseapp.com',
-    projectId: 'meyers-lab',
-    storageBucket: 'meyers-lab.appspot.com',
-    messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
-    appId: process.env.NEXT_PUBLIC_APP_APP,
-    measurementId: process.env.NEXT_PUBLIC_APP_MSR,
-  };
-
-
-
-  var app = firebase.initializeApp(firebaseConfig);
-  const firestore = getFirestore(app);
-  const auth = getAuth();
+  // const firebaseConfig = {
+  //   apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
+  //   authDomain: 'meyers-lab.firebaseapp.com',
+  //   projectId: 'meyers-lab',
+  //   storageBucket: 'meyers-lab.appspot.com',
+  //   messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
+  //   appId: process.env.NEXT_PUBLIC_APP_APP,
+  //   measurementId: process.env.NEXT_PUBLIC_APP_MSR,
+  // };
 
   const [addEmail, setAddEmail] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
