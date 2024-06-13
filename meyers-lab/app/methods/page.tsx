@@ -4,38 +4,41 @@ import { openDB } from 'idb';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { adminState, current } from '../Atom';
 import { initializeApp } from 'firebase/app';
+import {auth, firestore, storage} from '../firebaseConfig'
 import {
-  getAuth,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from 'firebase/auth';
-import { getFirestore, getDoc, doc } from 'firebase/firestore';
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
+import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
 
 
 
 export default function Methods() {
   const [headerHeight, setHeaderHeight] = useState(0);
-  const [pdfFiles, setPdfFiles] = useState<string[]>([]);
-  const [currentPdfIndex, setCurrentPdfIndex] = useState(0);
+  // const [pdfFiles, setPdfFiles] = useState<string[]>([]);
+  // const [currentPdfIndex, setCurrentPdfIndex] = useState(0);
+  // const fileInputRef = useRef<HTMLInputElement>(null);
+  const [currentPdfUrl, setCurrentPdfUrl] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isAdmin, setAdmin] = useRecoilState(adminState);
   const [currentUser, setCurrentUser] = useRecoilState(current)
   const username = useRecoilValue(current)
 
-  const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
-    authDomain: 'meyers-lab.firebaseapp.com',
-    projectId: 'meyers-lab',
-    storageBucket: 'meyers-lab.appspot.com',
-    messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
-    appId: process.env.NEXT_PUBLIC_APP_APP,
-    measurementId: process.env.NEXT_PUBLIC_APP_MSR,
-  };
+  // const firebaseConfig = {
+  //   apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
+  //   authDomain: 'meyers-lab.firebaseapp.com',
+  //   projectId: 'meyers-lab',
+  //   storageBucket: 'meyers-lab.appspot.com',
+  //   messagingSenderId: process.env.NEXT_PUBLIC_APP_MSG,
+  //   appId: process.env.NEXT_PUBLIC_APP_APP,
+  //   measurementId: process.env.NEXT_PUBLIC_APP_MSR,
+  // };
 
-  const app = initializeApp(firebaseConfig);
-  const firestore = getFirestore(app);
-  const auth = getAuth(app);
+  // const app = initializeApp(firebaseConfig);
+  // const firestore = getFirestore(app);
+  // const auth = getAuth(app);
   
   useEffect(() => {
     console.log('isAdmin in Methods:', isAdmin);
@@ -64,6 +67,9 @@ export default function Methods() {
     });
   }, [auth]);
 
+  useEffect(() => {
+
+  })
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -79,30 +85,92 @@ export default function Methods() {
     return () => window.removeEventListener('resize', updateHeaderHeight);
   }, []);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-        const file = event.target.files[0];
-        const fileUrl = URL.createObjectURL(file);
-        setPdfFiles(prev => [fileUrl, ...prev]); // Prepend the new file URL to the array
-        setCurrentPdfIndex(0); // Reset the index to display the newest upload
-    }
-};
-
-
   useEffect(() => {
-    const initDB = async () => {
-        const db = await openDB('pdfDB', 1, {
-            upgrade(db) {
-                if (!db.objectStoreNames.contains('pdfs')) {
-                    db.createObjectStore('pdfs', { keyPath: 'id' });
-                }
-            },
-        });
-        return db;
+    const fetchPdfUrl = async () => {
+      const docRef = doc(firestore, 'methods', 'currentPdf');
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        setCurrentPdfUrl(docSnap.data().url);
+      } else {
+        console.log('No such document!');
+      }
     };
 
-    initDB();
+    fetchPdfUrl();
   }, []);
+
+  // const file = event.target.files[0];
+  // const fileUrl = URL.createObjectURL(file);
+  // setPdfFiles((prev) => [fileUrl, ...prev]); // Prepend the new file URL to the array
+  // setCurrentPdfIndex(0);
+
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      const storageRef = ref(storage, `methods/${file.name}`);
+      console.log("test: ", file)
+
+      try {
+        await uploadBytes(storageRef, file);
+        const fileUrl = await getDownloadURL(storageRef);
+        console.log("url: ", fileUrl)
+
+        const previousDocRef = doc(firestore, 'methods', 'currentPdf');
+        const previousDocSnap = await getDoc(previousDocRef);
+        if (previousDocSnap.exists()) {
+          const previousPdfUrl = previousDocSnap.data().url;
+          const previousPdfRef = ref(
+            storage,
+            `methods/${previousPdfUrl.split('/').pop()}`,
+          );
+          await deleteObject(previousPdfRef);
+          await deleteDoc(previousDocRef);
+        }
+
+        const document = doc(firestore, 'methods', 'currentPdf');
+        // await setDoc(document, {fileUrl,
+        // });
+        const data = {url: fileUrl}
+
+        setDoc(document, data).then(() => {
+          alert('PDF uploaded successfully')
+          setCurrentPdfUrl(fileUrl);
+        });
+        
+      } catch (error) {
+        console.error('Error uploading PDF:', error);
+        alert('Failed to upload PDF');
+      }
+    }
+  };
+
+//   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+//     if (event.target.files && event.target.files.length > 0) {
+//         const file = event.target.files[0];
+//         const fileUrl = URL.createObjectURL(file);
+//         setPdfFiles(prev => [fileUrl, ...prev]); // Prepend the new file URL to the array
+//         setCurrentPdfIndex(0); // Reset the index to display the newest upload
+//     }
+// };
+
+
+  // useEffect(() => {
+  //   const initDB = async () => {
+  //       const db = await openDB('pdfDB', 1, {
+  //           upgrade(db) {
+  //               if (!db.objectStoreNames.contains('pdfs')) {
+  //                   db.createObjectStore('pdfs', { keyPath: 'id' });
+  //               }
+  //           },
+  //       });
+  //       return db;
+  //   };
+
+  //   initDB();
+  // }, []);
 
   const triggerFileInput = () => {
     if (fileInputRef.current) {
@@ -110,13 +178,13 @@ export default function Methods() {
     }
   };
 
-  const goToNextPdf = () => {
-    setCurrentPdfIndex((currentIndex) => (currentIndex + 1) % pdfFiles.length);
-  };
+  // const goToNextPdf = () => {
+  //   setCurrentPdfIndex((currentIndex) => (currentIndex + 1) % pdfFiles.length);
+  // };
 
-  const goToPreviousPdf = () => {
-    setCurrentPdfIndex((currentIndex) => currentIndex === 0 ? pdfFiles.length - 1 : currentIndex - 1);
-  };
+  // const goToPreviousPdf = () => {
+  //   setCurrentPdfIndex((currentIndex) => currentIndex === 0 ? pdfFiles.length - 1 : currentIndex - 1);
+  // };
 
   return (
     <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2">
@@ -134,7 +202,7 @@ export default function Methods() {
       </div>
 
       {/* PDF Carousel */}
-      {pdfFiles.length > 0 && (
+      {/* {pdfFiles.length > 0 && (
         <div
           style={{
             display: 'flex',
@@ -180,6 +248,24 @@ export default function Methods() {
               &#8594;
             </button>
           </div>
+        </div>
+      )} */}
+
+      {currentPdfUrl && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            height: '67vh',
+            overflow: 'hidden',
+          }}
+        >
+          <iframe
+            src={currentPdfUrl}
+            style={{ width: '60%', height: '100%', border: 'none' }}
+            frameBorder="0"
+          ></iframe>
         </div>
       )}
 
