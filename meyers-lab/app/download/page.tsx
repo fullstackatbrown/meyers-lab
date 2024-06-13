@@ -36,7 +36,7 @@ function Form() {
         .catch(() => setIsverified(false))
     }
 
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbzCxfzdO0JkMVIjt3-ynby9SHyQfyALYgLFgo2rXA2AHA_Y3Cck99nJUgrFrgUBqguA/exec"
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzBxllxvCUQs-knXSR9PilO6IoX5ngw7dwWE1PEOlWt6k4EM3bxFVctZRxWp4DVAK9h1g/exec"
     const [formdone, setFormdone] = useState(false);
 
     const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit"
