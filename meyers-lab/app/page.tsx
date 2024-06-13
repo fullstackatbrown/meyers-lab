@@ -25,16 +25,18 @@ export default function Page() {
       <div className="relative min-h-[55vh] w-full">
         <div className="relative">
           <img
-            src="./brown-campus.png"
+            // src="./brown-campus.png"
+            src="./sph4.jpeg"
+            // src="https://communications.sph.brown.edu/sites/default/files/2022-08/zoom-bkgd-01.jpg"
             alt="Brown University"
-            style={{ height: '62vh', width: '100%', objectFit: 'cover' }}
+            style={{ height: '78vh', width: '100%', objectFit: 'cover' }}
           />
-          <div className="mt-[-16vh] p-4 text-center text-4xl font-bold text-white">
+          {/* <div className="mt-[-16vh] p-4 text-center text-4xl font-bold text-white">
             Welcome to the landing page of the coding intensity report card!
-          </div>
+          </div> */}
         </div>
       </div>
-      <div className="mx-24 my-[10vh] min-h-[10vh] p-4 text-2xl font-bold flex flex-col justify-center items-center">
+      <div className="mx-24 mt-[4vh] mb-[10vh] min-h-[10vh] p-4 text-2xl font-bold flex flex-col justify-center items-center">
         <div className="flex justify-center text-left w-[70%]">
           <h1 className='mt-[2vh] mr-[3vw]'> Our purpose </h1>
         </div>
