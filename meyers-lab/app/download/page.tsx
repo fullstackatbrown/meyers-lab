@@ -40,21 +40,21 @@ function Form() {
     const [formdone, setFormdone] = useState(false);
 
     const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit"
-    className="w-28 border-black bg-[#EF4444] rounded-xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
-    className="w-28 border-black bg-[#EF4444] rounded-xl text-white h-10 mt-5 text-lg"/>
+    className="w-28 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
+    className="w-28 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg"/>
 
     return (
         <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
             <div className="flex text-center">   
-                <FormElt label="First Name: " name="first-name" type="text" />
-                <FormElt label="Last Name: " name="last-name" type="text" />
+                <FormElt label="First name: " name="first-name" type="text" />
+                <FormElt label="Last name: " name="last-name" type="text" />
             </div>
             
             <FormElt label="Email: *" name="email" type="text" />
-            <FormElt label="Institution/Affiliation: *" name="org" type="text"/>
-            <FormElt label="Reason for Downloading: *" name="reason" type="text"/>
+            <FormElt label="Institution/affiliation: *" name="org" type="text"/>
+            <FormElt label="Reason for downloading: *" name="reason" type="text"/>
 
-            <FormElt label="Plan to Merge with Another Source?" name="merge" type="area"/>
+            <FormElt label="Plan to merge with another source?" name="merge" type="area"/>
             <FormElt label="How did you hear about us?" name="hear" type="area"/>
 
             <div className="text-lg flex px-2 items-start">
