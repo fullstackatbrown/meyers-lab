@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 import firebase from 'firebase/compat/app';
 import {
@@ -127,9 +126,9 @@ export default function AdminDash() {
     getAllEmails();
   }, [emails]);
 
-  useEffect(() => {
-    console.log(currentUser);
-  }, []);
+  // useEffect(() => {
+  //   console.log(currentUser);
+  // }, []);
 
   return (
     <div className="font-circ-std">

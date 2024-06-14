@@ -18,9 +18,11 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_APP_MSR,
 };
 
-const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
-const storage = getStorage(app);
-const auth = getAuth(app);
 
-export {firestore, storage, auth}
+  const app = initializeApp(firebaseConfig);
+  const firestore = getFirestore(app);
+  const storage = getStorage(app);
+  const auth = getAuth(app);
+
+  export { firestore, storage, auth };
+

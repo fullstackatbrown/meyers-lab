@@ -1,7 +1,7 @@
 'use client';
 import NavHeader from './ui/nav-header'
 import Footer from './ui/footer'
-import '@/app/ui/global.css';
+import './ui/global.css';
 import { RecoilRoot } from 'recoil';
 import { GlobalStateProvider } from './createContext';
 import { recoilPersist } from 'recoil-persist';

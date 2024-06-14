@@ -7,17 +7,7 @@ import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 import firebase from 'firebase/compat/app';
 import {
-  getAuth,
-  onAuthStateChanged,
-  Auth,
-  GoogleAuthProvider,
-  signInWithPopup,
-} from 'firebase/auth';
-import {
   getFirestore,
-  addDoc,
-  collection,
-  setDoc,
   doc,
   getDoc,
 } from 'firebase/firestore';
@@ -65,7 +55,6 @@ export default function Page() {
       console.log('isAdmin in Admin:', isAdmin);
     }, [isAdmin]);
 
-
   var app = firebase.initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
   const auth = firebase.auth();
@@ -75,40 +64,31 @@ export default function Page() {
   };
 
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        //User is signed in
-        const userId = user.uid;
-        const email = user.email;
-        const name = user.displayName;
-        if (name) {
-          setName(name);
-        }
-        if (email) {
-          const document = doc(firestore, 'users', email);
-          getDoc(document).then((gotDoc) => {
-            if (gotDoc.exists()) {
-              setAdmin(gotDoc.data().admin);
-              setCurrentUser(email);
-            }
-          });
-          // const data = {
-          //   userID: user.uid,
-          //   userEmail: user.email,
-          //   admin: true,
-          // };
-          // setDoc(document, data);
-        }
-      } else {
-        console.log('Authentication error:', user);
-      }
-    });
-  }, [auth]);
+    if (typeof window !== 'undefined') {
+      auth.onAuthStateChanged((user) => {
+        if (user) {
 
-  // useEffect(() => {
-  //   console.log(isAdmin);
-  // }, [isAdmin]);
-
+          const userId = user.uid;
+          const email = user.email;
+          const name = user.displayName;
+          if (name) {
+            setName(name);
+          }
+          if (email) {
+            const document = doc(firestore, 'users', email);
+            getDoc(document).then((gotDoc) => {
+              if (gotDoc.exists()) {
+                setAdmin(gotDoc.data().admin);
+                setCurrentUser(email);
+              }
+            });
+          }
+        } else {
+          console.log('Authentication error:', user);
+        }
+      });
+    }
+  }, []);
   const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
@@ -118,9 +98,15 @@ export default function Page() {
         setHeaderHeight(header.offsetHeight + 50);
       }
     };
-    updateHeaderHeight();
-    window.addEventListener('resize', updateHeaderHeight);
-    return () => window.removeEventListener('resize', updateHeaderHeight);
+    if (typeof window !== 'undefined') {
+      updateHeaderHeight();
+      window.addEventListener('resize', updateHeaderHeight);
+    }
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', updateHeaderHeight);
+      }
+    };
   }, []);
 
   return (
