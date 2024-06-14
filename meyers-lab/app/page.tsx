@@ -29,7 +29,7 @@ export default function Page() {
             src="./sph4.jpeg"
             // src="https://communications.sph.brown.edu/sites/default/files/2022-08/zoom-bkgd-01.jpg"
             alt="Brown University"
-            style={{ height: '78vh', width: '100%', objectFit: 'cover' }}
+            style={{ height: '80vh', width: '100%', objectFit: 'cover' }}
           />
           {/* <div className="mt-[-16vh] p-4 text-center text-4xl font-bold text-white">
             Welcome to the landing page of the coding intensity report card!
