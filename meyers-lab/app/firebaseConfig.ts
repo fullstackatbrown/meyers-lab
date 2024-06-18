@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from 'firebase/auth';
+import firebase from 'firebase/compat/app';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_LOGIN_API_KEY,
@@ -22,7 +23,7 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const firestore = getFirestore(app);
   const storage = getStorage(app);
-  const auth = getAuth(app);
+  const auth = getAuth(app)
 
   export { firestore, storage, auth };
 

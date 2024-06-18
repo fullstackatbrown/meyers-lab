@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
+import { getApps, initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
@@ -20,12 +20,11 @@ import {
   useRecoilState,
 } from 'recoil';
 import { adminState, current } from '../Atom';
-// import Router from 'next/navigation';
 import { useGlobalState } from '../createContext';
 import { recoilPersist } from 'recoil-persist';
 import { useRouter } from 'next/router';
 import AdminDash from './AdminDash';
-import {firestore} from '../firebaseConfig'
+import {firestore, auth} from '../firebaseConfig'
 
 /**
  * Defines settings and display for Google authentication.
@@ -55,12 +54,14 @@ export default function Page() {
       console.log('isAdmin in Admin:', isAdmin);
     }, [isAdmin]);
 
-  var app = firebase.initializeApp(firebaseConfig);
-  const firestore = getFirestore(app);
-  const auth = firebase.auth();
+   if (!getApps().length) {
+     initializeApp(firebaseConfig);
+   }
+
+  const firestore = getFirestore();
 
   const Auth = () => {
-    return <AuthEmail auth={auth}></AuthEmail>;
+    return <AuthEmail></AuthEmail>;
   };
 
   useEffect(() => {
@@ -89,6 +90,7 @@ export default function Page() {
       });
     }
   }, []);
+
   const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
