@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Chart,
+  GoogleChartControl,
   GoogleChartEditor,
   GoogleChartWrapper,
   GoogleViz,
@@ -26,32 +27,9 @@ export default function Data() {
   const [selectedDataset, setSelectedDataset] =
     useState<string>('Select Dataset');
   const [showDataVis, setShowDataVis] = useState<boolean>(false);
+  const [singleRow, setSingleRow] = useState<boolean>(false);
 
-  const onEditClick = () => {
-    if (!chartWrapper || !google || !chartEditor) {
-      return;
-    }
-
-    chartEditor.openDialog(chartWrapper);
-
-    google.visualization.events.addListener(chartEditor, 'ok', () => {
-      const newChartWrapper = chartEditor.getChartWrapper();
-
-      // Set the width and height of the chart wrapper
-      newChartWrapper.setOption('width', 800);
-      newChartWrapper.setOption('height', 400);
-
-      newChartWrapper.draw();
-
-      const newChartOptions = newChartWrapper.getOptions();
-      const newChartType = newChartWrapper.getChartType();
-
-      console.log('Chart type changed to ', newChartType);
-      console.log('Chart options changed to ', newChartOptions);
-
-    });
-  };
-
+  const chartRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = () => {
     if (selectedDataset === 'Select Dataset') {
@@ -59,6 +37,15 @@ export default function Data() {
     } else {
       setGraph(); // Update graphingData
       setShowDataVis(true); // Show the Chart component
+    }
+  };
+
+  const handleReset = () => {
+    const iframe = document.getElementById('spreadsheet-frame');
+    if (iframe && iframe instanceof HTMLIFrameElement) {
+      iframe.src =
+        'https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&widget=false&headers=true&chrome=false'; // Reset the iframe by reassigning its source
+      setSingleRow(false);
     }
   };
 
@@ -154,7 +141,7 @@ export default function Data() {
         // Set all possible years
         const possibleYears = new Set<string>();
         mappedData.forEach((row) => {
-          possibleYears.add(row.get('year') ?? ''); // Ensure we add a string value or empty string if undefined
+          possibleYears.add(row.get('Year') ?? ''); // Ensure we add a string value or empty string if undefined
         });
         setAllYears(possibleYears);
       } catch (error) {
@@ -213,30 +200,6 @@ export default function Data() {
     return [mean, nationalEnrollment, tooltip];
   };
 
-  const extractNationalEnrollmentQuintileData = (
-    row: Map<string, string>,
-    meanKey: string,
-    quintileKey: string,
-  ) => {
-    const meanValue = row.get(meanKey);
-    const mean = meanValue !== undefined ? parseFloat(meanValue) : 0;
-    const quintileValue = row.get(quintileKey);
-    const quintile =
-      quintileValue !== undefined ? parseFloat(quintileValue) : 0;
-    const parentOrg = row.get('Parent organization') ?? ''; // Assuming you have these columns
-    const contractId = row.get('Contract ID') ?? '';
-    const nationalEnrollmentValue = row.get('National enrollment');
-    const nationalEnrollment =
-      nationalEnrollmentValue !== undefined
-        ? parseFloat(nationalEnrollmentValue)
-        : 0;
-
-    // Construct tooltip string
-    const tooltip = `${parentOrg}, ${contractId}, ${nationalEnrollment}, ${mean}, ${quintile}`;
-
-    return [nationalEnrollment, quintile, tooltip];
-  };
-
   const setGraph = () => {
     const legendHRA =
       'Parent organization, Contract ID, National enrollment, Mean due to HRAs, Quintile due to HRAs';
@@ -248,15 +211,18 @@ export default function Data() {
     // Check if a specific year is selected
     if (selectedYear !== 'All Years') {
       // Filter data for the selected year
-      yearData = data.filter((row) => row.get('year') === selectedYear);
+      yearData = data.filter((row) => row.get('Year') === selectedYear);
     }
 
-    if (selectedDataset === 'Quintile vs. Mean Due to HRAs') {
+    if (
+      selectedDataset ===
+      'Mean Increase in HCCs due to HRAs by Quintile of Increase'
+    ) {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHR = yearData.map((row) => {
         return extractMeanQuintileData(
           row,
-          'mean_pct due to HRA',
+          'Mean_pct due to HRA',
           'Quintile_pct due to HRA',
         );
       });
@@ -268,24 +234,27 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR = {
-        title: 'Coding Intensity Quintile vs. Mean Due to HRAs',
+        title: 'Mean Increase in HCCs due to HRAs by Quintile of Increase',
         textAlign: 'center',
         tooltip: { isHtml: true },
-        hAxis: { title: 'Mean' },
-        vAxis: { title: 'Quintile' },
+        hAxis: { title: 'Mean % Increase Due to HRAs' },
+        vAxis: { title: 'Quintile % Increase Due to HRAs' },
         legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHR);
     }
 
-    if (selectedDataset === 'Quintile vs. Mean Due to HRAs and CRs') {
+    if (
+      selectedDataset ===
+      'Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase'
+    ) {
       // Extract "mean" and "quintile" columns for graphing
       const meanQuintileHRA_CR = yearData.map((row) => {
         return extractMeanQuintileData(
           row,
-          'mean_pct due to HRA_CR',
+          'Mean_pct due to HRA_CR',
           'Quintile_pct due to HRA_CR',
         );
       });
@@ -297,25 +266,28 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR_CR = {
-        title: 'Coding Intensity Quintile vs. Mean Due to HRAs and CRs',
+        title:
+          'Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase',
         titleTextStyle: {
           textAlign: 'center',
         },
-        hAxis: { title: 'Mean' },
-        vAxis: { title: 'Quintile' },
+        hAxis: { title: 'Mean % Increase Due to HRAs and CRs' },
+        vAxis: { title: 'Quintile % Increase Due to HRAs and CRs' },
         legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHR_CR);
     }
 
-    if (selectedDataset === 'Mean vs. National Enrollment Due to HRAs') {
+    if (
+      selectedDataset === 'Mean Increase due to HRAs by National Enrollment'
+    ) {
       // Extract "national enrollment" and "mean" columns for graphing
       const nationalEnrollmentMeanHR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
           row,
-          'mean_pct due to HRA',
+          'Mean_pct due to HRA',
           'Quintile_pct due to HRA',
         );
       });
@@ -327,55 +299,27 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHR = {
-        title: 'Coding Intensity Mean vs. National Enrollment Due to HRAs',
+        title: 'Mean Increase due to HRAs by National Enrollment',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
-        vAxis: { title: 'Mean' },
+        vAxis: { title: 'Mean % Increase Due to HRAs' },
         legend: true,
-        width: 800,
-        height: 400,
-      };
-      setOptions(chartOptionsHR);
-    }
-
-    if (selectedDataset === 'Quintile vs. National Enrollment Due to HRAs') {
-      // Extract "national enrollment" and "quintile" columns for graphing
-      const nationalEnrollmentQuintileHR = yearData.map((row) => {
-        return extractNationalEnrollmentQuintileData(
-          row,
-          'mean_pct due to HRA',
-          'Quintile_pct due to HRA',
-        );
-      });
-
-      setGraphingData([
-        ['', legendHRA, { type: 'string', role: 'tooltip' }],
-        ...nationalEnrollmentQuintileHR,
-      ]);
-
-      // Set chart titles with options
-      const chartOptionsHR = {
-        title: 'Coding Intensity Quintile vs. National Enrollment Due to HRAs',
-        textAlign: 'center',
-        tooltip: { isHtml: true },
-        hAxis: { title: 'National Enrollment' },
-        vAxis: { title: 'Quintile' },
-        legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHR);
     }
 
     if (
-      selectedDataset === 'Mean vs. National Enrollment Due to HRAs and CRs'
+      selectedDataset ===
+      'Mean Increase due to HRAs and CRs by National Enrollment'
     ) {
       // Extract "national enrollment" and "mean" columns for graphing
       const nationalEnrollmentMeanHRA_CR = yearData.map((row) => {
         return extractNationalEnrollmentMeanData(
           row,
-          'mean_pct due to HRA_CR',
+          'Mean_pct due to HRA_CR',
           'Quintile_pct due to HRA_CR',
         );
       });
@@ -387,62 +331,29 @@ export default function Data() {
 
       // Set chart titles with options
       const chartOptionsHRA_CR = {
-        title:
-          'Coding Intensity Mean vs. National Enrollment Due to HRAs and CRs',
+        title: 'Mean Increase due to HRAs and CRs by National Enrollment',
         textAlign: 'center',
         tooltip: { isHtml: true },
         hAxis: { title: 'National Enrollment' },
-        vAxis: { title: 'Mean' },
+        vAxis: { title: 'Mean % Increase Due to HRAs and CRs' },
         legend: true,
-        width: 800,
-        height: 400,
-      };
-      setOptions(chartOptionsHRA_CR);
-    }
-
-    if (
-      selectedDataset === 'Quintile vs. National Enrollment Due to HRAs and CRs'
-    ) {
-      // Extract "national enrollment" and "quintile" columns for graphing
-      const nationalEnrollmentQuintileHRA_CR = yearData.map((row) => {
-        return extractNationalEnrollmentQuintileData(
-          row,
-          'mean_pct due to HRA_CR',
-          'Quintile_pct due to HRA_CR',
-        );
-      });
-
-      setGraphingData([
-        ['', legendHRA_CR, { type: 'string', role: 'tooltip' }],
-        ...nationalEnrollmentQuintileHRA_CR,
-      ]);
-
-      // Set chart titles with options
-      const chartOptionsHRA_CR = {
-        title:
-          'Coding Intensity Quintile vs. National Enrollment Due to HRAs and CRs',
-        textAlign: 'center',
-        tooltip: { isHtml: true },
-        hAxis: { title: 'National Enrollment' },
-        vAxis: { title: 'Quintile' },
-        legend: true,
-        width: 800,
+        width: 760,
         height: 400,
       };
       setOptions(chartOptionsHRA_CR);
     }
   };
 
+
   return (
-    <div className="ml-3 flex h-full min-h-screen w-full flex-col px-6 pt-2 font-circ-std">
+    <div className="ml-3 flex h-full min-h-screen w-[98vw] flex-col px-6 pt-2 font-circ-std">
       {/* Dynamic spacer based on header height */}
       <div style={{ minHeight: `${headerHeight}px` }}></div>
       <div className="mb-[3vh] mt-[5vh] min-h-[10vh]">
         <h1 className="text-4.5xl-responsive text-primary font-bold">Data Visualizations</h1>
         <p className="pt-5 text-lg text-primary">
-          Graphs display coding intensity of different parent organization
-          contracts based on health risk assessments (HRAs) and chart reviews
-          (CRs).{' '}
+          The chart maker below displays our metrics of coding intensity by
+          several different parameters.
         </p>
         <hr className="border-3 mt-3 border border-primary opacity-75" />
       </div>
@@ -468,40 +379,44 @@ export default function Data() {
           onChange={(e) => setSelectedDataset(e.target.value)}
         >
           <option value="Select Dataset">Select Dataset</option>
-          <option value="Quintile vs. Mean Due to HRAs">
-            Quintile vs. Mean Due to HRAs
+          <option value="Mean Increase in HCCs due to HRAs by Quintile of Increase">
+            Mean Increase in HCCs due to HRAs by Quintile of Increase
           </option>
-          <option value="Quintile vs. Mean Due to HRAs and CRs">
-            Quintile vs. Mean Due to HRAs and CRs
+          <option value="Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase">
+            Mean Increase in HCCs due to HRAs and CRs by Quintile of Increase
           </option>
-          <option value="Mean vs. National Enrollment Due to HRAs">
-            Mean vs. National Enrollment Due to HRAs
+          <option value="Mean Increase due to HRAs by National Enrollment">
+            Mean Increase due to HRAs by National Enrollment
           </option>
-          <option value="Quintile vs. National Enrollment Due to HRAs">
-            Quintile vs. National Enrollment Due to HRAs
-          </option>
-          <option value="Mean vs. National Enrollment Due to HRAs and CRs">
-            Mean vs. National Enrollment Due to HRAs and CRs
-          </option>
-          <option value="Quintile vs. National Enrollment Due to HRAs and CRs">
-            Quintile vs. National Enrollment Due to HRAs and CRs
+          <option value="Mean Increase due to HRAs and CRs by National Enrollment">
+            Mean Increase due to HRAs and CRs by National Enrollment
           </option>
           {/* Add more dataset options as needed */}
         </select>
         <div className="submit-button">
           <button
-            className="font-regular rounded bg-primary-red px-4 py-2 text-white hover:bg-primary-red_light focus:outline-none"
+            className="font-regular rounded bg-primary-red px-4 py-2 mr-2 text-white hover:bg-primary-red_light focus:outline-none"
             onClick={handleSubmit}
           >
             Submit
           </button>
         </div>
+        {singleRow && (
+          <div className='reset-button'>
+            <button
+              className="font-regular bg-primary hover:bg-primary_light rounded px-4 py-2 text-white focus:outline-none"
+              onClick={handleReset}
+            >
+              Reset
+            </button>
+          </div>
+          )}
       </div>
 
       {showDataVis && (
         <div className="graph-vis flex flex-row items-center justify-start">
-          <div className="flex items-start justify-start">
-            <div className="relative-container">
+          <div className="left flex items-start justify-start">
+            <div className="relative-container" ref={chartRef}>
               <Chart
                 chartType="ScatterChart"
                 data={graphingData}
@@ -512,13 +427,53 @@ export default function Data() {
                   setChartWrapper(chartWrapper);
                   setGoogle(google);
                 }}
+                chartEvents={[
+                  {
+                    eventName: 'select',
+                    callback: ({ chartWrapper, google }) => {
+                      const chart = chartWrapper.getChart();
+                      const selection = chart.getSelection();
+                      if (selection.length > 0) {
+                        const row = selection[0].row;
+                        const rowData = graphingData[row + 1]; // +1 to skip the header row
+                        const tooltip = rowData[2];
+
+                        // Extract identifier from the tooltip
+                        const tooltipItems = tooltip.split(',');
+                        let identifier = tooltipItems[1].trim(); // Assuming Contract ID is second in the tooltip
+
+                        // Check if the identifier matches the format (Letter followed by any number 0-9)
+                        const regex = /^[A-Z]\d+$/;
+                        if (
+                          !regex.test(identifier) &&
+                          tooltipItems.length > 2
+                        ) {
+                          identifier = tooltipItems[2].trim(); // Use the next item in the tooltip list
+                        }
+
+                        // Update iframe URL to scroll to the identified row
+                        const iframe =
+                          document.getElementById('spreadsheet-frame');
+                        if (iframe && iframe instanceof HTMLIFrameElement) {
+                          const range = `${row + 2}:${row + 2}`; // Construct range based on selected row
+                          iframe.src = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&widget=false&headers=true&chrome=false&range=${range}`;
+                          setSingleRow(true);
+                        }
+                      }
+                    },
+                  },
+                ]}
               />
-              <button
-                className="button-overlay focus:shadow-outline font-regular rounded border border-gray-400 bg-gray-200 px-4 py-2 text-gray-800 hover:border-gray-500 hover:bg-gray-100 focus:outline-none"
-                onClick={onEditClick}
-              >
-                <img src='./edit_icon.png' alt="Edit Icon"/>
-              </button>
+            </div>
+          </div>
+          <div className="right flex items-start justify-start">
+            <div className="relative-container">
+              <iframe
+                id="spreadsheet-frame"
+                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQqpBW19SATAkybBihGekPuDSKmk7v_npEw2HisG2XAz2Q6TULnS-q9a8H05JKLxg/pubhtml?gid=93139773&amp;single=true&widget=false&headers=true&chrome=false"
+                width="600"
+                height="325"
+              ></iframe>
             </div>
           </div>
         </div>
