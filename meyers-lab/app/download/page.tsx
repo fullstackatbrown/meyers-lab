@@ -1,11 +1,7 @@
 'use client';
 
-import ReCAPTCHA from "react-google-recaptcha"
-import { verifyCaptcha } from "./ServerActions"
 
 import React, { useState, useEffect, useRef } from 'react';
-
-process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
 
 function FormElt({ label, name, type }: { label: string, name: string, type: string }) {
     let inputElt;
@@ -25,23 +21,10 @@ function FormElt({ label, name, type }: { label: string, name: string, type: str
 }
 
 function Form() {
-
-    const recaptchaRef = useRef<ReCAPTCHA>(null)
-    const [isVerified, setIsverified] = useState<boolean>(false)
-
-    async function handleCaptchaSubmission(token: string | null) {
-        // Server function to verify captcha
-        await verifyCaptcha(token)
-        .then(() => setIsverified(true))
-        .catch(() => setIsverified(false))
-    }
-
     const scriptUrl = "https://script.google.com/macros/s/AKfycbzBxllxvCUQs-knXSR9PilO6IoX5ngw7dwWE1PEOlWt6k4EM3bxFVctZRxWp4DVAK9h1g/exec"
     const [formdone, setFormdone] = useState(false);
 
-    const submitBtn = isVerified ? <button id="submit" type="submit" value="Submit"
-    className="w-28 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg">Submit</button> : <input id="submit" type="button" value="Submit"
-    className="w-28 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg"/>
+    const submitBtn = <input id="submit" type="button" value="Submit" className="w-28 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg"/>
 
     return (
         <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
@@ -66,11 +49,6 @@ function Form() {
                 <span>By downloading our data you agree to cite this work with the text <i>&quot;The MediCOIN report was developed by the Brown University Center for Advancing Health Policy Through Research through support from Arnold Ventures.&quot;</i></span>
             </div>
             <div className="mb-5"></div>
-            <ReCAPTCHA
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                ref={recaptchaRef}
-                onChange={handleCaptchaSubmission}
-            />
             {submitBtn}
         </form>
     )
