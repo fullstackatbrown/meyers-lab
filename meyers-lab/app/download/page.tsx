@@ -24,7 +24,7 @@ function Form() {
     const scriptUrl = "https://script.google.com/macros/s/AKfycbxm0R8FvfRPG_8nh4yo6t3T-em3DCGJE3gkpC61Y8n6Ynjdq71iUqObasoimJB_TZEHCg/exec"
     const [formdone, setFormdone] = useState(false);
 
-    const submitBtn = <input id="submit" type="button" value="Submit" className="w-28 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg"/>
+    const submitBtn = <input id="submit" type="submit" value="Submit" className="w-28 border-black bg-primary-red rounded-xl text-white h-10 mt-5 text-lg"/>
 
     return (
         <form id="data-form" action={scriptUrl} target="_blank" method="POST" className="w-1/2 min-w-[340px] text-left">
