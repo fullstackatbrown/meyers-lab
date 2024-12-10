@@ -1,4 +1,4 @@
-# [https://meyers-lab.vercel.app/](https://meyers-lab.vercel.app/)
+# [https://www.medicoinreport.org/](https://www.medicoinreport.org/)
 
 FOR DEVS - BECAUSE NEXT.JS NESTED THE PAGE INSIDE THE REPO, make sure to cd into meyers-lab when cloning or opening the repo
 
